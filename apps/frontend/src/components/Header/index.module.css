@@ -1,0 +1,38 @@
+.container {
+	background: #EBF5FF;
+	padding: 48px 76px 24px 76px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.contacts {
+	display: flex;
+}
+
+.session {
+	font-size: 20px;
+	color: #4E8CBE;
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.session_control {
+	margin-left: 20px;
+	border-radius: 8px;
+	background: #4E8CBE;
+	width: 200px;
+	height: 48px;
+	border: none;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	cursor: pointer;
+}

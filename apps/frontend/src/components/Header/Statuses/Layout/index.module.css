@@ -1,0 +1,80 @@
+.container {
+	border: 1px solid;
+	border-radius: 4px;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 182px;
+}
+
+.header {
+	padding: 4px 8px 4px 10px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.header-control {
+	display: flex;
+	align-items: center;
+}
+
+.container.fullfilled {
+	background: #007F51;
+	border-color: #007F51;
+}
+
+.container.fetching {
+	background: #E4A400;
+	border-color: #E4A400;
+}
+
+.container.rejected {
+	background: #EB5757;
+	border-color: #EB5757;
+}
+
+.container.cheques {
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.container.registrator {
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.body {
+	padding: 8px 10px 8px 10px;
+	font-size: 12px;
+	color: #000;
+}
+
+.body.cheques {
+	background: #CAFFDB;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 4px;
+}
+
+.body.subjects {
+	background: #FFFCE2;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.body.registrator {
+	background: #FFDFDF;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 8px;
+}
+
+.update {
+	height: 13px;
+	width: 13px;
+	background-image: url("../../../../assets/logos/status-loader.svg");
+	border: none;
+	background-color: transparent;
+	margin-left: 3px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
