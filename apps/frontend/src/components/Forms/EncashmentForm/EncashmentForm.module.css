@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+}
+
+.marginBottom {
+  margin-bottom: 16px;
+}
+
+.marginLeft {
+  margin-left: 16px;
+}
+
+.col {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}

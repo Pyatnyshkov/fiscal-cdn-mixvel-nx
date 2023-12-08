@@ -1,0 +1,38 @@
+.root {
+  width: 100%;
+  display: flex;
+  padding: 34px 76px;
+  flex-direction: column;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+}
+
+.buttonWidth {
+  width: 145px;
+}
+
+.buttonMargin {
+  margin-left: 16px;
+}
+
+.buttonRightMargin {
+  margin-right: 10px;
+}
+
+.inputMargin {
+  margin-bottom: 16px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+}

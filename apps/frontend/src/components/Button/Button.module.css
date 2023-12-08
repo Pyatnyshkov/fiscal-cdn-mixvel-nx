@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  width: 200px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 0;
+  background: var(--button-bg);
+  color: var(--font-color-white);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 114.286% */
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
