@@ -22,7 +22,7 @@ const initialState: IWSstate = {
   },
 }
 
-type reconnectType = () => AppThunk
+type reconnectType = () => AppThunk 
 
 export const reconnect: reconnectType = () => (dispatch, getState) => {
   dispatch(wsSlice.actions.reconnect());
@@ -71,12 +71,12 @@ export const wsSlice = createSlice({
       state.state.connectError = true;
       state.state.lastConnectionError = "disconnect";
     },
-    setConnectError: (state: IWSstate, action: PayloadAction<Error>) => {
+    setConnectError: (state: IWSstate) => {
       state.state.connecting = false;
       state.state.connected = false;
       state.state.subscribed = false;
       state.state.connectError = true;
-      state.state.lastConnectionError = action.payload;
+      // state.state.lastConnectionError = action.payload;
     },
     setConnectTimeout: (state: IWSstate) => {
       state.state.connecting = false;

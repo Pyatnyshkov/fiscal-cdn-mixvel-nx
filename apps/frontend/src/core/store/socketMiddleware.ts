@@ -5,7 +5,7 @@ import { websocket, reconnect } from "./websocket";
 import { network } from "./network";
 
 interface IOoptions {
-  autoConnect: boolean;
+  reconnection: boolean;
   timeout: number;
   path?: string;
 }
@@ -15,10 +15,10 @@ const socketMiddleware: Middleware = store => {
 
   return next => action => {
     if (network.success.match(action) || websocket.connect.match(action)) {
-      const socketIOAddress = action.payload || store.getState().websocket.socketIOAddress;
-      const socketIOPath = action.payload || store.getState().websocket.socketIOPath;
+      const socketIOAddress = action.payload ? action.payload.socketIOAddress : store.getState().websocket.socketIOAddress;
+      const socketIOPath = action.payload ? action.payload.socketIOPath : store.getState().websocket.socketIOPath;
       const options: IOoptions = {
-        autoConnect: false,
+        reconnection: false,
         timeout: 1000
       };
       if (socketIOPath) options.path = socketIOPath;
@@ -30,10 +30,17 @@ const socketMiddleware: Middleware = store => {
           guid, socketIOAddress, socketIOPath
         })));
         socket.on("disconnect", () => store.dispatch(websocket.setDisconnected()));
-        socket.on("connect_error", (error) => store.dispatch(websocket.setConnectError(error)));
+        socket.on("connect_error", () => store.dispatch(websocket.setConnectError()));
         socket.on("connect_timeout", () => store.dispatch(websocket.setConnectTimeout()));
         socket.on("ping", () => store.dispatch(websocket.ping()));
         socket.on("pong", () => store.dispatch(websocket.pong()));
+
+        // const checkInterval = setInterval(() => {
+        //   var state = store.getState().websocket.state;
+        //   if (!state.connected) {
+        //     store.dispatch(reconnect());
+        //   }
+        // }, 10000);
       }
       store.dispatch(websocket.setConnecting());
       socket.connect();
@@ -55,14 +62,6 @@ const socketMiddleware: Middleware = store => {
         store.dispatch(websocket.setMessage(msg));
       });
     }
-
-    // const checkInterval = setInterval(function () {
-    //   var state = store.getState().websocket.state;
-    //   if (!state.connected) {
-    //     store.dispatch(websocket.reconnect());
-    //   }
-    //   console.log('hi')
-    // }, 10000);
 
     next(action);
   };

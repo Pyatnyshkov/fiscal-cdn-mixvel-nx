@@ -37,7 +37,7 @@ export const Notice: React.FC<Notice> = ({ status, message, className, reload, t
     >
       <div className={styles.header}>
         <div className={styles.status}>{headerStatuses[status]}</div>
-        <div className={styles.timer}>{timer || 115} сек.</div>
+        {timer ? <div className={styles.timer}>{timer} сек.</div> : null}
         <div className={styles.reload} onClick={reload}></div>
       </div>
       <div className={styles.message}>{message}</div>
