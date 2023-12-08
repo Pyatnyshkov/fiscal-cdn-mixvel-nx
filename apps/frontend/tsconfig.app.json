@@ -2,12 +2,19 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": [
-      "node",
-
-      "@nx/react/typings/cssmodule.d.ts",
-      "@nx/react/typings/image.d.ts"
-    ]
+    "types": ["node", "@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"],
+    "baseUrl": "src/",
+    "paths": {
+      "@pages/*": ["pages/*"],
+      "@components/*": ["components/*"],
+      "@store": ["core/store"],
+      "@store/*": ["core/store/*"],
+      "@models/*": ["core/models/*"],
+      "@services/*": ["core/services/*"],
+      "@consts/*": ["core/consts/*"],
+      "@error": ["core/errors"],
+      "@utils/*": ["utils/*"]
+    }
   },
   "exclude": [
     "jest.config.ts",

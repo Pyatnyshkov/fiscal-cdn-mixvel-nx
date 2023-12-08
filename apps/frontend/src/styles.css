@@ -1,9 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+  --bg-primary: #ebf5ff;
+  --bg-secondary: #f1f8ff;
+  --notice-bg-available: #caffdb;
+  --notice-bg-waiting: #fffce2;
+  --notice-bg-unavailable: #ffdfdf;
+  --notice-bg-failed: #ffdfdf;
+  --notice-header-bg-available: #007f51;
+  --notice-header-bg-waiting: #e4a400;
+  --notice-header-bg-unavailable: #eb5757;
+  --notice-header-bg-failed: #eb5757;
+  --button-bg: #4e8cbe;
+  --input-bg-disabled: #f1f8ff;
+  --input-bg: white;
+  --input-border-color: #a0bfdf;
+  --font-color: #4e8cbe;
+  --font-color-white: white;
+  --font-color-black: black;
+}
 
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-	margin: 0;
+  font-family: 'Montserrat', sans-serif;
 }
