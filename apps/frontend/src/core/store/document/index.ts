@@ -29,6 +29,9 @@ interface InitialState {
   considerationAmount: ChequeModel['printoutInjections']['payments']['forms']['consideration']['amount']
   electronicMaskedCardPAN: ChequeModel['printoutInjections']['payments']['forms']['electronic']['maskedCardPAN']
   copies: ChequeModel['copies']
+  sendButtonDisabled: ChequeModel['sendButtonDisabled']
+  sendButtonVisible: ChequeModel['sendButtonVisible']
+  issueResult: ChequeModel['issueResult']
 }
 
 const initialState: InitialState = {
@@ -76,6 +79,9 @@ const initialState: InitialState = {
   considerationAmount: '',
   electronicMaskedCardPAN: '',
   copies: '2',
+  sendButtonVisible: true,
+  sendButtonDisabled: false,
+  issueResult: {}
 }
 
 type PayloadUpdateChequeTotal = PayloadAction<
@@ -294,10 +300,13 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   }
 
   console.log('documentData', documentData)
-
+  dispatch(documentSlice.actions.fetchDocumentCheque(true));
+  dispatch(documentSlice.actions.sendButtonState(false));
   try {
     const data = await API.document.post('', documentData)
     // dispatch(documentSlice.actions.success(data))
+    //TODO изменить включение кнопки только при статусе ответа "sheduled"
+    dispatch(documentSlice.actions.sendButtonState(true));
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
@@ -341,5 +350,15 @@ export const documentSlice = createSlice({
       state.cashier = payload.cashier
       state.pointOfSettlement.address = payload.pointOfSettlement.address
     },
+    fetchDocumentCheque: (state, { payload }: PayloadAction<boolean>) => {
+      state.sendButtonVisible = !payload
+    },
+    sendButtonState: (state, { payload }: PayloadAction<boolean>) => {
+      state.sendButtonDisabled = !payload
+    },
+    successCloseChequeApp: (state, { payload }: any) => {
+      state.issueResult = payload
+      
+    }
   },
 })

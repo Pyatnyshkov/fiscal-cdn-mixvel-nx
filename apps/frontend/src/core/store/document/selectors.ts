@@ -89,3 +89,5 @@ export const selectDocumentChequeTotal = createSelector(
     copies,
   })
 )
+
+export const selectSendButtonVisible = (state: RootState) => selectDocument(state).sendButtonVisible

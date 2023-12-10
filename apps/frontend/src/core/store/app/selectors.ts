@@ -12,6 +12,8 @@ export const selectShiftCashier = (state: RootState) => selectApp(state).cashier
 export const selectAppPointOfSettlementAddress = (state: RootState) =>
   selectApp(state).pointOfSettlement.address
 
+export const selectAppError = (state: RootState) => selectApp(state).generalError
+
 // Errors
 export const selectErrorMessage = (state: RootState) => {
   return selectApp(state).generalError && selectApp(state).generalError.description

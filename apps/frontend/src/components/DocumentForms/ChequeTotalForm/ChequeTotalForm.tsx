@@ -4,12 +4,13 @@ import { Input } from '../../UI/Input'
 import styles from './ChequeTotalForm.module.css'
 
 import { useAppDispatch, useAppSelector } from '@store'
-import { selectDocumentChequeTotal } from '@store/document/selectors'
+import { selectDocumentChequeTotal, selectSendButtonVisible } from '@store/document/selectors'
 import { Button } from '@components/UI/Button'
 import { documentSlice, fetchIssueDocumentCheque } from '@store/document'
 
 export const ChequeTotalForm = () => {
   const chequeTotal = useAppSelector(selectDocumentChequeTotal)
+  const sendButtonVisible = useAppSelector(selectSendButtonVisible)
 
   const dispatch = useAppDispatch()
 
@@ -80,7 +81,7 @@ export const ChequeTotalForm = () => {
           <div className={styles.original}>Оригинал чека без копий</div>
         </div>
         <div className={styles.footer}>
-          <Button text="Сформировать" onClick={handleSubmit} />
+          {sendButtonVisible ? <Button text="Сформировать" onClick={handleSubmit} /> : null }
         </div>
       </div>
     </div>

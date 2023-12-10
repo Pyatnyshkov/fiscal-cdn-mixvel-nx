@@ -91,10 +91,6 @@ export const wsSlice = createSlice({
     pong: (state: IWSstate) => {
       state.state.lastPong = new Date();
     },
-    once: (state: IWSstate, action: PayloadAction<any>) => {},
-    setMessage: (state: IWSstate, action: PayloadAction<any>) => {
-      state.msg = action.payload;
-    },
     reconnect: (state: IWSstate, action: PayloadAction<number | undefined>) => {
       state.state.connected = false;
       state.state.secondsToNextAttempt = action.payload || 4;

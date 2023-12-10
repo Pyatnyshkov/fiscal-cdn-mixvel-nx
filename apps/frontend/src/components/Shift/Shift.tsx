@@ -4,6 +4,7 @@ import { Input } from '../UI/Input'
 
 import styles from './Shift.module.css'
 import { Notices } from '../Notices'
+import { ShiftError } from '../Error'
 import { useAppDispatch, useAppSelector } from '@store'
 import { selectShiftCashier, selectShiftOpened } from '@store/app/selectors'
 import { fetchAppData } from '@store/app'
@@ -46,6 +47,9 @@ export const Shift = () => {
             disabled
           />
           <Input name="inn" label="ИНН" value={tin} classNameInput={styles.inputWidth} disabled />
+        </div>
+        <div className={clsx(styles.col, styles.error)}>
+          <ShiftError />
         </div>
       </div>
     </div>

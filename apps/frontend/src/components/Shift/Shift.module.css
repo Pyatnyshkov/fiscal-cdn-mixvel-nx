@@ -50,3 +50,7 @@
 .notice {
   width: min-content;
 }
+
+.error {
+  width: auto;
+}

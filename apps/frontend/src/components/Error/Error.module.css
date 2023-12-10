@@ -1,0 +1,23 @@
+.container {
+	border: 1px solid #EB5757;
+	border-radius: 8px;
+	background-color: #FFEDED;
+	color: #EB5757;
+	font-size: 16px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 48px;
+	width: 586px;
+	text-transform: uppercase;
+}
+
+.point {
+	background-image: url('./img/exclamation_point_CIRCLE.svg');
+	width: 24px;
+	height: 24px;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin-right: 5px;
+}

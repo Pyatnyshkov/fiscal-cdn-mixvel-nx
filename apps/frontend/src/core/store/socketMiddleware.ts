@@ -3,6 +3,8 @@ import { io, Socket } from "socket.io-client";
 
 import { websocket, reconnect } from "./websocket";
 import { network } from "./network";
+import { fetchIssueDocumentCheque } from "./document/";
+import { documentSlice } from "./document";
 
 interface IOoptions {
   reconnection: boolean;
@@ -56,10 +58,11 @@ const socketMiddleware: Middleware = store => {
       );
     }
 
-    if (websocket.once.match(action)) {
-      const eventName = action.payload;
-      socket.once(eventName, function (msg: any) {
-        store.dispatch(websocket.setMessage(msg));
+    if (documentSlice.actions.fetchDocumentCheque.match(action)) {
+      socket.once("issueResult", (msg: any) => { 
+        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
+        // reloadDeviceStatus();
       });
     }
 

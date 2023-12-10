@@ -30,7 +30,8 @@ export interface ChequeModel {
     enabledTaxationSystems: {}
   }
   id: number
-  sendButtonDisabled: false
+  sendButtonDisabled: boolean
+  sendButtonVisible: boolean
   paymentForm: string
   printoutInjections: {
     documentReferenceNumber: string
