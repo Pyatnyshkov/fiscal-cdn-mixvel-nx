@@ -48,7 +48,7 @@ export const refillSlice = createSlice({
   name: 'refill',
   initialState,
   reducers: {
-    addRefill: (state, { payload }: PayloadAdd) => {
+    updateRefill: (state, { payload }: PayloadAdd) => {
       state.request.amount = payload.amount
       state.request.operatorName = payload.operatorName
     },

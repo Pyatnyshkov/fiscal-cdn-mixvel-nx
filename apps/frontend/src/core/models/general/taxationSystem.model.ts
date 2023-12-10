@@ -1,8 +1,8 @@
-import { TaxationSystems } from '@consts/taxationSystems.const'
+import { TaxationSystemsValue } from '@consts'
 
-export interface TaxationSystem {
+export interface TaxationSystemModel {
   attributes: {
-    codepage: string
+    codepage: 'fts-1.31_1#taxationSystem'
   }
-  $value: keyof typeof TaxationSystems
+  $value: TaxationSystemsValue
 }

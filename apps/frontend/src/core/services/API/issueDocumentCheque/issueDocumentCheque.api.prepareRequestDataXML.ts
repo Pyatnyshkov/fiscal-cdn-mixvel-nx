@@ -1,8 +1,8 @@
 import { DocumentModel } from '@models/general/document.mode'
 import { mangle, mangleNumber, buildResponseDelivery } from '../utils'
-import { AgentRoleOptions } from '@consts/agentRole'
+import { AgentRole } from '@consts'
 
-export const issueDocumentCheque = (doc: DocumentModel): string => {
+export const issueDocumentChequePrepareRequestDataXML = (doc: DocumentModel): string => {
   const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
@@ -149,6 +149,11 @@ export const issueDocumentCheque = (doc: DocumentModel): string => {
   let departmentTemplate = '<subject><department code="$code$" /></subject>\n'
   const document = doc.document
   const cheque = document.cheque
+
+  if (!cheque) {
+    return ''
+  }
+
   let chequeType = ''
   let chequeContent = cheque.credit || cheque.debit || cheque.creditReturn || cheque.debitReturn
   if (cheque.credit) {
@@ -181,7 +186,7 @@ export const issueDocumentCheque = (doc: DocumentModel): string => {
       if (item.agent) {
         const agentRole = item.agent.role
         if (agentRole && agentRole.$value)
-          agent = agentTemplate.replace('$role$', '<' + AgentRoleOptions[agentRole.$value] + ' />')
+          agent = agentTemplate.replace('$role$', '<' + AgentRole[agentRole.$value] + ' />')
       }
       if (item.supplier) {
         const subjectSupplier = item.supplier
@@ -197,7 +202,7 @@ export const issueDocumentCheque = (doc: DocumentModel): string => {
         .replace('$subjectQuantity$', mangle(item.quantity))
         .replace('$subjectAmount$', mangle(item.amount))
         .replace('$subjectMeasure$', mangle(item.measure))
-        .replace('$subjectVAType$', item.taxes.vat[0].type.$value)
+        .replace('$subjectVAType$', `${item.taxes.vat[0].type.$value}`)
         .replace('$subjectVATAmount$', mangle(item.taxes.vat[0].amount))
         .replace('$subjectSign$', mangle(item.signs.subject.$value || '1'))
         .replace('$methodSign$', mangle(item.signs.method.$value || '4'))

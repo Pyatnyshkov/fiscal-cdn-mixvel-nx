@@ -1,0 +1,1 @@
+export { SubjectsTableItem } from './SubjectsTableItem'

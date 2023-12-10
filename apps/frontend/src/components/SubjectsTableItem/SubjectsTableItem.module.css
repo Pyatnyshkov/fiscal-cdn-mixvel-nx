@@ -1,0 +1,11 @@
+.root {
+}
+
+.buttonRemoveRow {
+  width: 24px;
+  height: 24px;
+  background: url('./img/remove.svg');
+  border: 0;
+  cursor: pointer;
+  z-index: 10;
+}

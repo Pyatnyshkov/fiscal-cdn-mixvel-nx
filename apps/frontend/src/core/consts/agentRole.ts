@@ -1,4 +1,6 @@
-export const AgentRoleOptions = {
+import { convertToSelectOptions } from '@utils/convertToSelectOptions'
+
+export const AgentRole = {
   '1': 'Банковский платежный агент',
   '2': 'Банковский платежный субагент',
   '4': 'Платежный агент',
@@ -8,14 +10,6 @@ export const AgentRoleOptions = {
   '64': 'Агент',
 } as const
 
-// <th>Наименование</th>
-// <th>Цена за единицу</th>
-// <th>Количество</th>
-// <th>Единица</th>
-// <th>Налог</th>
-// <th>Отдел</th>
-// <th>Предмет расчёта</th>
-// <th>Агент</th>
-// <th>ИНН Поставщика</th>
-// <th>Поставщик</th>
-// <th>Ограничения</th>
+export const AgentRoleSelectOptions = convertToSelectOptions(AgentRole)
+
+export type AgentRoleValue = keyof typeof AgentRole | ''

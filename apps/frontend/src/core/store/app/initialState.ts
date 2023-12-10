@@ -18,6 +18,9 @@ export const initialState: App = {
     },
   },
   started: false,
+  attributes: {
+    id: '',
+  },
   guid: '',
   taxPayer: {
     tin: '',
@@ -29,7 +32,7 @@ export const initialState: App = {
   },
   taxationSystem: {
     attributes: {
-      codepage: '',
+      codepage: 'fts-1.31_1#taxationSystem',
     },
     $value: '0',
   },

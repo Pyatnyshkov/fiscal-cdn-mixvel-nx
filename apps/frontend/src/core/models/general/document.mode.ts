@@ -1,23 +1,18 @@
 import { ChequeModel } from '@models/cheque.model'
 import { TaxPayer } from './taxPayer.model'
 import { Instructions } from './instructions.model'
-import { Cashier } from './cashier.model'
-import { CorrectionCheque } from './correctionCheque.model'
+
+import { DocumentCheque } from './documentCheque.model'
 
 export interface DocumentModel {
   taxPayer: TaxPayer
   document: {
-    cheque: ChequeModel
-    closeShiftReport: {
-      cashier: Cashier
-    }
-    correctionCheque: ChequeModel & CorrectionCheque
-    currentSettlementReport: {}
+    cheque: DocumentCheque
   }
   chequeType: 'credit' | 'debit' | 'creditReturn' | 'debitReturn'
   copies: string
   attributes: {
-    id: number
+    id: string
   }
   instructions: Instructions
   printoutInjections: ChequeModel['printoutInjections']

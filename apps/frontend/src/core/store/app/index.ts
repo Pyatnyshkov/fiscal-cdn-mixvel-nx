@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from '..'
 
-import { TaxationSystemsNames } from './const'
 import { extractToken } from '@utils/extractToken'
 import { createGUID } from '@utils/createGUID'
 
@@ -12,16 +11,16 @@ import { setDataToNetwork } from '@store/network'
 import { GeneralError, GeneralErrorWithState } from '@models/general/generalError.model'
 import { Token } from '@models/token.model'
 import {
-  SingleData,
   SingleDataSuccess,
-  isSingleDataFail,
   isSingleDataSuccess,
 } from '@services/API/app/single.api.transformResponseDataXML'
 
 import { AxiosError } from 'axios'
 import { ShiftError } from '@error'
 import { subjectsSlice } from '@store/subjects'
-import { documentSlice, extractAppDataToDocument } from '@store/document'
+import { extractAppDataToDocument } from '@store/document'
+import { TaxationSystems } from '@consts'
+import { appSubjectsSlice } from '@store/appSubjects'
 
 export const initApp: AppThunk = async (dispatch, getState) => {
   const started = selectAppStarted(getState())
@@ -98,7 +97,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     }
 
     dispatch(extractAppDataToDocument)
-    dispatch(subjectsSlice.actions.success(subjectData))
+    dispatch(appSubjectsSlice.actions.success(subjectData))
     dispatch(appSlice.actions.servicesAvailable())
   } catch (error) {
     if (error instanceof ShiftError) {
@@ -146,10 +145,11 @@ export const appSlice = createSlice({
       state,
       { payload: { token, GUID } }: PayloadAction<{ token: Token; GUID: string }>
     ) => {
-      const { taxPayer, document, instructions } = token
+      const { taxPayer, document, instructions, attributes } = token
       state.started = true
 
       state.guid = GUID
+      state.attributes.id = attributes.id
 
       if (taxPayer) {
         state.taxPayer.tin = taxPayer.tin
@@ -323,7 +323,7 @@ export const appSlice = createSlice({
           const taxationSystems = registrationReport.taxationSystems.taxationSystem
 
           taxationSystems.forEach(({ $value }) => {
-            state.taxation.enabledTaxationSystems[$value] = TaxationSystemsNames[$value]
+            // state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
           })
         }
       }

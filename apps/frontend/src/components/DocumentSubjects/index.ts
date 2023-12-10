@@ -1,0 +1,1 @@
+export { DocumentSubjects } from './DocumentSubjects'

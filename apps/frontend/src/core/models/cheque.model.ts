@@ -2,7 +2,7 @@ import { Cashier } from './general/cashier.model'
 import { ChequeContent } from './general/chequeContent.model'
 import { PointOfSettlement } from './general/pointOfSettlement.model'
 import { TaxPayer } from './general/taxPayer.model'
-import { TaxationSystem } from './general/taxationSystem.model'
+import { TaxationSystemModel } from './general/taxationSystem.model'
 
 export interface ChequeModel {
   credit?: ChequeContent
@@ -12,14 +12,14 @@ export interface ChequeModel {
   taxPayer: TaxPayer
   cashier: Cashier
   chequeContent: ChequeContent
-  copies: number
+  copies: string
   chequeType: 'credit' | 'debit' | 'creditReturn' | 'debitReturn'
   document: {
     cheque: {}
   }
   pointOfSettlement: PointOfSettlement
   totalAmount: number
-  taxationSystem: TaxationSystem
+  taxationSystem: TaxationSystemModel
   issueResult: {}
   issueError: {}
   instructions: {

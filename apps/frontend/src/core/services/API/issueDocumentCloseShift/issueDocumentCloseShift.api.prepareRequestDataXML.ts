@@ -1,7 +1,9 @@
 import { DocumentModel } from '@models/general/document.mode'
 import { buildResponseDelivery } from '../utils'
+import { CloseShift } from '@models/general/closeShift.model'
+import { DocumentCloseShift } from '@models/general/documentCloseShift.model'
 
-export const issueDocumentCloseShift = (doc: DocumentModel): string => {
+export const issueDocumentCloseShift = (doc: DocumentCloseShift): string => {
   const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +

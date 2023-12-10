@@ -1,0 +1,59 @@
+.root {
+  width: 100%;
+  display: flex;
+  padding: 34px 76px;
+  flex-direction: column;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputWidthLabel {
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.inputWidthLabelSmall {
+  width: 50px;
+}
+
+.inputWidthSmall {
+  width: 162px;
+}
+
+.inputWidthFull {
+  width: 100%;
+}
+
+.buttonRightMargin {
+  margin-right: 10px;
+}
+
+.inputMarginRight {
+  margin-right: 16px;
+}
+
+.inputMarginBottom {
+  margin-bottom: 16px;
+}
+
+.inputMarginBottomSmall {
+  margin-bottom: 10px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.productMarginBottom {
+  margin-top: 80px;
+}

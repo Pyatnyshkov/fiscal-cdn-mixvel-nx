@@ -11,7 +11,7 @@
       "@store/*": ["core/store/*"],
       "@models/*": ["core/models/*"],
       "@services/*": ["core/services/*"],
-      "@consts/*": ["core/consts/*"],
+      "@consts": ["core/consts"],
       "@error": ["core/errors"],
       "@utils/*": ["utils/*"]
     }

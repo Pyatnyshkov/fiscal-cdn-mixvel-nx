@@ -1,4 +1,6 @@
-export const SignsMethodOptions = {
+import { convertToSelectOptions } from '@utils/convertToSelectOptions'
+
+export const SignsMethod = {
   '1': 'Предоплата 100%',
   '2': 'Предоплата',
   '3': 'Аванс',
@@ -7,3 +9,7 @@ export const SignsMethodOptions = {
   '6': 'Передача В Кредит',
   '7': 'Оплата Кредита',
 } as const
+
+export const SignsMethodSelectOptions = convertToSelectOptions(SignsMethod)
+
+export type SignsMethodValue = keyof typeof SignsMethod | ''

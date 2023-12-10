@@ -1,6 +1,6 @@
 import { Cashier } from './cashier.model'
 import { TaxPayer } from './taxPayer.model'
-import { TaxationSystem } from './taxationSystem.model'
+import { TaxationSystemModel } from './taxationSystem.model'
 
 export interface CorrectionCheque {
   taxPayer: TaxPayer
@@ -8,7 +8,7 @@ export interface CorrectionCheque {
   type: 'credit'
   ownOrForced: 'own'
 
-  taxationSystem: TaxationSystem
+  taxationSystem: TaxationSystemModel
   taxation: {
     enabledTaxationSystems: {}
   }

@@ -17,15 +17,22 @@ export const selectErrorMessage = (state: RootState) => {
   return selectApp(state).generalError && selectApp(state).generalError.description
 }
 
+export const selectAppEnabledTaxationSystems = (state: RootState) =>
+  selectApp(state).taxation.enabledTaxationSystems
+
 // chequeTaxationSystems
 
-export const selectTaxationSystems = (state: RootState) =>
-  Object.entries(selectApp(state).taxation.enabledTaxationSystems).reduce<
-    { value: string; label: string }[]
-  >((acc, [key, value]) => {
-    acc.push({ value: key, label: value })
-    return acc
-  }, [])
+export const selectTaxationSystems = createSelector(
+  [selectAppEnabledTaxationSystems],
+  (enabledTaxationSystems) =>
+    Object.entries(enabledTaxationSystems).reduce<{ value: string; label: string }[]>(
+      (acc, [key, value]) => {
+        acc.push({ value: key, label: value })
+        return acc
+      },
+      []
+    )
+)
 
 // forms
 

@@ -1,28 +1,29 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-import socketMiddleware from './socketMiddleware'
-
-import { networkSlice } from './network'
-
 import { appSlice } from './app'
-import { subjectsSlice } from './subjects'
-import { API } from '@services/API'
-import { chequeItemsSlice } from './chequeItems'
+import { appSubjectsSlice } from './appSubjects'
+import { networkSlice } from './network'
 import { encashmentSlice } from './encashment'
 import { refillSlice } from './refill'
 import { documentSlice } from './document'
+import { documentSubjectsSlice } from './documentSubjects'
+import { subjectsSlice } from './subjects'
 import { wsSlice } from './websocket'
+
+import { API } from '@services/API'
+import socketMiddleware from './socketMiddleware'
 
 export const store = configureStore({
   reducer: {
     app: appSlice.reducer,
     network: networkSlice.reducer,
-    subjects: subjectsSlice.reducer,
-    chequeItems: chequeItemsSlice.reducer,
+    appSubjects: appSubjectsSlice.reducer,
     encashment: encashmentSlice.reducer,
     refill: refillSlice.reducer,
     document: documentSlice.reducer,
+    documentSubjects: documentSubjectsSlice.reducer,
+    subjects: subjectsSlice.reducer,
     websocket: wsSlice.reducer
   },
   middleware: (getDefaultMiddleware) =>

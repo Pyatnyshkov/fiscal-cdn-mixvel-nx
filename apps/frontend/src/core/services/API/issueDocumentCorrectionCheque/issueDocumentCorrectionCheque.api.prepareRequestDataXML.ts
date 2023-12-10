@@ -1,7 +1,8 @@
 import { DocumentModel } from '@models/general/document.mode'
 import { mangle, buildResponseDelivery } from '../utils'
+import { DocumentCorrectionCheque } from '@models/general/documentCorrectionCheque.model'
 
-export const issueDocumentCorrectionCheque = (doc: DocumentModel): string => {
+export const issueDocumentCorrectionCheque = (doc: DocumentCorrectionCheque): string => {
   const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
@@ -94,6 +95,11 @@ export const issueDocumentCorrectionCheque = (doc: DocumentModel): string => {
     '</soapenv:Envelope>\n'
   const document = doc.document || doc
   const cheque = document.correctionCheque
+
+  if (!cheque) {
+    return ''
+  }
+
   let chequeType = ''
   let chequeContent
   if (cheque.credit) {
@@ -118,7 +124,8 @@ export const issueDocumentCorrectionCheque = (doc: DocumentModel): string => {
       .replace('$correctionReasonDescription$', correction.reason.description)
       .replace('$correctionReasonDate$', correction.reason.date)
       .replace('$correctionReasonDocumentNumber$', correction.reason.documentNumber)
-      .replace('$copies$', doc.copies || '1')
+      .replace('$copies$', '1')
+      // .replace('$copies$', doc.copies || '1')
       .replace('$taxPayerTIN$', doc.taxPayer.tin)
       .replace('$taxPayerName$', mangle(doc.taxPayer.name))
       .replace('$tin$', cheque.cashier.tin)

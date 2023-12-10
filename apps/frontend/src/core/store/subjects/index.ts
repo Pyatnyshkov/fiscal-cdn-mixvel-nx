@@ -1,31 +1,30 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { initialState } from './initialState'
-import { AppThunk } from '@store'
-import { SubjectsData } from '@services/API/subjects/subjects.api.transformResponseDataXML'
+import { DocumentSubject } from '@models/documentSubject.model'
+import { SubjectElement } from '@models/subjectElement.state.model'
 
-export const fetchSubjects: AppThunk = async (dispatch, getState, { API }) => {}
+import { EntityId, PayloadAction, createEntityAdapter, createSlice } from '@reduxjs/toolkit'
 
-type PayloadSuccess = PayloadAction<SubjectsData>
+type PayloadAdd = PayloadAction<SubjectElement>
+type PayloadAddMany = PayloadAction<SubjectElement[]>
+type PayloadUpdate = PayloadAction<{ id: EntityId; changes: Partial<DocumentSubject> }>
+type PayloadRemove = PayloadAction<EntityId>
+
+export const subjectsAdapter = createEntityAdapter<SubjectElement>()
 
 export const subjectsSlice = createSlice({
   name: 'subjects',
-  initialState,
+  initialState: subjectsAdapter.getInitialState(),
   reducers: {
-    failed: (state) => {
-      // $("#subjectListStatusFailSpan").prop("title", err ? err.description : "No Error");
-      state.nextReloadSeconds = 120
-      // setTimeout(fetchSubjectsCountdown, 1000);
-      state.loadFailed = true
-      state.subjectsLoaded = false
+    extractedSubject: (state, { payload }: PayloadAddMany) => {
+      subjectsAdapter.setAll(state, payload)
     },
-    success: (state, { payload }: PayloadSuccess) => {
-      state.requestStarted = false
-      state.nextReloadSeconds = 0
-      state.loadFailed = false
-      state.subjectsLoaded = true
-
-      state.identification = payload.identification
-      state.subjects = payload.subjects
+    addedSubject: (state, { payload }: PayloadAdd) => {
+      subjectsAdapter.addOne(state, payload)
+    },
+    updatedSubject: (state, { payload }: PayloadUpdate) => {
+      subjectsAdapter.updateOne(state, payload)
+    },
+    removedSubject: (state, { payload }: PayloadRemove) => {
+      subjectsAdapter.removeOne(state, payload)
     },
   },
 })

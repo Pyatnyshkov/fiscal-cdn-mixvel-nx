@@ -1,28 +1,29 @@
+import { TaxationSystems } from '@consts'
 import { Cashier } from './general/cashier.model'
-import { EncashmentOperation } from './general/encashment.model'
-import { GeneralError, GeneralErrorWithState } from './general/generalError.model'
+import { GeneralErrorWithState } from './general/generalError.model'
 import { Instructions } from './general/instructions.model'
 import { PointOfSettlement } from './general/pointOfSettlement.model'
-import { RefillOperation } from './general/refill.model'
 import { ShiftState } from './general/shiftState.model'
 import { TaxPayer } from './general/taxPayer.model'
-import { TaxationSystem } from './general/taxationSystem.model'
+import { TaxationSystemModel } from './general/taxationSystem.model'
+import { Token } from './token.model'
 
 type PureObject = Record<string, string>
 
 export interface App {
+  attributes: Token['attributes']
   deviceRouteStatus: DeviceRouteStatus
   started: boolean
   guid: string
   taxPayer: TaxPayer
   cashier: Cashier
-  taxationSystem: TaxationSystem
+  taxationSystem: TaxationSystemModel
   pointOfSettlement: PointOfSettlement
   instructions: Instructions
   shift: OpenShift
   taxation: {
     enabledTaxationSystems: {
-      [key: number]: string
+      [key in keyof typeof TaxationSystems]?: (typeof TaxationSystems)[key]
     }
   }
   activeServices: {
@@ -76,7 +77,7 @@ export interface Single {
   currentRegistration: {
     registrationReport: {
       taxationSystems: {
-        taxationSystem: TaxationSystem[]
+        taxationSystem: TaxationSystemModel[]
       }
       taxPayer: TaxPayer
       pointOfSettlement: PointOfSettlement

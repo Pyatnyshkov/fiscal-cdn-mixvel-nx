@@ -1,6 +1,6 @@
 import clsx from 'clsx'
-import { Button } from '../Button'
-import { Input } from '../Input'
+import { Button } from '../UI/Button'
+import { Input } from '../UI/Input'
 
 import styles from './Shift.module.css'
 import { Notices } from '../Notices'

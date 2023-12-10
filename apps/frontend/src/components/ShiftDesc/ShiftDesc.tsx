@@ -1,10 +1,10 @@
 import styles from './ShiftDesc.module.css'
 
-import { ManualCheck } from '../ManualCheck'
-import { ShiftDocumentForm } from '../Forms/ShiftForm'
-import { EncashmentForm } from '../Forms/EncashmentForm'
-import { RefillForm } from '../Forms/RefillForm'
-import { ManualCheckToggle } from '../ManualCheckToggle'
+import { Document } from '../Document'
+import { ShiftDocumentForm } from '../DocumentForms/ShiftForm'
+import { EncashmentForm } from '../DocumentForms/EncashmentForm'
+import { RefillForm } from '../DocumentForms/RefillForm'
+import { DocumentToggle } from '../DocumentToggle'
 import { useAppSelector } from '@store'
 import { selectIsManualCheckOpen } from '@store/app/selectors'
 
@@ -25,9 +25,9 @@ export const ShiftDesc = () => {
             </div>
           </div>
         </div>
-        <ManualCheckToggle />
+        <DocumentToggle />
       </div>
-      {isManualCheckOpen && <ManualCheck />}
+      {isManualCheckOpen && <Document />}
     </>
   )
 }

@@ -48,7 +48,7 @@ export const encashmentSlice = createSlice({
   name: 'encashment',
   initialState,
   reducers: {
-    addEncashment: (state, { payload }: PayloadAdd) => {
+    updateEncashment: (state, { payload }: PayloadAdd) => {
       state.request.amount = payload.amount
       state.request.operatorName = payload.operatorName
     },

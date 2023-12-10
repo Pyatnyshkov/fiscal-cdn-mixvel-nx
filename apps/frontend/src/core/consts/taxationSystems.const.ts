@@ -6,3 +6,5 @@ export const TaxationSystems = {
   '4': 'единый сельскохозяйственный налог',
   '5': 'патентная СН',
 } as const
+
+export type TaxationSystemsValue = keyof typeof TaxationSystems | ''
