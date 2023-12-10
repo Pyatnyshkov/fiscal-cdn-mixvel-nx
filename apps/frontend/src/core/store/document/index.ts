@@ -14,6 +14,8 @@ import { ChequeModel } from '@models/cheque.model'
 
 import { selectDocumentSubjectsEntities } from '@store/documentSubjects/selectors'
 import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
+import moment from 'moment'
+import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
 
 interface InitialState {
   chequeType: DocumentModel['chequeType']
@@ -82,7 +84,7 @@ const initialState: InitialState = {
   sendButtonVisible: true,
   sendButtonDisabled: false,
   issueResult: {},
-  chequeContent: {} as ChequeContent
+  chequeContent: {} as ChequeContent,
 }
 
 type PayloadUpdateChequeTotal = PayloadAction<
@@ -123,7 +125,7 @@ export const extractAppDataToDocument: AppThunk = async (dispatch, getState, { A
 }
 
 export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { API }) => {
-  const { app, document, subjects } = getState()
+  const { app, document, network } = getState()
 
   const documentSubjectsEntities = selectDocumentSubjectsEntities(getState())
 
@@ -300,13 +302,59 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   }
 
   console.log('documentData', documentData)
-  dispatch(documentSlice.actions.fetchDocumentCheque(true));
-  dispatch(documentSlice.actions.sendButtonState(false));
+  dispatch(documentSlice.actions.fetchDocumentCheque(true))
+  dispatch(documentSlice.actions.sendButtonState(false))
   try {
-    const data = await API.document.post('', documentData)
+    const data = await API.document.cheque.post(network.soapEndpoint, documentData)
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
-    dispatch(documentSlice.actions.sendButtonState(true));
+    dispatch(documentSlice.actions.sendButtonState(true))
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
+  dispatch,
+  getState,
+  { API }
+) => {
+  const { app, network } = getState()
+
+  const currentSettlementReportData: DocumentCurrentSettlementReportData = {
+    attributes: {
+      id: moment().format('YYYYMMDDHHmmssSSS'),
+    },
+    taxPayer: app.taxPayer,
+    instructions: {
+      deviceRouting: app.instructions.deviceRouting,
+      responseDelivery: {
+        socketio: app.instructions.responseDelivery.socketio,
+      },
+    },
+    document: {
+      currentSettlementReport: {},
+    },
+  }
+
+  dispatch(documentSlice.actions.fetchDocumentCheque(true))
+  dispatch(documentSlice.actions.sendButtonState(false))
+  try {
+    const data = await API.document.currentSettlementReport.post(
+      network.soapEndpoint,
+      currentSettlementReportData
+    )
+    // dispatch(documentSlice.actions.success(data))
+    //TODO изменить включение кнопки только при статусе ответа "sheduled"
+    dispatch(documentSlice.actions.sendButtonState(true))
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
@@ -358,6 +406,6 @@ export const documentSlice = createSlice({
     },
     successCloseChequeApp: (state, { payload }: any) => {
       state.issueResult = payload
-    }
+    },
   },
 })

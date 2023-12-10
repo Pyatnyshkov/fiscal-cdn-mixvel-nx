@@ -1,6 +1,10 @@
+import { DocumentModel } from '@models/general/document.mode'
 import { buildResponseDelivery } from '../utils'
+import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
 
-export const issueDocumentCurrentSettlementReport = (doc: any): string => {
+export const issueDocumentCurrentSettlementReportPrepareRequestDataXML = (
+  doc: DocumentCurrentSettlementReportData
+): string => {
   const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +

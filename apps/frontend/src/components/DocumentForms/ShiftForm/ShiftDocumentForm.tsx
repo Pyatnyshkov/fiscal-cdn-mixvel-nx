@@ -3,12 +3,19 @@ import { Button } from '../../UI/Button'
 import { Input } from '../../UI/Input'
 
 import styles from './ShiftDocumentForm.module.css'
-import { useAppSelector } from '@store'
+import { useAppDispatch, useAppSelector } from '@store'
 import { selectDocumentView } from '@store/app/selectors'
+import { fetchIssueDocumentCurrentSettlementReport } from '@store/document'
 
 export const ShiftDocumentForm = () => {
   const { shiftNumber, registrationNumber, factoryNumber, fiscalStorageFactoryNumber } =
     useAppSelector(selectDocumentView)
+
+  const dispatch = useAppDispatch()
+
+  const handleIssueDocumentCurrentSettlementReport = () => {
+    dispatch(fetchIssueDocumentCurrentSettlementReport)
+  }
 
   return (
     <div className={styles.root}>
@@ -42,7 +49,11 @@ export const ShiftDocumentForm = () => {
       />
       <div className={styles.buttons}>
         <div className={styles.label}>Х-Отчет</div>
-        <Button text="Cоздать" className={clsx(styles.width, styles.marginRight)} />
+        <Button
+          text="Cоздать"
+          className={clsx(styles.width, styles.marginRight)}
+          onClick={handleIssueDocumentCurrentSettlementReport}
+        />
         <Button text="Печать" className={styles.width} />
       </div>
     </div>
