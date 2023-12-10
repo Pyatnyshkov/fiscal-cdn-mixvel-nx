@@ -16,9 +16,9 @@ import {
 import { getDefaultOptionIndex } from '@utils/getDefaultOptionIndex'
 import { EntityId } from '@reduxjs/toolkit'
 import { selectSubjectsSubjectById } from '@store/subjects/selectors'
-import { removeSubject, updateSubject } from '@store/subjects/thunks'
+import { removeSubject, updateSubject, updateSubjectRestrictions } from '@store/subjects/thunks'
 import { Checkbox } from '@components/UI/Checkbox'
-import { isTaxationSystem } from '@models/subjectElement.state.model'
+import { SubjectElement, isTaxationSystem } from '@models/subjectElement.state.model'
 
 interface TableItem {
   id: EntityId
@@ -48,11 +48,14 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
 
   // перенести table callback
 
-  const handleUpdateSubject = (value: string, name: string) => {
+  const handleUpdateSubject = (value: string, name: any) => {
     dispatch(updateSubject(id, name, value))
   }
 
   const handleRemoveSubject = (id: EntityId) => dispatch(removeSubject(id))
+
+  const handleUpdateRestrictions = (value: any, checked: boolean) =>
+    dispatch(updateSubjectRestrictions(id, checked, value))
 
   return (
     <tr className={clsx(styles.root, className)}>
@@ -144,7 +147,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
               id={`restrictions_${key}`}
               checked={isChecked}
               key={key}
-              onChange={(value) => console.log(value)}
+              onChange={handleUpdateRestrictions}
             />
           )
         })}

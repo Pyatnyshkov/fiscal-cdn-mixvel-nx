@@ -16,7 +16,7 @@ export interface SubjectElement {
   restrictionsTaxationSystems: RestrictionsTaxationSystems[] | unknown[]
 }
 
-type RestrictionsTaxationSystems = { type: TaxationSystemModel }
+export type RestrictionsTaxationSystems = { type: TaxationSystemModel }
 
 export const isTaxationSystem = (
   taxationSystems: unknown

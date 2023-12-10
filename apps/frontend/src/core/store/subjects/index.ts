@@ -5,7 +5,8 @@ import { EntityId, PayloadAction, createEntityAdapter, createSlice } from '@redu
 
 type PayloadAdd = PayloadAction<SubjectElement>
 type PayloadAddMany = PayloadAction<SubjectElement[]>
-type PayloadUpdate = PayloadAction<{ id: EntityId; changes: Partial<DocumentSubject> }>
+type PayloadUpdate = PayloadAction<{ id: EntityId; changes: Partial<SubjectElement> }>
+type PayloadUpdatedRestrictions = PayloadAction<{ id: EntityId; changes: Partial<SubjectElement> }>
 type PayloadRemove = PayloadAction<EntityId>
 
 export const subjectsAdapter = createEntityAdapter<SubjectElement>()
@@ -21,6 +22,9 @@ export const subjectsSlice = createSlice({
       subjectsAdapter.addOne(state, payload)
     },
     updatedSubject: (state, { payload }: PayloadUpdate) => {
+      subjectsAdapter.updateOne(state, payload)
+    },
+    updatedSubjectRestrictions: (state, { payload }: PayloadUpdatedRestrictions) => {
       subjectsAdapter.updateOne(state, payload)
     },
     removedSubject: (state, { payload }: PayloadRemove) => {

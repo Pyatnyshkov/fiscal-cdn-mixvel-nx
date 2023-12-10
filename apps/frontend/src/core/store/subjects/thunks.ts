@@ -1,13 +1,26 @@
 import { AppThunk } from '@store'
 import { EntityId } from '@reduxjs/toolkit'
 import { selectAppSubjectsList } from '@store/appSubjects/selectors'
-import { SubjectElement } from '@models/subjectElement.state.model'
+import { RestrictionsTaxationSystems, SubjectElement } from '@models/subjectElement.state.model'
 import { subjectsSlice } from '.'
+import { TaxationSystemsValue } from '@consts'
+import { selectSubjectsSubjectById } from './selectors'
 
 type ExtractToSubjects = AppThunk
 type AddSubject = AppThunk
-type UpdateSubject = (id: EntityId, name: string, value: string) => AppThunk
+type UpdateSubject = (
+  id: EntityId,
+  name: keyof SubjectElement,
+  value: SubjectElement[keyof SubjectElement]
+) => AppThunk
+type UpdateSubjectRestrictions = (
+  id: EntityId,
+  checked: boolean,
+  value: TaxationSystemsValue
+) => AppThunk
 type RemoveSubject = (id: EntityId) => AppThunk
+
+type Changes = { [key in keyof SubjectElement]?: SubjectElement[key] }
 
 export const extractToSubjects: ExtractToSubjects = (dispatch, getState) => {
   const subjects = selectAppSubjectsList(getState())
@@ -55,8 +68,50 @@ export const addSubject: AddSubject = (dispatch) => {
   dispatch(subjectsSlice.actions.addedSubject(subjectElement))
 }
 
+export const updateSubjectRestrictions: UpdateSubjectRestrictions =
+  (id, checked, value) => (dispatch, getState) => {
+    const subject = selectSubjectsSubjectById(id)(getState())
+
+    if (!subject) {
+      return
+    }
+
+    const copyRestrictions = [...subject.restrictionsTaxationSystems]
+
+    const updateData: {
+      id: EntityId
+      changes: { restrictionsTaxationSystems: RestrictionsTaxationSystems[] | unknown[] }
+    } = {
+      id,
+      changes: { restrictionsTaxationSystems: [] },
+    }
+
+    checked &&
+      copyRestrictions.push({
+        type: {
+          attributes: {
+            codepage: 'fts-1.31_1#taxationSystem',
+          },
+          $value: value,
+        },
+      })
+
+    const indexx = copyRestrictions.findIndex((el: any) => el.type.$value === value)
+
+    !checked && copyRestrictions.splice(indexx, 1)
+    console.warn({ value: value, checked: checked, indexx: indexx })
+    console.warn({ copyRestrictions: copyRestrictions })
+
+    updateData.changes.restrictionsTaxationSystems = copyRestrictions
+
+    dispatch(subjectsSlice.actions.updatedSubjectRestrictions(updateData))
+  }
+
 export const updateSubject: UpdateSubject = (id, name, value) => (dispatch) => {
-  const updateData = {
+  const updateData: {
+    id: EntityId
+    changes: Changes
+  } = {
     id,
     changes: { [name]: value },
   }
