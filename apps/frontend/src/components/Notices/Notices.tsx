@@ -13,27 +13,27 @@ interface Notices {
 }
 
 export const Notices: React.FC<Notices> = ({ className }) => {
-  const dispatch = useAppDispatch();
-  const wsState = useAppSelector(selectWsState);
+  const dispatch = useAppDispatch()
+  const wsState = useAppSelector(selectWsState)
   const wsStatus = () => {
-    if (wsState.connected) return NoticeStatuses.available;
-    if (wsState.connecting) return NoticeStatuses.waiting;
-    if (wsState.connectError) return NoticeStatuses.failed;
-    return NoticeStatuses.unavailable;
+    if (wsState.connected) return NoticeStatuses.available
+    if (wsState.connecting) return NoticeStatuses.waiting
+    if (wsState.connectError) return NoticeStatuses.failed
+    return NoticeStatuses.unavailable
   }
-  const { network, app, subjects } = useAppSelector(state => state);
+  const { network, app, appSubjects } = useAppSelector((state) => state)
   const subjectsStatus = () => {
-    if (subjects.requestStarted) return  NoticeStatuses.waiting;
-    if (subjects.loadFailed) return  NoticeStatuses.failed;
-    if (subjects.subjectsLoaded) return  NoticeStatuses.available;
-    return NoticeStatuses.unavailable;
+    if (appSubjects.requestStarted) return NoticeStatuses.waiting
+    if (appSubjects.loadFailed) return NoticeStatuses.failed
+    if (appSubjects.subjectsLoaded) return NoticeStatuses.available
+    return NoticeStatuses.unavailable
   }
   const fiscalStatus = () => {
-    if (app.deviceRouteStatus.requestStarted) return  NoticeStatuses.waiting;
-    if (app.deviceRouteStatus.fail) return  NoticeStatuses.failed;
-    if (app.deviceRouteStatus.loadFailed) return  NoticeStatuses.failed;
-    if (app.deviceRouteStatus.loaded) return  NoticeStatuses.available;
-    return NoticeStatuses.unavailable;
+    if (app.deviceRouteStatus.requestStarted) return NoticeStatuses.waiting
+    if (app.deviceRouteStatus.fail) return NoticeStatuses.failed
+    if (app.deviceRouteStatus.loadFailed) return NoticeStatuses.failed
+    if (app.deviceRouteStatus.loaded) return NoticeStatuses.available
+    return NoticeStatuses.unavailable
   }
   return (
     <div className={clsx(styles.root, className)}>
@@ -48,13 +48,13 @@ export const Notices: React.FC<Notices> = ({ className }) => {
         status={subjectsStatus()}
         message={NoticeMessages.productDirectory}
         className={styles.noticeMargin}
-        timer={subjects.nextReloadSeconds}
+        timer={appSubjects.nextReloadSeconds}
         reload={() => {
           API.subjects.post(network.subjectsSOAPEndpoint, app.instructions.deviceRouting)
         }}
       />
-      <Notice 
-        status={fiscalStatus()} 
+      <Notice
+        status={fiscalStatus()}
         message={NoticeMessages.fiscalRegistrar}
         timer={app.deviceRouteStatus.nextReloadSeconds}
         reload={() => {

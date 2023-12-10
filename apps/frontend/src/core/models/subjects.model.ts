@@ -1,6 +1,4 @@
-import { AgentRole, SignsMethod, SignsSubject, Taxes } from '@consts'
 import { SubjectsDataResponse } from './subjectsDataResponse.model'
-import { SubjectsDataRequest } from './subjectsDataRequest.model'
 
 export interface Subjects {
   loadFailed: boolean
