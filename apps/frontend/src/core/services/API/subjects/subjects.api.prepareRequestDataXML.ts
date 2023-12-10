@@ -1,7 +1,7 @@
 import { App } from '@models/app.model'
 import { Instructions } from '@models/general/instructions.model'
 
-export type SubjectsDeviceRouting = App['guid'] | Instructions['deviceRouting']
+export type SubjectsDeviceRouting = string | Instructions['deviceRouting']
 
 export const subjectsPrepareRequestDataXML = (deviceRouting: SubjectsDeviceRouting): string => {
   var bodyTemplateCR =

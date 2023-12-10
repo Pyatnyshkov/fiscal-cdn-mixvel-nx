@@ -19,7 +19,7 @@ export interface ChequeModel {
   }
   pointOfSettlement: PointOfSettlement
   totalAmount: number
-  taxationSystem: TaxationSystemModel
+  taxationSystem: TaxationSystemModel['type']
   issueResult: {}
   issueError: {}
   instructions: {

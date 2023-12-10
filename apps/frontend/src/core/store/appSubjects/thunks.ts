@@ -1,4 +1,3 @@
-import { SubjectsDataResponse } from '@models/subjectsDataResponse.model'
 import { AppThunk } from '@store'
 
 type AddSubject = (subjectName: string | null) => AppThunk

@@ -11,17 +11,16 @@ import { PointOfSettlement } from '@models/general/pointOfSettlement.model'
 import { TaxationSystemModel } from '@models/general/taxationSystem.model'
 import { ChequeContent } from '@models/general/chequeContent.model'
 import { ChequeModel } from '@models/cheque.model'
-import { SubjectsList } from '@models/subjects.model'
 
 import { selectDocumentSubjectsEntities } from '@store/documentSubjects/selectors'
-import { SubjectsDataRequest } from '@models/subjectsDataRequest.model'
+import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
 
 interface InitialState {
   chequeType: DocumentModel['chequeType']
   taxPayer: DocumentModel['taxPayer']
   cashier: Cashier
   pointOfSettlement: PointOfSettlement
-  taxationSystem: TaxationSystemModel
+  taxationSystem: TaxationSystemModel['type']
   customer: ChequeContent['customer']
   printoutInjections: ChequeModel['printoutInjections']
   electronicAmount: ChequeModel['printoutInjections']['payments']['forms']['electronic']['amount']
@@ -128,80 +127,79 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
 
   const documentSubjectsEntities = selectDocumentSubjectsEntities(getState())
 
-  const subjectsList = Object.values(documentSubjectsEntities).reduce<SubjectsDataRequest[]>(
-    (acc, subject) => {
-      if (!subject) {
-        return acc
-      }
-      const subjectEl: SubjectsDataRequest = {
-        name: subject.name,
-        price: subject.price,
-        quantity: subject.quantity,
-        measure: subject.measure,
-        amount: subject.amount,
-        taxes: {
-          vat: [
+  const subjectsList = Object.values(documentSubjectsEntities).reduce<
+    SubjectsDocumentDataRequest[]
+  >((acc, subject) => {
+    if (!subject) {
+      return acc
+    }
+    const subjectEl: SubjectsDocumentDataRequest = {
+      name: subject.name,
+      price: subject.price,
+      quantity: subject.quantity,
+      measure: subject.measure,
+      amount: subject.amount,
+      taxes: {
+        vat: [
+          {
+            amount: subject.taxesAmount,
+            type: {
+              $value: subject.taxes,
+              attributes: {
+                codepage: 'fts-1.31_1#vatTaxType',
+              },
+            },
+          },
+        ],
+      },
+      agent: {
+        role: {
+          $value: subject.agentRole,
+          attributes: {
+            codepage: 'fts-1.31_1#agentMode',
+          },
+        },
+      },
+      signs: {
+        subject: {
+          attributes: {
+            codepage: 'fts-1.31_1#type',
+          },
+          $value: subject.signsSubject,
+        },
+        method: {
+          attributes: {
+            codepage: 'fts-1.31_1#featureOfSettlementMethod',
+          },
+          $value: subject.signsMethod,
+        },
+      },
+      restrictions: {
+        taxationSystems: {
+          taxationSystem: [
             {
-              amount: subject.taxesAmount,
               type: {
-                $value: subject.taxes,
+                $value: app.taxationSystem.$value,
                 attributes: {
-                  codepage: 'fts-1.31_1#vatTaxType',
+                  codepage: 'fts-1.31_1#taxationSystem',
                 },
               },
             },
           ],
         },
-        agent: {
-          role: {
-            $value: subject.agentRole,
-            attributes: {
-              codepage: 'fts-1.31_1#agentMode',
-            },
-          },
-        },
-        signs: {
-          subject: {
-            attributes: {
-              codepage: 'fts-1.31_1#type',
-            },
-            $value: subject.signsSubject,
-          },
-          method: {
-            attributes: {
-              codepage: 'fts-1.31_1#featureOfSettlementMethod',
-            },
-            $value: subject.signsMethod,
-          },
-        },
-        restrictions: {
-          taxationSystems: {
-            taxationSystem: [
-              {
-                type: {
-                  $value: subject.taxes,
-                  attributes: {
-                    codepage: 'fts-1.31_1#taxationSystem',
-                  },
-                },
-              },
-            ],
-          },
-        },
-        supplier: {
-          name: subject.supplierName,
-          tin: subject.supplierTin,
-        },
-        department: {
-          code: '',
-          title: '',
-        },
-      }
-      acc.push(subjectEl)
-      return acc
-    },
-    []
-  )
+      },
+      supplier: {
+        name: subject.supplierName,
+        tin: subject.supplierTin,
+      },
+      department: {
+        code: '',
+        title: '',
+      },
+    }
+    acc.push(subjectEl)
+    return acc
+  }, [])
 
   console.log('subjectsEntities', subjectsList)
 

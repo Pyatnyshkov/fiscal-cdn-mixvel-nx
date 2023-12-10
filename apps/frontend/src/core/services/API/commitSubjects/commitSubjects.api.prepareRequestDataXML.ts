@@ -1,25 +1,25 @@
-import { Instructions } from '@models/general/instructions.model'
-import { SubjectsList } from '@models/subjects.model'
+import { SubjectsEditorDataRequest } from '@models/data/subjectsEditor.data.request.model'
 import { mangle, mangleNumber } from '../utils'
 
-type DeviceRouting = Instructions['deviceRouting']
-
-export const commitSubjects = (deviceRouting: string, subjects: SubjectsList[]): string => {
-  let restrictionTemplate =
+export const commitSubjectsPrepareRequestDataXML = (
+  identificationGUID: string,
+  subjects: SubjectsEditorDataRequest[]
+): string => {
+  const restrictionTemplate =
     '                  <taxationSystem>\n' +
     '                    <type codepage="fts-1.31_1#taxationSystem">$type$</type>\n' +
     '                  </taxationSystem>\n'
-  let restrictionsTemplate =
+  const restrictionsTemplate =
     '              <restrictions>\n' +
     '                <taxationSystems>\n$taxationSystems$' +
     '                </taxationSystems>\n' +
     '              </restrictions>\n'
-  let departmentTemplate =
+  const departmentTemplate =
     '              <department>\n' +
     '                <code>$code$</code>\n' +
     '                <title>$title$</title>\n' +
     '              </department>\n'
-  let subjectTemplate =
+  const subjectTemplate =
     '            <subject>\n' +
     '              <name>$name$</name>\n' +
     '              <price>$price$</price>\n' +
@@ -39,7 +39,7 @@ export const commitSubjects = (deviceRouting: string, subjects: SubjectsList[]):
     '                </tax>\n' +
     '              </taxes>\n$restrictions$$department$$supplier$$agent$' +
     '            </subject>\n'
-  var bodyTemplate =
+  const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
     '  <soapenv:Body>\n' +
@@ -56,8 +56,8 @@ export const commitSubjects = (deviceRouting: string, subjects: SubjectsList[]):
     '    </sir:commitSubjectsList>\n' +
     '  </soapenv:Body>\n' +
     '</soapenv:Envelope>\n'
-  let supplierTemplate = '<supplier><name>$name$</name><tin>$tin$</tin></supplier>'
-  let agentTemplate = '<agent><role codepage="fts-1.31_1#agentMode">$role$</role></agent>'
+  const supplierTemplate = '<supplier><name>$name$</name><tin>$tin$</tin></supplier>'
+  const agentTemplate = '<agent><role codepage="fts-1.31_1#agentMode">$role$</role></agent>'
   let ss = ''
   for (let i = 0; i < subjects.length; ++i) {
     const s = subjects[i]
@@ -107,11 +107,11 @@ export const commitSubjects = (deviceRouting: string, subjects: SubjectsList[]):
       .replace('$type$', mangle(s.taxes ? s.taxes.vat[0].type.$value : ''))
       .replace('$restrictions$', rr)
       .replace('$subjectSign$', mangleNumber(s.signs.subject.$value || 1))
-      .replace('$methodSign$', mangleNumber(s.signs.method.$value || 4))
+      .replace('$methodSign$', mangleNumber(4))
       .replace('$department$', department)
       .replace('$supplier$', supplier)
       .replace('$agent$', agent)
   }
-  const body = bodyTemplate.replace('$guid$', deviceRouting).replace('$subjects$', ss)
+  const body = bodyTemplate.replace('$guid$', identificationGUID).replace('$subjects$', ss)
   return body
 }

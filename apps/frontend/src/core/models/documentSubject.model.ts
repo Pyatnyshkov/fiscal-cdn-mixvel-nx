@@ -1,4 +1,10 @@
-import { AgentRoleValue, SignsMethodValue, SignsSubjectValue, TaxesValue } from '@consts'
+import {
+  AgentRoleValue,
+  SignsMethodValue,
+  SignsSubjectValue,
+  TaxationSystemsValue,
+  TaxesValue,
+} from '@consts'
 
 export type NumberToString<N extends number> = `${N}`
 

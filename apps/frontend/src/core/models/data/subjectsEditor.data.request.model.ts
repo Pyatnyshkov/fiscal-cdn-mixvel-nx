@@ -1,15 +1,8 @@
-import {
-  AgentRole,
-  AgentRoleValue,
-  SignsMethod,
-  SignsMethodValue,
-  SignsSubject,
-  SignsSubjectValue,
-  Taxes,
-  TaxesValue,
-} from '@consts'
+import { AgentRoleValue, SignsMethodValue, SignsSubjectValue, TaxesValue } from '@consts'
+import { SubjectsDataResponse } from './subjects.data.response.model'
+import { TaxationSystemModel } from '@models/general/taxationSystem.model'
 
-export interface SubjectsDataResponse {
+export interface SubjectsEditorDataRequest {
   name: string
   price: string
   quantity: string
@@ -17,7 +10,6 @@ export interface SubjectsDataResponse {
   taxes: {
     vat: [
       {
-        amount: string
         type: {
           $value: TaxesValue
           attributes: {
@@ -27,7 +19,7 @@ export interface SubjectsDataResponse {
       }
     ]
   }
-  agent?: {
+  agent: {
     role: {
       $value: AgentRoleValue
       attributes: {
@@ -42,32 +34,17 @@ export interface SubjectsDataResponse {
       }
       $value: SignsSubjectValue
     }
-    method: {
-      attributes: {
-        codepage: 'fts-1.31_1#featureOfSettlementMethod'
-      }
-      $value: SignsMethodValue
-    }
   }
-  restrictions?: {
+  restrictions: {
     taxationSystems: {
-      taxationSystem: [
-        {
-          type: {
-            $value: string
-            attributes: {
-              codepage: 'fts-1.31_1#taxationSystem'
-            }
-          }
-        }
-      ]
+      taxationSystem: TaxationSystemModel[]
     }
   }
-  supplier?: {
+  supplier: {
     name: string
     tin: string
   }
-  department?: {
+  department: {
     code: string
     title: string
   }

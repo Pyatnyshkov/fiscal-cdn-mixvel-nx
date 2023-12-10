@@ -44,7 +44,7 @@ export const initApp: AppThunk = async (dispatch, getState) => {
     }
   } catch (error) {
     if (error instanceof Error) {
-      dispatch(hasError({ code: error.message, description: 'Token is ... ghost!' }))
+      dispatch(hasError({ code: '', description: error.message }))
     }
   }
 }
@@ -354,9 +354,9 @@ export const appSlice = createSlice({
         ) {
           const taxationSystems = registrationReport.taxationSystems.taxationSystem
 
-          taxationSystems.forEach(({ $value }) => {
-            // state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
-          })
+          // taxationSystems.forEach(({ $value }) => {
+          //   // state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
+          // })
         }
       }
 

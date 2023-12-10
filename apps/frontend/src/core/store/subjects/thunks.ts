@@ -1,10 +1,11 @@
 import { AppThunk } from '@store'
 import { EntityId } from '@reduxjs/toolkit'
 import { selectAppSubjectsList } from '@store/appSubjects/selectors'
-import { RestrictionsTaxationSystems, SubjectElement } from '@models/subjectElement.state.model'
+import { SubjectElement } from '@models/subjectElement.state.model'
 import { subjectsSlice } from '.'
 import { TaxationSystemsValue } from '@consts'
 import { selectSubjectsSubjectById } from './selectors'
+import { TaxationSystemModel } from '@models/general/taxationSystem.model'
 
 type ExtractToSubjects = AppThunk
 type AddSubject = AppThunk
@@ -80,7 +81,7 @@ export const updateSubjectRestrictions: UpdateSubjectRestrictions =
 
     const updateData: {
       id: EntityId
-      changes: { restrictionsTaxationSystems: RestrictionsTaxationSystems[] | unknown[] }
+      changes: { restrictionsTaxationSystems: TaxationSystemModel[] }
     } = {
       id,
       changes: { restrictionsTaxationSystems: [] },

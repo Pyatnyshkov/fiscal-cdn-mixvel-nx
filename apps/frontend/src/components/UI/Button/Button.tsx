@@ -3,15 +3,22 @@ import styles from './Button.module.css'
 
 interface Button {
   text: string
+  type?: 'button' | 'submit'
   onClick?: () => void
   disabled?: boolean
   className?: string
 }
 
-export const Button: React.FC<Button> = ({ text, disabled, onClick, className }) => {
+export const Button: React.FC<Button> = ({
+  text,
+  type = 'button',
+  disabled,
+  onClick,
+  className,
+}) => {
   return (
     <button
-      type="button"
+      type={type}
       className={clsx(styles.root, { [styles.disabled]: disabled }, className)}
       disabled={disabled}
       onClick={onClick}

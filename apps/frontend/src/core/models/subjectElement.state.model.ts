@@ -13,14 +13,12 @@ export interface SubjectElement {
   agentRole: AgentRoleValue
   supplierTin: string
   supplierName: string
-  restrictionsTaxationSystems: RestrictionsTaxationSystems[] | unknown[]
+  restrictionsTaxationSystems: TaxationSystemModel[]
 }
-
-export type RestrictionsTaxationSystems = { type: TaxationSystemModel }
 
 export const isTaxationSystem = (
   taxationSystems: unknown
-): taxationSystems is RestrictionsTaxationSystems => {
-  const el = taxationSystems as RestrictionsTaxationSystems
+): taxationSystems is TaxationSystemModel => {
+  const el = taxationSystems as TaxationSystemModel
   return el.type.$value ? true : false
 }

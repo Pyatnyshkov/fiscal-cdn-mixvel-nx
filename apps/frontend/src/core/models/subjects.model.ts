@@ -1,4 +1,4 @@
-import { SubjectsDataResponse } from './subjectsDataResponse.model'
+import { SubjectsDataResponse } from './data/subjects.data.response.model'
 
 export interface Subjects {
   loadFailed: boolean

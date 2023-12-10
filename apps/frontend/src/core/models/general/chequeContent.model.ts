@@ -1,5 +1,4 @@
-import { SubjectsList } from '@models/subjects.model'
-import { SubjectsDataRequest } from '@models/subjectsDataRequest.model'
+import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
 
 export interface ChequeContent {
   customer: {
@@ -35,7 +34,7 @@ export interface ChequeContent {
   }
   settlement: {
     subjects: {
-      subject: SubjectsDataRequest[]
+      subject: SubjectsDocumentDataRequest[]
     }
   }
   taxationSystem: {

@@ -13,10 +13,12 @@ import { wsSlice } from './websocket'
 
 import { API } from '@services/API'
 import socketMiddleware from './socketMiddleware'
+import { editorSubjectsSlice } from './editorSubjects'
 
 export const store = configureStore({
   reducer: {
     app: appSlice.reducer,
+    editorSubjects: editorSubjectsSlice.reducer,
     network: networkSlice.reducer,
     appSubjects: appSubjectsSlice.reducer,
     encashment: encashmentSlice.reducer,
@@ -24,7 +26,7 @@ export const store = configureStore({
     document: documentSlice.reducer,
     documentSubjects: documentSubjectsSlice.reducer,
     subjects: subjectsSlice.reducer,
-    websocket: wsSlice.reducer
+    websocket: wsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

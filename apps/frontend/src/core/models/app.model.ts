@@ -17,7 +17,7 @@ export interface App {
   guid: string
   taxPayer: TaxPayer
   cashier: Cashier
-  taxationSystem: TaxationSystemModel
+  taxationSystem: TaxationSystemModel['type']
   pointOfSettlement: PointOfSettlement
   instructions: Instructions
   shift: OpenShift

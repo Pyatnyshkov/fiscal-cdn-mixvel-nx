@@ -21,6 +21,10 @@ export const selectErrorMessage = (state: RootState) => {
   return selectApp(state).generalError && selectApp(state).generalError.description
 }
 
+export const selectAppError = (state: RootState) => {
+  return selectApp(state).generalError && selectApp(state).generalError
+}
+
 export const selectAppEnabledTaxationSystems = (state: RootState) =>
   selectApp(state).taxation.enabledTaxationSystems
 
