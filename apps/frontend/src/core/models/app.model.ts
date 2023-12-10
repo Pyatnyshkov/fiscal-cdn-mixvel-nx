@@ -35,7 +35,8 @@ export interface App {
   agent: {
     roles: {}
   },
-  ignoreOpenShiftButtonClick: boolean
+  ignoreOpenShiftButtonClick: boolean,
+  ignoreCloseShiftButtonClick: boolean
 }
 
 export interface DeviceRouteStatus {

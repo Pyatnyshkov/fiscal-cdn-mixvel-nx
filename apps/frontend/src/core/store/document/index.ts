@@ -32,6 +32,7 @@ interface InitialState {
   sendButtonDisabled: ChequeModel['sendButtonDisabled']
   sendButtonVisible: ChequeModel['sendButtonVisible']
   issueResult: ChequeModel['issueResult']
+  chequeContent: ChequeContent
 }
 
 const initialState: InitialState = {
@@ -81,7 +82,8 @@ const initialState: InitialState = {
   copies: '2',
   sendButtonVisible: true,
   sendButtonDisabled: false,
-  issueResult: {}
+  issueResult: {},
+  chequeContent: {} as ChequeContent
 }
 
 type PayloadUpdateChequeTotal = PayloadAction<
@@ -358,7 +360,6 @@ export const documentSlice = createSlice({
     },
     successCloseChequeApp: (state, { payload }: any) => {
       state.issueResult = payload
-      
     }
   },
 })

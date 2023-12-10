@@ -63,6 +63,12 @@ const socketMiddleware: Middleware = store => {
       socket.once("issueResult", (msg: any) => { 
         store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
         store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
+        if (msg.error && msg.error.error) {
+          store.dispatch(appSlice.actions.setError({
+            code: msg.error.error.code,
+            description: msg.error.error.description
+          }));
+        }
         // reloadDeviceStatus();
       });
     }
@@ -70,7 +76,29 @@ const socketMiddleware: Middleware = store => {
     if (appSlice.actions.websocketOpenShift.match(action)) {
       socket.once("issueResult", (msg: any) => { 
         store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
-        store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
+        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        const err = msg.error;
+        if (err) {
+          store.dispatch(appSlice.actions.setError({
+            code: err.code,
+            description: err.description
+          }))
+        }
+        // reloadDeviceStatus();
+      });
+    }
+
+    if (appSlice.actions.websocketCloseShift.match(action)) {
+      socket.once("issueResult", (msg: any) => { 
+        store.dispatch(appSlice.actions.toggleCloseShiftButtonClick(false));
+        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        const err = msg.error;
+        if (err) {
+          store.dispatch(appSlice.actions.setError({
+            code: err.code,
+            description: err.description
+          }))
+        }
         // reloadDeviceStatus();
       });
     }

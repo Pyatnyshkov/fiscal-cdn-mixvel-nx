@@ -58,6 +58,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     return
   }
   dispatch(appSlice.actions.toggleOpenShiftButtonClick(true));
+  dispatch(appSlice.actions.websocketOpenShift());
   try {
     // const singleData = await API.single.post(
     //   network.deviceStatusSOAPEndpoint,
@@ -112,6 +113,24 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   }
 }
 
+export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) => {
+  dispatch(appSlice.actions.toggleCloseShiftButtonClick(true));
+  dispatch(appSlice.actions.websocketCloseShift());
+  try {
+
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}
+
 type PayloadSuccess = PayloadAction<SingleDataSuccess>
 type PayloadError = PayloadAction<Omit<GeneralError, 'deviceErrorState'>>
 
@@ -147,6 +166,9 @@ export const appSlice = createSlice({
     },
     toggleOpenShiftButtonClick: (state, { payload }: PayloadAction<boolean>) => {
       state.ignoreOpenShiftButtonClick = payload
+    },
+    toggleCloseShiftButtonClick: (state, { payload }: PayloadAction<boolean>) => {
+      state.ignoreCloseShiftButtonClick = payload
     },
     starting: (
       state,
@@ -229,9 +251,8 @@ export const appSlice = createSlice({
       }
     },
 
-    websocketOpenShift: (state) => {
-
-    },
+    websocketOpenShift: (state) => {},
+    websocketCloseShift: (state) => {},
 
     success: (state, { payload }: PayloadSuccess) => {
       // error nulled

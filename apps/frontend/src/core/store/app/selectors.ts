@@ -8,6 +8,7 @@ export const selectSingle = (state: RootState) => selectShift(state).single
 export const selectAppStarted = (state: RootState) => selectApp(state).started
 export const selectShiftOpened = (state: RootState) => selectApp(state).shift.state.opened
 export const selectIgnoreOpenShiftButtonClick = (state: RootState) => selectApp(state).ignoreOpenShiftButtonClick
+export const selectIgnoreCloseShiftButtonClick = (state: RootState) => selectApp(state).ignoreCloseShiftButtonClick
 export const selectIsManualCheckOpen = (state: RootState) => selectApp(state).started
 export const selectShiftCashier = (state: RootState) => selectApp(state).cashier
 export const selectAppPointOfSettlementAddress = (state: RootState) =>
