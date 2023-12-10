@@ -217,4 +217,5 @@ export const initialState: App = {
   agent: {
     roles: {},
   },
+  ignoreOpenShiftButtonClick: false
 }

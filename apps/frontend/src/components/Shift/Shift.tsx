@@ -6,11 +6,12 @@ import styles from './Shift.module.css'
 import { Notices } from '../Notices'
 import { ShiftError } from '../Error'
 import { useAppDispatch, useAppSelector } from '@store'
-import { selectShiftCashier, selectShiftOpened } from '@store/app/selectors'
+import { selectShiftCashier, selectShiftOpened, selectIgnoreOpenShiftButtonClick } from '@store/app/selectors'
 import { fetchAppData } from '@store/app'
 
 export const Shift = () => {
   const shiftOpened = useAppSelector(selectShiftOpened)
+  const ignoreOpenShiftButtonClick = useAppSelector(selectIgnoreOpenShiftButtonClick)
   const { fullName, tin } = useAppSelector(selectShiftCashier)
 
   const dispatch = useAppDispatch()
@@ -31,6 +32,7 @@ export const Shift = () => {
           <Button
             text={!shiftOpened ? 'Открыть смену' : 'Закрыть смену'}
             onClick={handleShiftOpen}
+            disabled={ignoreOpenShiftButtonClick}
           />
         </div>
         <div className={clsx(styles.col, styles.notice)}>

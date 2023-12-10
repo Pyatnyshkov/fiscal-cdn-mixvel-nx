@@ -34,7 +34,8 @@ export interface App {
   generalError: GeneralErrorWithState
   agent: {
     roles: {}
-  }
+  },
+  ignoreOpenShiftButtonClick: boolean
 }
 
 export interface DeviceRouteStatus {

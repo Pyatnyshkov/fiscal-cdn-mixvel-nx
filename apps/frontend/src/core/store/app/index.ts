@@ -57,7 +57,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   if (!app.instructions.deviceRouting) {
     return
   }
-
+  dispatch(appSlice.actions.toggleOpenShiftButtonClick(true));
   try {
     // const singleData = await API.single.post(
     //   network.deviceStatusSOAPEndpoint,
@@ -119,6 +119,10 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setError: (state, { payload }: PayloadError) => {
+      state.generalError.code = payload.code
+      state.generalError.description = payload.description
+    },
     hasError: (state, { payload }: PayloadError) => {
       state.generalError.code = payload.code
       state.generalError.description = payload.description
@@ -140,6 +144,9 @@ export const appSlice = createSlice({
     },
     closeShift: (state) => {
       state.shift.state.opened = false
+    },
+    toggleOpenShiftButtonClick: (state, { payload }: PayloadAction<boolean>) => {
+      state.ignoreOpenShiftButtonClick = payload
     },
     starting: (
       state,
@@ -220,6 +227,10 @@ export const appSlice = createSlice({
         deviceRouteStatus.reloadDeviceStatusTimeout = 1000 // количесво секунд до ретрая;
         deviceRouteStatus.error = payload
       }
+    },
+
+    websocketOpenShift: (state) => {
+
     },
 
     success: (state, { payload }: PayloadSuccess) => {

@@ -5,6 +5,7 @@ import { websocket, reconnect } from "./websocket";
 import { network } from "./network";
 import { fetchIssueDocumentCheque } from "./document/";
 import { documentSlice } from "./document";
+import { appSlice } from "./app";
 
 interface IOoptions {
   reconnection: boolean;
@@ -61,6 +62,14 @@ const socketMiddleware: Middleware = store => {
     if (documentSlice.actions.fetchDocumentCheque.match(action)) {
       socket.once("issueResult", (msg: any) => { 
         store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
+        // reloadDeviceStatus();
+      });
+    }
+
+    if (appSlice.actions.websocketOpenShift.match(action)) {
+      socket.once("issueResult", (msg: any) => { 
+        store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
         store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
         // reloadDeviceStatus();
       });
