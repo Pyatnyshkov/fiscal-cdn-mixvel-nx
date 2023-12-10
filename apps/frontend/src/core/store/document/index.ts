@@ -16,6 +16,8 @@ import { selectDocumentSubjectsEntities } from '@store/documentSubjects/selector
 import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
 import moment from 'moment'
 import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
+import { Instructions } from '@models/general/instructions.model'
+import { getInstructionsWithZoneId } from '@utils/getInstructionsWithZoneId'
 
 interface InitialState {
   chequeType: DocumentModel['chequeType']
@@ -125,7 +127,7 @@ export const extractAppDataToDocument: AppThunk = async (dispatch, getState, { A
 }
 
 export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { API }) => {
-  const { app, document, network } = getState()
+  const { app, document, network, websocket } = getState()
 
   const documentSubjectsEntities = selectDocumentSubjectsEntities(getState())
 
@@ -281,7 +283,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
     attributes: {
       id: app.attributes.id || '1',
     },
-    instructions: app.instructions,
+    instructions: getInstructionsWithZoneId(app.instructions, websocket.state.zoneId),
     printoutInjections: {
       documentReferenceNumber: document.printoutInjections.documentReferenceNumber,
       payments: {
@@ -327,19 +329,14 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
   getState,
   { API }
 ) => {
-  const { app, network } = getState()
+  const { app, network, websocket } = getState()
 
   const currentSettlementReportData: DocumentCurrentSettlementReportData = {
     attributes: {
       id: moment().format('YYYYMMDDHHmmssSSS'),
     },
     taxPayer: app.taxPayer,
-    instructions: {
-      deviceRouting: app.instructions.deviceRouting,
-      responseDelivery: {
-        socketio: app.instructions.responseDelivery.socketio,
-      },
-    },
+    instructions: getInstructionsWithZoneId(app.instructions, websocket.state.zoneId),
     document: {
       currentSettlementReport: {},
     },
@@ -351,6 +348,30 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     const data = await API.document.currentSettlementReport.post(
       network.soapEndpoint,
       currentSettlementReportData
+    )
+    // dispatch(documentSlice.actions.success(data))
+    //TODO изменить включение кнопки только при статусе ответа "sheduled"
+    dispatch(documentSlice.actions.sendButtonState(true))
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}
+
+export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { API }) => {
+  const { app, network } = getState()
+
+  try {
+    const data = await API.report.post(
+      network.operationsSOAPEndpoint,
+      app.instructions.deviceRouting
     )
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"

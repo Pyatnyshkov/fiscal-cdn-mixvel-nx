@@ -1,4 +1,5 @@
 import { IWSstate } from '@models/original/websocket'
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AppThunk } from '..'
 
@@ -22,23 +23,27 @@ const initialState: IWSstate = {
   },
 }
 
-type reconnectType = () => AppThunk 
+type reconnectType = () => AppThunk
+type Subscribe = (zoneId: number) => AppThunk
 
 export const reconnect: reconnectType = () => (dispatch, getState) => {
-  dispatch(wsSlice.actions.reconnect());
+  dispatch(wsSlice.actions.reconnect())
   var interval = setInterval(() => {
-    const state = getState().websocket.state;
+    const state = getState().websocket.state
     if (state.connected) {
-      clearInterval(interval);
-      return;
+      clearInterval(interval)
+      return
     }
     if (state.secondsToNextAttempt <= 0) {
-      clearInterval(interval);
-      dispatch(wsSlice.actions.connect());
+      clearInterval(interval)
+      dispatch(wsSlice.actions.connect())
     } else {
-      dispatch(wsSlice.actions.countdown());
+      dispatch(wsSlice.actions.countdown())
     }
-  }, 1000);
+  }, 1000)
+}
+export const wsSubscribe: Subscribe = (zoneId) => (dispatch) => {
+  dispatch(wsSlice.actions.subscribe(zoneId))
 }
 
 export const wsSlice = createSlice({
@@ -47,8 +52,8 @@ export const wsSlice = createSlice({
   reducers: {
     connect: (state: IWSstate) => {},
     setConnecting: (state: IWSstate) => {
-      state.state.connecting = true;
-      state.state.connectError = false;
+      state.state.connecting = true
+      state.state.connectError = false
     },
     setConnected: (state: IWSstate, action: PayloadAction<any>) => {
       state.state.connecting = false
@@ -65,39 +70,39 @@ export const wsSlice = createSlice({
       state.state.zoneId = action.payload
     },
     setDisconnected: (state: IWSstate) => {
-      state.state.connected = false;
-      state.state.subscribed = false;
-      state.state.connecting = false;
-      state.state.connectError = true;
-      state.state.lastConnectionError = "disconnect";
+      state.state.connected = false
+      state.state.subscribed = false
+      state.state.connecting = false
+      state.state.connectError = true
+      state.state.lastConnectionError = 'disconnect'
     },
     setConnectError: (state: IWSstate) => {
-      state.state.connecting = false;
-      state.state.connected = false;
-      state.state.subscribed = false;
-      state.state.connectError = true;
+      state.state.connecting = false
+      state.state.connected = false
+      state.state.subscribed = false
+      state.state.connectError = true
       // state.state.lastConnectionError = action.payload;
     },
     setConnectTimeout: (state: IWSstate) => {
-      state.state.connecting = false;
-      state.state.connected = false;
-      state.state.subscribed = false;
-      state.state.connectError = true;
-      state.state.lastConnectionError = "timeout";
+      state.state.connecting = false
+      state.state.connected = false
+      state.state.subscribed = false
+      state.state.connectError = true
+      state.state.lastConnectionError = 'timeout'
     },
     ping: (state: IWSstate) => {
-      state.state.lastPing = new Date();
+      state.state.lastPing = new Date()
     },
     pong: (state: IWSstate) => {
-      state.state.lastPong = new Date();
+      state.state.lastPong = new Date()
     },
     reconnect: (state: IWSstate, action: PayloadAction<number | undefined>) => {
-      state.state.connected = false;
-      state.state.secondsToNextAttempt = action.payload || 4;
+      state.state.connected = false
+      state.state.secondsToNextAttempt = action.payload || 4
     },
     countdown: (state: IWSstate) => {
       state.state.secondsToNextAttempt = state.state.secondsToNextAttempt - 1
-    }
+    },
   },
 })
 

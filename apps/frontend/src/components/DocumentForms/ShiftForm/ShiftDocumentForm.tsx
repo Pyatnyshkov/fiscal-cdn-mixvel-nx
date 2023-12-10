@@ -5,7 +5,10 @@ import { Input } from '../../UI/Input'
 import styles from './ShiftDocumentForm.module.css'
 import { useAppDispatch, useAppSelector } from '@store'
 import { selectDocumentView } from '@store/app/selectors'
-import { fetchIssueDocumentCurrentSettlementReport } from '@store/document'
+import {
+  fetchFlowStatementReport,
+  fetchIssueDocumentCurrentSettlementReport,
+} from '@store/document'
 
 export const ShiftDocumentForm = () => {
   const { shiftNumber, registrationNumber, factoryNumber, fiscalStorageFactoryNumber } =
@@ -15,6 +18,10 @@ export const ShiftDocumentForm = () => {
 
   const handleIssueDocumentCurrentSettlementReport = () => {
     dispatch(fetchIssueDocumentCurrentSettlementReport)
+  }
+
+  const handleFlowStatementReport = () => {
+    dispatch(fetchFlowStatementReport)
   }
 
   return (
@@ -54,7 +61,7 @@ export const ShiftDocumentForm = () => {
           className={clsx(styles.width, styles.marginRight)}
           onClick={handleIssueDocumentCurrentSettlementReport}
         />
-        <Button text="Печать" className={styles.width} />
+        <Button text="Печать" className={styles.width} onClick={handleFlowStatementReport} />
       </div>
     </div>
   )

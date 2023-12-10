@@ -1,6 +1,7 @@
 import { singleAPI } from './app/single.api'
 import { commitSubjectsAPI } from './commitSubjects/commitSubjects.api'
 import { encashmentAPI } from './encashment/encashment.api'
+import { flowStatementReportAPI } from './flowStatementReport/flowStatementReport.api'
 import { issueDocumentChequeAPI } from './issueDocumentCheque/issueDocumentCheque.api'
 import { issueDocumentCurrentSettlementReportAPI } from './issueDocumentCurrentSettlementReport/issueDocumentCurrentSettlementReport.api'
 import { refillAPI } from './refill/refill.api'
@@ -16,6 +17,7 @@ export const API = {
     currentSettlementReport: issueDocumentCurrentSettlementReportAPI,
   },
   commitSubjects: commitSubjectsAPI,
+  report: flowStatementReportAPI,
 }
 
 export type API = typeof API
