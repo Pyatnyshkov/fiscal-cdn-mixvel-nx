@@ -1,1 +1,0 @@
-export { ManualCheck } from './ManualCheck'

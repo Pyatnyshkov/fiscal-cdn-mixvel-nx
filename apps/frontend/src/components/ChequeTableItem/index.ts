@@ -1,1 +1,0 @@
-export { ChequeTableItem } from './ChequeTableItem'
