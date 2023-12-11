@@ -7,6 +7,9 @@ import { reconnect } from '@store/websocket'
 import { API } from '@services/API'
 
 import { Notice, NoticeMessages, NoticeStatuses } from '../Notice'
+import { selectNetwork } from '@store/network/selectors'
+import { selectApp } from '@store/app/selectors'
+import { selectAppSubjects } from '@store/appSubjects/selectors'
 
 interface Notices {
   className?: string
@@ -21,7 +24,10 @@ export const Notices: React.FC<Notices> = ({ className }) => {
     if (wsState.connectError) return NoticeStatuses.failed
     return NoticeStatuses.unavailable
   }
-  const { network, app, appSubjects } = useAppSelector((state) => state)
+  const network = useAppSelector(selectNetwork)
+  const app = useAppSelector(selectApp)
+  const appSubjects = useAppSelector(selectAppSubjects)
+
   const subjectsStatus = () => {
     if (appSubjects.requestStarted) return NoticeStatuses.waiting
     if (appSubjects.loadFailed) return NoticeStatuses.failed

@@ -6,18 +6,18 @@ import styles from './Shift.module.css'
 import { Notices } from '../Notices'
 import { ShiftError } from '../Error'
 import { useAppDispatch, useAppSelector } from '@store'
-import { 
-  selectShiftCashier, 
-  selectShiftOpened, 
+import {
+  selectShiftCashier,
+  selectShiftOpened,
   selectIgnoreOpenShiftButtonClick,
-  selectIgnoreCloseShiftButtonClick
+  selectIgnoreCloseShiftButtonClick,
 } from '@store/app/selectors'
-import { fetchAppData, closeShiftAction } from '@store/app'
+import { closeShiftAction, fetchAppData } from '@store/app/thunks'
 
 export const Shift = () => {
   const shiftOpened = useAppSelector(selectShiftOpened)
   const ignoreOpenShiftButtonClick = useAppSelector(selectIgnoreOpenShiftButtonClick)
-  const ignoreCloseShiftButtonClick = useAppSelector(selectIgnoreCloseShiftButtonClick) 
+  const ignoreCloseShiftButtonClick = useAppSelector(selectIgnoreCloseShiftButtonClick)
   const { fullName, tin } = useAppSelector(selectShiftCashier)
 
   const dispatch = useAppDispatch()

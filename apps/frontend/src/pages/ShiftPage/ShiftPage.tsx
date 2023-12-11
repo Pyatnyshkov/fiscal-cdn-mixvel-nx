@@ -4,8 +4,8 @@ import { Shift } from '@components/Shift'
 import { ShiftDesc } from '@components/ShiftDesc'
 
 import { useAppDispatch, useAppSelector } from '@store'
-import { initApp } from '@store/app'
 import { selectAppStarted, selectErrorMessage, selectShiftOpened } from '@store/app/selectors'
+import { initApp } from '@store/app/thunks'
 import { useEffect } from 'react'
 
 export const ShiftPage = () => {

@@ -14,6 +14,7 @@ import { wsSlice } from './websocket'
 import { API } from '@services/API'
 import socketMiddleware from './socketMiddleware'
 import { editorSubjectsSlice } from './editorSubjects'
+import { listenerZoneIdMiddleware } from './listenerZoneIdMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -33,7 +34,7 @@ export const store = configureStore({
       thunk: {
         extraArgument: { API },
       },
-    }).concat(socketMiddleware),
+    }).concat(socketMiddleware, listenerZoneIdMiddleware.middleware),
 })
 
 type ExtraArgument = { API: API }

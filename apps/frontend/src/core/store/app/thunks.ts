@@ -1,49 +1,99 @@
-// export const fetchSubjects: AppThunk = async (dispatch, getState, { API }) => {
-//     const { network, app } = getState()
+import { AxiosError } from 'axios'
+import { ShiftError } from '@error'
+import { subjectsSlice } from '@store/subjects'
+import { extractAppDataToDocument } from '@store/document'
+import { TaxationSystems } from '@consts'
+import { appSubjectsSlice } from '@store/appSubjects'
+import { AppThunk } from '@store'
+import { selectAppStarted } from './selectors'
+import { extractToken } from '@utils/extractToken'
+import { createGUID } from '@utils/createGUID'
+import { appSlice, hasError } from '.'
+import { isSingleDataSuccess } from '@services/API/app/single.api.transformResponseDataXML'
+import { setDataToNetwork } from '@store/network'
 
-//     // dispatch(appSlice.actions.loading)
+export const initApp: AppThunk = async (dispatch, getState) => {
+  const started = selectAppStarted(getState())
 
-//     if (app.instructions.deviceRouting) {
-//       // try {
-//       //   const data = await API.deviceRouteStatus.post(
-//       //     network.deviceStatusSOAPEndpoint,
-//       //     deviceRouteStatus.deviceRouting
-//       //   )
-//       // } catch (error) {
-//       //   console.error('fetchDeviceRouteStatus', error)
-//       // }
+  if (started) {
+    return
+  }
 
-//       // --- Mock data
-//       const parser = new DOMParser()
-//       const data = parser.parseFromString(deviceRouteStatusMockDataXML, 'text/xml')
-//       const transformedData = deviceRouteStatusTransformDataXML(data)
-//       // ---
+  try {
+    const token = extractToken()
+    const GUID = createGUID()
 
-//       if (isSingleDataFail(transformedData) && !network.soapEndpoint) {
-//         const error = {
-//           code: transformedData.single.fail.code,
-//           description: transformedData.single.fail.description,
-//         }
+    if (token) {
+      dispatch(appSlice.actions.starting({ token, GUID }))
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      dispatch(hasError({ code: '', description: error.message }))
+    }
+  }
+}
 
-//         dispatch(appSlice.actions.error(error))
-//       }
+export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
+  const { network, app } = getState()
 
-//       if (isSingleData(transformedData) && !network.soapEndpoint) {
-//         dispatch(appSlice.actions.successSingle(transformedData.single))
+  if (!app.instructions.deviceRouting) {
+    return
+  }
 
-//         const { availableServices } = transformedData.single
-//         const networkData = {
-//           soapEndpoint: availableServices.issueDocuments.soap.service.url,
-//           operationsSOAPEndpoint: availableServices.operations.soap.service.url,
-//           subjectsSOAPEndpoint: availableServices.subjectsEditor.soap.service.url,
-//           subjectsWebEndpoint: availableServices.subjectsEditor.web.site.url,
-//           socketIOAddress: availableServices.responseDeliveryGateway.socketio.service.url,
-//           socketIOPath: availableServices.responseDeliveryGateway.socketio.service.path,
-//           socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
-//         }
+  dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
+  dispatch(appSlice.actions.websocketOpenShift())
+  try {
+    const [singleData, subjectData] = await Promise.all([
+      API.single.post(network.deviceStatusSOAPEndpoint, app.instructions.deviceRouting),
+      API.subjects.post(network.subjectsSOAPEndpoint, app.instructions.deviceRouting),
+    ])
 
-//         dispatch(setDataToNetwork(networkData))
-//         dispatch(appSlice.actions.servicesAvailable())
-//       }
-//     }
-//   }
+    if (isSingleDataSuccess(singleData)) {
+      dispatch(appSlice.actions.success(singleData.single))
+
+      const { availableServices } = singleData.single
+      const networkData = {
+        soapEndpoint: availableServices.issueDocuments.soap.service.url,
+        operationsSOAPEndpoint: availableServices.operations.soap.service.url,
+        subjectsSOAPEndpoint: availableServices.subjectsEditor.soap.service.url,
+        subjectsWebEndpoint: availableServices.subjectsEditor.web.site.url,
+        socketIOAddress: availableServices.responseDeliveryGateway.socketio.service.url,
+        socketIOPath: availableServices.responseDeliveryGateway.socketio.service.path,
+        socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
+      }
+
+      dispatch(setDataToNetwork(networkData))
+    }
+
+    dispatch(extractAppDataToDocument)
+    dispatch(appSubjectsSlice.actions.success(subjectData))
+    dispatch(appSlice.actions.servicesAvailable())
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}
+
+export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) => {
+  dispatch(appSlice.actions.toggleCloseShiftButtonClick(true))
+  dispatch(appSlice.actions.websocketCloseShift())
+  try {
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}

@@ -7,9 +7,3 @@ export const selectDocumentSubjectsEntities = (state: RootState) =>
 export const selectDocumentSubjectsIds = (state: RootState) => selectDocumentSubjects(state).ids
 export const selectDocumentSubjectsById = (id: EntityId) => (state: RootState) =>
   selectDocumentSubjectsEntities(state)[id]
-
-// export const selectSubjetsList = (state: RootState) =>
-//   selectSubjets(state).subjects.reduce<{ value: string; label: string }[]>((acc, { name }) => {
-//     acc.push({ value: name, label: name })
-//     return acc
-//   }, [])

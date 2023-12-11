@@ -1,135 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { AppThunk } from '..'
-
-import { extractToken } from '@utils/extractToken'
-import { createGUID } from '@utils/createGUID'
 
 import { initialState } from './initialState'
-import { selectAppStarted } from './selectors'
 
-import { setDataToNetwork } from '@store/network'
 import { GeneralError, GeneralErrorWithState } from '@models/general/generalError.model'
 import { Token } from '@models/token.model'
-import {
-  SingleDataSuccess,
-  isSingleDataSuccess,
-} from '@services/API/app/single.api.transformResponseDataXML'
-
-import { AxiosError } from 'axios'
-import { ShiftError } from '@error'
-import { subjectsSlice } from '@store/subjects'
-import { extractAppDataToDocument } from '@store/document'
-import { TaxationSystems } from '@consts'
-import { appSubjectsSlice } from '@store/appSubjects'
-
-export const initApp: AppThunk = async (dispatch, getState) => {
-  const started = selectAppStarted(getState())
-
-  if (started) {
-    return
-  }
-
-  // dispatch(appSlice.actions.loading)
-  try {
-    const token = extractToken()
-    const GUID = createGUID()
-
-    // (Запуск приложения)
-    // 1. Извлекаем данные из Токена в App, если Токена нету блокируем UI
-    // 2. Извлекаем сущности из App в DeviceRouteStatus
-    // 3. Запрашиваем данные в DeviceRouteStatus
-
-    if (token) {
-      dispatch(appSlice.actions.starting({ token, GUID }))
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      dispatch(hasError({ code: '', description: error.message }))
-    }
-  }
-}
-
-export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
-  const { network, app } = getState()
-
-  // dispatch(appSlice.actions.loading)
-
-  if (!app.instructions.deviceRouting) {
-    return
-  }
-  dispatch(appSlice.actions.toggleOpenShiftButtonClick(true));
-  dispatch(appSlice.actions.websocketOpenShift());
-  try {
-    // const singleData = await API.single.post(
-    //   network.deviceStatusSOAPEndpoint,
-    //   app.instructions.deviceRouting
-    // )
-    const [singleData, subjectData] = await Promise.all([
-      API.single.post(network.deviceStatusSOAPEndpoint, app.instructions.deviceRouting),
-      API.subjects.post(network.subjectsSOAPEndpoint, app.instructions.deviceRouting),
-    ])
-
-    //  фейлы отлавливат в айпи
-
-    // if (isSingleDataFail(singleData) && !network.soapEndpoint) {
-    //   const error = {
-    //     code: singleData.single.fail.code,
-    //     description: singleData.single.fail.description,
-    //   }
-
-    //   dispatch(hasError(error))
-    // }
-
-    if (isSingleDataSuccess(singleData)) {
-      dispatch(appSlice.actions.success(singleData.single))
-
-      const { availableServices } = singleData.single
-      const networkData = {
-        soapEndpoint: availableServices.issueDocuments.soap.service.url,
-        operationsSOAPEndpoint: availableServices.operations.soap.service.url,
-        subjectsSOAPEndpoint: availableServices.subjectsEditor.soap.service.url,
-        subjectsWebEndpoint: availableServices.subjectsEditor.web.site.url,
-        socketIOAddress: availableServices.responseDeliveryGateway.socketio.service.url,
-        socketIOPath: availableServices.responseDeliveryGateway.socketio.service.path,
-        socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
-      }
-
-      dispatch(setDataToNetwork(networkData))
-    }
-
-    dispatch(extractAppDataToDocument)
-    dispatch(appSubjectsSlice.actions.success(subjectData))
-    dispatch(appSlice.actions.servicesAvailable())
-  } catch (error) {
-    if (error instanceof ShiftError) {
-      dispatch(hasError(error.reason))
-    }
-    if (error instanceof AxiosError) {
-      console.error(error)
-    }
-    if (error instanceof Error) {
-      console.error(error)
-    }
-  }
-}
-
-export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) => {
-  dispatch(appSlice.actions.toggleCloseShiftButtonClick(true));
-  dispatch(appSlice.actions.websocketCloseShift());
-  try {
-
-  } catch (error) {
-    if (error instanceof ShiftError) {
-      dispatch(hasError(error.reason))
-    }
-    if (error instanceof AxiosError) {
-      console.error(error)
-    }
-    if (error instanceof Error) {
-      console.error(error)
-    }
-  }
-}
+import { SingleDataSuccess } from '@services/API/app/single.api.transformResponseDataXML'
 
 type PayloadSuccess = PayloadAction<SingleDataSuccess>
 type PayloadError = PayloadAction<Omit<GeneralError, 'deviceErrorState'>>
@@ -138,6 +13,9 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    updatedZoneId: (state, { payload }: PayloadAction<number>) => {
+      state.instructions.responseDelivery.socketio.client.zoneId = payload.toString()
+    },
     setError: (state, { payload }: PayloadError) => {
       state.generalError.code = payload.code
       state.generalError.description = payload.description
@@ -219,13 +97,10 @@ export const appSlice = createSlice({
             },
           },
         }
-
-        //
       }
     },
 
     errorSingle: (state, { payload }: PayloadAction<GeneralErrorWithState>) => {
-      // error nulled
       state.generalError.code = ''
       state.generalError.description = ''
       state.generalError.deviceErrorState = false
@@ -364,10 +239,6 @@ export const appSlice = createSlice({
       // if (!applicationModel.started) deviceRouteProviderSuccess()
       // if (callback) return callback(null)
     },
-    // success: (state) => {
-    //   state.activeServices.webSocket = true
-    //   state.activeServices.subjects = true
-    // },
   },
 })
 
