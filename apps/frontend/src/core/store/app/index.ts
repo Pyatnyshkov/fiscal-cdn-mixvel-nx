@@ -170,7 +170,7 @@ export const appSlice = createSlice({
 
           if (registrationReport) {
             applicationModel.agent = registrationReport.agent
-            if (state.shift.state.status == 'closed') {
+            if (state.shift.state.status === 'closed') {
               if (registrationReport.taxPayer) {
                 if (registrationReport.taxPayer.tin)
                   state.shift.single.currentRegistration.registrationReport.taxPayer.tin =
@@ -221,14 +221,13 @@ export const appSlice = createSlice({
         shift.single.currentRegistration &&
         shift.single.currentRegistration.registrationReport
       ) {
-        var registrationReport = shift.single.currentRegistration.registrationReport
+        const registrationReport = shift.single.currentRegistration.registrationReport
         if (
           registrationReport.taxationSystems &&
           registrationReport.taxationSystems.taxationSystem &&
           registrationReport.taxationSystems.taxationSystem.length
         ) {
-          const taxationSystems = registrationReport.taxationSystems.taxationSystem
-
+          // const taxationSystems = registrationReport.taxationSystems.taxationSystem
           // taxationSystems.forEach(({ $value }) => {
           //   // state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
           // })

@@ -1,11 +1,11 @@
 // @ts-nocheck
 
 export const pako = () => {
-  var __m = {}
+  const __m = {}
   if (typeof require === 'undefined') __m.__sr = function () {}
   else __m.__sr = require
   __m.__r = function (key) {
-    var m = __m[key]
+    const m = __m[key]
     if (m.sts === null) m.load.call()
     return m.mod.exports
   }
@@ -15,17 +15,17 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['a'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['a'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['a'].sts = 0
       ;('use strict')
-      var TYPED_OK =
+      const TYPED_OK =
         typeof Uint8Array !== 'undefined' &&
         typeof Uint16Array !== 'undefined' &&
         typeof Int32Array !== 'undefined'
@@ -33,16 +33,16 @@ export const pako = () => {
         return Object.prototype.hasOwnProperty.call(obj, key)
       }
       exports.assign = function (obj) {
-        var sources = Array.prototype.slice.call(arguments, 1)
+        const sources = Array.prototype.slice.call(arguments, 1)
         while (sources.length) {
-          var source = sources.shift()
+          const source = sources.shift()
           if (!source) {
             continue
           }
           if (typeof source !== 'object') {
             throw new TypeError(source + 'must be non-object')
           }
-          for (var p in source) {
+          for (const p in source) {
             if (_has(source, p)) {
               obj[p] = source[p]
             }
@@ -60,18 +60,18 @@ export const pako = () => {
         buf.length = size
         return buf
       }
-      var fnTyped = {
+      const fnTyped = {
         arraySet: function (dest, src, src_offs, len, dest_offs) {
           if (src.subarray && dest.subarray) {
             dest.set(src.subarray(src_offs, src_offs + len), dest_offs)
             return
           }
-          for (var i = 0; i < len; i++) {
+          for (let i = 0; i < len; i++) {
             dest[dest_offs + i] = src[src_offs + i]
           }
         },
         flattenChunks: function (chunks) {
-          var i, l, len, pos, chunk, result
+          let i, l, len, pos, chunk, result
           len = 0
           for (i = 0, l = chunks.length; i < l; i++) {
             len += chunks[i].length
@@ -86,9 +86,9 @@ export const pako = () => {
           return result
         },
       }
-      var fnUntyped = {
+      const fnUntyped = {
         arraySet: function (dest, src, src_offs, len, dest_offs) {
-          for (var i = 0; i < len; i++) {
+          for (let i = 0; i < len; i++) {
             dest[dest_offs + i] = src[src_offs + i]
           }
         },
@@ -111,7 +111,7 @@ export const pako = () => {
       }
       exports.setTyped(TYPED_OK)
       __m['a'].sts = 1
-    }.bind(this),
+    },
   }
   __m['b'] = {
     sts: null,
@@ -119,68 +119,68 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['b'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['b'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           '../utils/common': 'a',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['b'].sts = 0
       ;('use strict')
-      var utils = require('../utils/common')
-      var Z_FIXED = 4
-      var Z_BINARY = 0
-      var Z_TEXT = 1
-      var Z_UNKNOWN = 2
+      const utils = require('../utils/common')
+      const Z_FIXED = 4
+      const Z_BINARY = 0
+      const Z_TEXT = 1
+      const Z_UNKNOWN = 2
       function zero(buf) {
-        var len = buf.length
+        let len = buf.length
         while (--len >= 0) {
           buf[len] = 0
         }
       }
-      var STORED_BLOCK = 0
-      var STATIC_TREES = 1
-      var DYN_TREES = 2
-      var MIN_MATCH = 3
-      var MAX_MATCH = 258
-      var LENGTH_CODES = 29
-      var LITERALS = 256
-      var L_CODES = LITERALS + 1 + LENGTH_CODES
-      var D_CODES = 30
-      var BL_CODES = 19
-      var HEAP_SIZE = 2 * L_CODES + 1
-      var MAX_BITS = 15
-      var Buf_size = 16
-      var MAX_BL_BITS = 7
-      var END_BLOCK = 256
-      var REP_3_6 = 16
-      var REPZ_3_10 = 17
-      var REPZ_11_138 = 18
-      var extra_lbits = [
+      const STORED_BLOCK = 0
+      const STATIC_TREES = 1
+      const DYN_TREES = 2
+      const MIN_MATCH = 3
+      const MAX_MATCH = 258
+      const LENGTH_CODES = 29
+      const LITERALS = 256
+      const L_CODES = LITERALS + 1 + LENGTH_CODES
+      const D_CODES = 30
+      const BL_CODES = 19
+      const HEAP_SIZE = 2 * L_CODES + 1
+      const MAX_BITS = 15
+      const Buf_size = 16
+      const MAX_BL_BITS = 7
+      const END_BLOCK = 256
+      const REP_3_6 = 16
+      const REPZ_3_10 = 17
+      const REPZ_11_138 = 18
+      const extra_lbits = [
         0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0,
       ]
-      var extra_dbits = [
+      const extra_dbits = [
         0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12,
         13, 13,
       ]
-      var extra_blbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7]
-      var bl_order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
-      var DIST_CODE_LEN = 512
-      var static_ltree = new Array((L_CODES + 2) * 2)
+      const extra_blbits = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 7]
+      const bl_order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
+      const DIST_CODE_LEN = 512
+      const static_ltree = new Array((L_CODES + 2) * 2)
       zero(static_ltree)
-      var static_dtree = new Array(D_CODES * 2)
+      const static_dtree = new Array(D_CODES * 2)
       zero(static_dtree)
-      var _dist_code = new Array(DIST_CODE_LEN)
+      const _dist_code = new Array(DIST_CODE_LEN)
       zero(_dist_code)
-      var _length_code = new Array(MAX_MATCH - MIN_MATCH + 1)
+      const _length_code = new Array(MAX_MATCH - MIN_MATCH + 1)
       zero(_length_code)
-      var base_length = new Array(LENGTH_CODES)
+      const base_length = new Array(LENGTH_CODES)
       zero(base_length)
-      var base_dist = new Array(D_CODES)
+      const base_dist = new Array(D_CODES)
       zero(base_dist)
       function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
         this.static_tree = static_tree
@@ -190,9 +190,9 @@ export const pako = () => {
         this.max_length = max_length
         this.has_stree = static_tree && static_tree.length
       }
-      var static_l_desc
-      var static_d_desc
-      var static_bl_desc
+      let static_l_desc
+      let static_d_desc
+      let static_bl_desc
       function TreeDesc(dyn_tree, stat_desc) {
         this.dyn_tree = dyn_tree
         this.max_code = 0
@@ -220,7 +220,7 @@ export const pako = () => {
         send_bits(s, tree[c * 2], tree[c * 2 + 1])
       }
       function bi_reverse(code, len) {
-        var res = 0
+        let res = 0
         do {
           res |= code & 1
           code >>>= 1
@@ -240,19 +240,19 @@ export const pako = () => {
         }
       }
       function gen_bitlen(s, desc) {
-        var tree = desc.dyn_tree
-        var max_code = desc.max_code
-        var stree = desc.stat_desc.static_tree
-        var has_stree = desc.stat_desc.has_stree
-        var extra = desc.stat_desc.extra_bits
-        var base = desc.stat_desc.extra_base
-        var max_length = desc.stat_desc.max_length
-        var h
-        var n, m
-        var bits
-        var xbits
-        var f
-        var overflow = 0
+        const tree = desc.dyn_tree
+        const max_code = desc.max_code
+        const stree = desc.stat_desc.static_tree
+        const has_stree = desc.stat_desc.has_stree
+        const extra = desc.stat_desc.extra_bits
+        const base = desc.stat_desc.extra_base
+        const max_length = desc.stat_desc.max_length
+        let h
+        let n, m
+        let bits
+        let xbits
+        let f
+        let overflow = 0
         for (bits = 0; bits <= MAX_BITS; bits++) {
           s.bl_count[bits] = 0
         }
@@ -308,15 +308,15 @@ export const pako = () => {
         }
       }
       function gen_codes(tree, max_code, bl_count) {
-        var next_code = new Array(MAX_BITS + 1)
-        var code = 0
-        var bits
-        var n
+        const next_code = new Array(MAX_BITS + 1)
+        let code = 0
+        let bits
+        let n
         for (bits = 1; bits <= MAX_BITS; bits++) {
           next_code[bits] = code = (code + bl_count[bits - 1]) << 1
         }
         for (n = 0; n <= max_code; n++) {
-          var len = tree[n * 2 + 1]
+          const len = tree[n * 2 + 1]
           if (len === 0) {
             continue
           }
@@ -324,12 +324,12 @@ export const pako = () => {
         }
       }
       function tr_static_init() {
-        var n
-        var bits
-        var length
-        var code
-        var dist
-        var bl_count = new Array(MAX_BITS + 1)
+        let n
+        let bits
+        let length
+        let code
+        let dist
+        const bl_count = new Array(MAX_BITS + 1)
         length = 0
         for (code = 0; code < LENGTH_CODES - 1; code++) {
           base_length[code] = length
@@ -392,7 +392,7 @@ export const pako = () => {
         static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0, BL_CODES, MAX_BL_BITS)
       }
       function init_block(s) {
-        var n
+        let n
         for (n = 0; n < L_CODES; n++) {
           s.dyn_ltree[n * 2] = 0
         }
@@ -425,13 +425,13 @@ export const pako = () => {
         s.pending += len
       }
       function smaller(tree, n, m, depth) {
-        var _n2 = n * 2
-        var _m2 = m * 2
+        const _n2 = n * 2
+        const _m2 = m * 2
         return tree[_n2] < tree[_m2] || (tree[_n2] === tree[_m2] && depth[n] <= depth[m])
       }
       function pqdownheap(s, tree, k) {
-        var v = s.heap[k]
-        var j = k << 1
+        const v = s.heap[k]
+        let j = k << 1
         while (j <= s.heap_len) {
           if (j < s.heap_len && smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
             j++
@@ -446,11 +446,11 @@ export const pako = () => {
         s.heap[k] = v
       }
       function compress_block(s, ltree, dtree) {
-        var dist
-        var lc
-        var lx = 0
-        var code
-        var extra
+        let dist
+        let lc
+        let lx = 0
+        let code
+        let extra
         if (s.last_lit !== 0) {
           do {
             dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | s.pending_buf[s.d_buf + lx * 2 + 1]
@@ -480,13 +480,13 @@ export const pako = () => {
         send_code(s, END_BLOCK, ltree)
       }
       function build_tree(s, desc) {
-        var tree = desc.dyn_tree
-        var stree = desc.stat_desc.static_tree
-        var has_stree = desc.stat_desc.has_stree
-        var elems = desc.stat_desc.elems
-        var n, m
-        var max_code = -1
-        var node
+        const tree = desc.dyn_tree
+        const stree = desc.stat_desc.static_tree
+        const has_stree = desc.stat_desc.has_stree
+        const elems = desc.stat_desc.elems
+        let n, m
+        let max_code = -1
+        let node
         s.heap_len = 0
         s.heap_max = HEAP_SIZE
         for (n = 0; n < elems; n++) {
@@ -529,13 +529,13 @@ export const pako = () => {
         gen_codes(tree, max_code, s.bl_count)
       }
       function scan_tree(s, tree, max_code) {
-        var n
-        var prevlen = -1
-        var curlen
-        var nextlen = tree[0 * 2 + 1]
-        var count = 0
-        var max_count = 7
-        var min_count = 4
+        let n
+        let prevlen = -1
+        let curlen
+        let nextlen = tree[0 * 2 + 1]
+        let count = 0
+        let max_count = 7
+        let min_count = 4
         if (nextlen === 0) {
           max_count = 138
           min_count = 3
@@ -573,13 +573,13 @@ export const pako = () => {
         }
       }
       function send_tree(s, tree, max_code) {
-        var n
-        var prevlen = -1
-        var curlen
-        var nextlen = tree[0 * 2 + 1]
-        var count = 0
-        var max_count = 7
-        var min_count = 4
+        let n
+        let prevlen = -1
+        let curlen
+        let nextlen = tree[0 * 2 + 1]
+        let count = 0
+        let max_count = 7
+        let min_count = 4
         if (nextlen === 0) {
           max_count = 138
           min_count = 3
@@ -622,7 +622,7 @@ export const pako = () => {
         }
       }
       function build_bl_tree(s) {
-        var max_blindex
+        let max_blindex
         scan_tree(s, s.dyn_ltree, s.l_desc.max_code)
         scan_tree(s, s.dyn_dtree, s.d_desc.max_code)
         build_tree(s, s.bl_desc)
@@ -635,7 +635,7 @@ export const pako = () => {
         return max_blindex
       }
       function send_all_trees(s, lcodes, dcodes, blcodes) {
-        var rank
+        let rank
         send_bits(s, lcodes - 257, 5)
         send_bits(s, dcodes - 1, 5)
         send_bits(s, blcodes - 4, 4)
@@ -646,8 +646,8 @@ export const pako = () => {
         send_tree(s, s.dyn_dtree, dcodes - 1)
       }
       function detect_data_type(s) {
-        var black_mask = 4093624447
-        var n
+        let black_mask = 4093624447
+        let n
         for (n = 0; n <= 31; n++, black_mask >>>= 1) {
           if (black_mask & 1 && s.dyn_ltree[n * 2] !== 0) {
             return Z_BINARY
@@ -663,7 +663,7 @@ export const pako = () => {
         }
         return Z_BINARY
       }
-      var static_init_done = false
+      let static_init_done = false
       function _tr_init(s) {
         if (!static_init_done) {
           tr_static_init()
@@ -686,8 +686,8 @@ export const pako = () => {
         bi_flush(s)
       }
       function _tr_flush_block(s, buf, stored_len, last) {
-        var opt_lenb, static_lenb
-        var max_blindex = 0
+        let opt_lenb, static_lenb
+        let max_blindex = 0
         if (s.level > 0) {
           if (s.strm.data_type === Z_UNKNOWN) {
             s.strm.data_type = detect_data_type(s)
@@ -739,7 +739,7 @@ export const pako = () => {
       exports._tr_tally = _tr_tally
       exports._tr_align = _tr_align
       __m['b'].sts = 1
-    }.bind(this),
+    },
   }
   __m['c'] = {
     sts: null,
@@ -747,18 +747,18 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['c'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['c'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['c'].sts = 0
       ;('use strict')
       function adler32(adler, buf, len, pos) {
-        var s1 = (adler & 65535) | 0,
+        let s1 = (adler & 65535) | 0,
           s2 = ((adler >>> 16) & 65535) | 0,
           n = 0
         while (len !== 0) {
@@ -775,7 +775,7 @@ export const pako = () => {
       }
       module.exports = adler32
       __m['c'].sts = 1
-    }.bind(this),
+    },
   }
   __m['d'] = {
     sts: null,
@@ -783,41 +783,41 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['d'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['d'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['d'].sts = 0
       ;('use strict')
       function makeTable() {
-        var c,
+        let c,
           table = []
-        for (var n = 0; n < 256; n++) {
+        for (let n = 0; n < 256; n++) {
           c = n
-          for (var k = 0; k < 8; k++) {
+          for (let k = 0; k < 8; k++) {
             c = c & 1 ? 3988292384 ^ (c >>> 1) : c >>> 1
           }
           table[n] = c
         }
         return table
       }
-      var crcTable = makeTable()
+      const crcTable = makeTable()
       function crc32(crc, buf, len, pos) {
-        var t = crcTable,
+        const t = crcTable,
           end = pos + len
         crc ^= -1
-        for (var i = pos; i < end; i++) {
+        for (let i = pos; i < end; i++) {
           crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 255]
         }
         return crc ^ -1
       }
       module.exports = crc32
       __m['d'].sts = 1
-    }.bind(this),
+    },
   }
   __m['e'] = {
     sts: null,
@@ -825,11 +825,11 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['e'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['e'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
@@ -847,7 +847,7 @@ export const pako = () => {
         '-6': 'incompatible version',
       }
       __m['e'].sts = 1
-    }.bind(this),
+    },
   }
   __m['f'] = {
     sts: null,
@@ -855,71 +855,71 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['f'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['f'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           '../utils/common': 'a',
           './trees': 'b',
           './adler32': 'c',
           './crc32': 'd',
           './messages': 'e',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['f'].sts = 0
       ;('use strict')
-      var utils = require('../utils/common')
-      var trees = require('./trees')
-      var adler32 = require('./adler32')
-      var crc32 = require('./crc32')
-      var msg = require('./messages')
-      var Z_NO_FLUSH = 0
-      var Z_PARTIAL_FLUSH = 1
-      var Z_FULL_FLUSH = 3
-      var Z_FINISH = 4
-      var Z_BLOCK = 5
-      var Z_OK = 0
-      var Z_STREAM_END = 1
-      var Z_STREAM_ERROR = -2
-      var Z_DATA_ERROR = -3
-      var Z_BUF_ERROR = -5
-      var Z_DEFAULT_COMPRESSION = -1
-      var Z_FILTERED = 1
-      var Z_HUFFMAN_ONLY = 2
-      var Z_RLE = 3
-      var Z_FIXED = 4
-      var Z_DEFAULT_STRATEGY = 0
-      var Z_UNKNOWN = 2
-      var Z_DEFLATED = 8
-      var MAX_MEM_LEVEL = 9
-      var MAX_WBITS = 15
-      var DEF_MEM_LEVEL = 8
-      var LENGTH_CODES = 29
-      var LITERALS = 256
-      var L_CODES = LITERALS + 1 + LENGTH_CODES
-      var D_CODES = 30
-      var BL_CODES = 19
-      var HEAP_SIZE = 2 * L_CODES + 1
-      var MAX_BITS = 15
-      var MIN_MATCH = 3
-      var MAX_MATCH = 258
-      var MIN_LOOKAHEAD = MAX_MATCH + MIN_MATCH + 1
-      var PRESET_DICT = 32
-      var INIT_STATE = 42
-      var EXTRA_STATE = 69
-      var NAME_STATE = 73
-      var COMMENT_STATE = 91
-      var HCRC_STATE = 103
-      var BUSY_STATE = 113
-      var FINISH_STATE = 666
-      var BS_NEED_MORE = 1
-      var BS_BLOCK_DONE = 2
-      var BS_FINISH_STARTED = 3
-      var BS_FINISH_DONE = 4
-      var OS_CODE = 3
+      const utils = require('../utils/common')
+      const trees = require('./trees')
+      const adler32 = require('./adler32')
+      const crc32 = require('./crc32')
+      const msg = require('./messages')
+      const Z_NO_FLUSH = 0
+      const Z_PARTIAL_FLUSH = 1
+      const Z_FULL_FLUSH = 3
+      const Z_FINISH = 4
+      const Z_BLOCK = 5
+      const Z_OK = 0
+      const Z_STREAM_END = 1
+      const Z_STREAM_ERROR = -2
+      const Z_DATA_ERROR = -3
+      const Z_BUF_ERROR = -5
+      const Z_DEFAULT_COMPRESSION = -1
+      const Z_FILTERED = 1
+      const Z_HUFFMAN_ONLY = 2
+      const Z_RLE = 3
+      const Z_FIXED = 4
+      const Z_DEFAULT_STRATEGY = 0
+      const Z_UNKNOWN = 2
+      const Z_DEFLATED = 8
+      const MAX_MEM_LEVEL = 9
+      const MAX_WBITS = 15
+      const DEF_MEM_LEVEL = 8
+      const LENGTH_CODES = 29
+      const LITERALS = 256
+      const L_CODES = LITERALS + 1 + LENGTH_CODES
+      const D_CODES = 30
+      const BL_CODES = 19
+      const HEAP_SIZE = 2 * L_CODES + 1
+      const MAX_BITS = 15
+      const MIN_MATCH = 3
+      const MAX_MATCH = 258
+      const MIN_LOOKAHEAD = MAX_MATCH + MIN_MATCH + 1
+      const PRESET_DICT = 32
+      const INIT_STATE = 42
+      const EXTRA_STATE = 69
+      const NAME_STATE = 73
+      const COMMENT_STATE = 91
+      const HCRC_STATE = 103
+      const BUSY_STATE = 113
+      const FINISH_STATE = 666
+      const BS_NEED_MORE = 1
+      const BS_BLOCK_DONE = 2
+      const BS_FINISH_STARTED = 3
+      const BS_FINISH_DONE = 4
+      const OS_CODE = 3
       function err(strm, errorCode) {
         strm.msg = msg[errorCode]
         return errorCode
@@ -928,14 +928,14 @@ export const pako = () => {
         return (f << 1) - (f > 4 ? 9 : 0)
       }
       function zero(buf) {
-        var len = buf.length
+        let len = buf.length
         while (--len >= 0) {
           buf[len] = 0
         }
       }
       function flush_pending(strm) {
-        var s = strm.state
-        var len = s.pending
+        const s = strm.state
+        let len = s.pending
         if (len > strm.avail_out) {
           len = strm.avail_out
         }
@@ -970,7 +970,7 @@ export const pako = () => {
         s.pending_buf[s.pending++] = b & 255
       }
       function read_buf(strm, buf, start, size) {
-        var len = strm.avail_in
+        let len = strm.avail_in
         if (len > size) {
           len = size
         }
@@ -989,20 +989,20 @@ export const pako = () => {
         return len
       }
       function longest_match(s, cur_match) {
-        var chain_length = s.max_chain_length
-        var scan = s.strstart
-        var match
-        var len
-        var best_len = s.prev_length
-        var nice_match = s.nice_match
-        var limit =
+        let chain_length = s.max_chain_length
+        let scan = s.strstart
+        let match
+        let len
+        let best_len = s.prev_length
+        let nice_match = s.nice_match
+        const limit =
           s.strstart > s.w_size - MIN_LOOKAHEAD ? s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0
-        var _win = s.window
-        var wmask = s.w_mask
-        var prev = s.prev
-        var strend = s.strstart + MAX_MATCH
-        var scan_end1 = _win[scan + best_len - 1]
-        var scan_end = _win[scan + best_len]
+        const _win = s.window
+        const wmask = s.w_mask
+        const prev = s.prev
+        const strend = s.strstart + MAX_MATCH
+        let scan_end1 = _win[scan + best_len - 1]
+        let scan_end = _win[scan + best_len]
         if (s.prev_length >= s.good_match) {
           chain_length >>= 2
         }
@@ -1050,8 +1050,8 @@ export const pako = () => {
         return s.lookahead
       }
       function fill_window(s) {
-        var _w_size = s.w_size
-        var p, n, m, more, str
+        const _w_size = s.w_size
+        let p, n, m, more, str
         do {
           more = s.window_size - s.lookahead - s.strstart
           if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
@@ -1096,7 +1096,7 @@ export const pako = () => {
         } while (s.lookahead < MIN_LOOKAHEAD && s.strm.avail_in !== 0)
       }
       function deflate_stored(s, flush) {
-        var max_block_size = 65535
+        let max_block_size = 65535
         if (max_block_size > s.pending_buf_size - 5) {
           max_block_size = s.pending_buf_size - 5
         }
@@ -1112,7 +1112,7 @@ export const pako = () => {
           }
           s.strstart += s.lookahead
           s.lookahead = 0
-          var max_start = s.block_start + max_block_size
+          const max_start = s.block_start + max_block_size
           if (s.strstart === 0 || s.strstart >= max_start) {
             s.lookahead = s.strstart - max_start
             s.strstart = max_start
@@ -1145,8 +1145,8 @@ export const pako = () => {
         return BS_NEED_MORE
       }
       function deflate_fast(s, flush) {
-        var hash_head
-        var bflush
+        let hash_head
+        let bflush
         for (;;) {
           if (s.lookahead < MIN_LOOKAHEAD) {
             fill_window(s)
@@ -1215,9 +1215,9 @@ export const pako = () => {
         return BS_BLOCK_DONE
       }
       function deflate_slow(s, flush) {
-        var hash_head
-        var bflush
-        var max_insert
+        let hash_head
+        let bflush
+        let max_insert
         for (;;) {
           if (s.lookahead < MIN_LOOKAHEAD) {
             fill_window(s)
@@ -1311,10 +1311,10 @@ export const pako = () => {
         return BS_BLOCK_DONE
       }
       function deflate_rle(s, flush) {
-        var bflush
-        var prev
-        var scan, strend
-        var _win = s.window
+        let bflush
+        let prev
+        let scan, strend
+        const _win = s.window
         for (;;) {
           if (s.lookahead <= MAX_MATCH) {
             fill_window(s)
@@ -1382,7 +1382,7 @@ export const pako = () => {
         return BS_BLOCK_DONE
       }
       function deflate_huff(s, flush) {
-        var bflush
+        let bflush
         for (;;) {
           if (s.lookahead === 0) {
             fill_window(s)
@@ -1427,7 +1427,7 @@ export const pako = () => {
         this.max_chain = max_chain
         this.func = func
       }
-      var configuration_table
+      let configuration_table
       configuration_table = [
         new Config(0, 0, 0, 0, deflate_stored),
         new Config(4, 4, 8, 4, deflate_fast),
@@ -1521,7 +1521,7 @@ export const pako = () => {
         this.bi_valid = 0
       }
       function deflateResetKeep(strm) {
-        var s
+        let s
         if (!strm || !strm.state) {
           return err(strm, Z_STREAM_ERROR)
         }
@@ -1540,7 +1540,7 @@ export const pako = () => {
         return Z_OK
       }
       function deflateReset(strm) {
-        var ret = deflateResetKeep(strm)
+        const ret = deflateResetKeep(strm)
         if (ret === Z_OK) {
           lm_init(strm.state)
         }
@@ -1560,7 +1560,7 @@ export const pako = () => {
         if (!strm) {
           return Z_STREAM_ERROR
         }
-        var wrap = 1
+        let wrap = 1
         if (level === Z_DEFAULT_COMPRESSION) {
           level = 6
         }
@@ -1587,7 +1587,7 @@ export const pako = () => {
         if (windowBits === 8) {
           windowBits = 9
         }
-        var s = new DeflateState()
+        const s = new DeflateState()
         strm.state = s
         s.strm = strm
         s.wrap = wrap
@@ -1616,8 +1616,8 @@ export const pako = () => {
         return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY)
       }
       function deflate(strm, flush) {
-        var old_flush, s
-        var beg, val
+        let old_flush, s
+        let beg, val
         if (!strm || !strm.state || flush > Z_BLOCK || flush < 0) {
           return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR
         }
@@ -1673,8 +1673,8 @@ export const pako = () => {
               s.status = EXTRA_STATE
             }
           } else {
-            var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8
-            var level_flags = -1
+            let header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8
+            let level_flags = -1
             if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
               level_flags = 0
             } else if (s.level < 6) {
@@ -1823,7 +1823,7 @@ export const pako = () => {
           s.lookahead !== 0 ||
           (flush !== Z_NO_FLUSH && s.status !== FINISH_STATE)
         ) {
-          var bstate =
+          const bstate =
             s.strategy === Z_HUFFMAN_ONLY
               ? deflate_huff(s, flush)
               : s.strategy === Z_RLE
@@ -1885,7 +1885,7 @@ export const pako = () => {
         return s.pending !== 0 ? Z_OK : Z_STREAM_END
       }
       function deflateEnd(strm) {
-        var status
+        let status
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -1905,14 +1905,14 @@ export const pako = () => {
         return status === BUSY_STATE ? err(strm, Z_DATA_ERROR) : Z_OK
       }
       function deflateSetDictionary(strm, dictionary) {
-        var dictLength = dictionary.length
-        var s
-        var str, n
-        var wrap
-        var avail
-        var next
-        var input
-        var tmpDict
+        let dictLength = dictionary.length
+        let s
+        let str, n
+        let wrap
+        let avail
+        let next
+        let input
+        let tmpDict
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -1979,7 +1979,7 @@ export const pako = () => {
       exports.deflateSetDictionary = deflateSetDictionary
       exports.deflateInfo = 'pako deflate (from Nodeca project)'
       __m['f'].sts = 1
-    }.bind(this),
+    },
   }
   __m['g'] = {
     sts: null,
@@ -1987,21 +1987,21 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['g'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['g'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           './common': 'a',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['g'].sts = 0
       ;('use strict')
-      var utils = require('./common')
-      var STR_APPLY_OK = true
-      var STR_APPLY_UIA_OK = true
+      const utils = require('./common')
+      let STR_APPLY_OK = true
+      let STR_APPLY_UIA_OK = true
       try {
         String.fromCharCode.apply(null, [0])
       } catch (__) {
@@ -2012,13 +2012,13 @@ export const pako = () => {
       } catch (__) {
         STR_APPLY_UIA_OK = false
       }
-      var _utf8len = new utils.Buf8(256)
-      for (var q = 0; q < 256; q++) {
+      const _utf8len = new utils.Buf8(256)
+      for (let q = 0; q < 256; q++) {
         _utf8len[q] = q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1
       }
       _utf8len[254] = _utf8len[254] = 1
       exports.string2buf = function (str) {
-        var buf,
+        let buf,
           c,
           c2,
           m_pos,
@@ -2070,8 +2070,8 @@ export const pako = () => {
             return String.fromCharCode.apply(null, utils.shrinkBuf(buf, len))
           }
         }
-        var result = ''
-        for (var i = 0; i < len; i++) {
+        let result = ''
+        for (let i = 0; i < len; i++) {
           result += String.fromCharCode(buf[i])
         }
         return result
@@ -2080,16 +2080,16 @@ export const pako = () => {
         return buf2binstring(buf, buf.length)
       }
       exports.binstring2buf = function (str) {
-        var buf = new utils.Buf8(str.length)
-        for (var i = 0, len = buf.length; i < len; i++) {
+        const buf = new utils.Buf8(str.length)
+        for (let i = 0, len = buf.length; i < len; i++) {
           buf[i] = str.charCodeAt(i)
         }
         return buf
       }
       exports.buf2string = function (buf, max) {
-        var i, out, c, c_len
-        var len = max || buf.length
-        var utf16buf = new Array(len * 2)
+        let i, out, c, c_len
+        const len = max || buf.length
+        const utf16buf = new Array(len * 2)
         for (out = 0, i = 0; i < len; ) {
           c = buf[i++]
           if (c < 128) {
@@ -2122,7 +2122,7 @@ export const pako = () => {
         return buf2binstring(utf16buf, out)
       }
       exports.utf8border = function (buf, max) {
-        var pos
+        let pos
         max = max || buf.length
         if (max > buf.length) {
           max = buf.length
@@ -2140,7 +2140,7 @@ export const pako = () => {
         return pos + _utf8len[buf[pos]] > max ? pos : max
       }
       __m['g'].sts = 1
-    }.bind(this),
+    },
   }
   __m['h'] = {
     sts: null,
@@ -2148,11 +2148,11 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['h'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['h'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
@@ -2174,7 +2174,7 @@ export const pako = () => {
       }
       module.exports = ZStream
       __m['h'].sts = 1
-    }.bind(this),
+    },
   }
   __m['i'] = {
     sts: null,
@@ -2182,36 +2182,36 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['i'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['i'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           './zlib/deflate': 'f',
           './utils/common': 'a',
           './utils/strings': 'g',
           './zlib/messages': 'e',
           './zlib/zstream': 'h',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['i'].sts = 0
       ;('use strict')
-      var zlib_deflate = require('./zlib/deflate')
-      var utils = require('./utils/common')
-      var strings = require('./utils/strings')
-      var msg = require('./zlib/messages')
-      var ZStream = require('./zlib/zstream')
-      var toString = Object.prototype.toString
-      var Z_NO_FLUSH = 0
-      var Z_FINISH = 4
-      var Z_OK = 0
-      var Z_STREAM_END = 1
-      var Z_SYNC_FLUSH = 2
-      var Z_DEFAULT_COMPRESSION = -1
-      var Z_DEFAULT_STRATEGY = 0
-      var Z_DEFLATED = 8
+      const zlib_deflate = require('./zlib/deflate')
+      const utils = require('./utils/common')
+      const strings = require('./utils/strings')
+      const msg = require('./zlib/messages')
+      const ZStream = require('./zlib/zstream')
+      const toString = Object.prototype.toString
+      const Z_NO_FLUSH = 0
+      const Z_FINISH = 4
+      const Z_OK = 0
+      const Z_STREAM_END = 1
+      const Z_SYNC_FLUSH = 2
+      const Z_DEFAULT_COMPRESSION = -1
+      const Z_DEFAULT_STRATEGY = 0
+      const Z_DEFLATED = 8
       function Deflate(options) {
         if (!(this instanceof Deflate)) return new Deflate(options)
         this.options = utils.assign(
@@ -2226,7 +2226,7 @@ export const pako = () => {
           },
           options || {}
         )
-        var opt = this.options
+        const opt = this.options
         if (opt.raw && opt.windowBits > 0) {
           opt.windowBits = -opt.windowBits
         } else if (opt.gzip && opt.windowBits > 0 && opt.windowBits < 16) {
@@ -2238,7 +2238,7 @@ export const pako = () => {
         this.chunks = []
         this.strm = new ZStream()
         this.strm.avail_out = 0
-        var status = zlib_deflate.deflateInit2(
+        let status = zlib_deflate.deflateInit2(
           this.strm,
           opt.level,
           opt.method,
@@ -2253,7 +2253,7 @@ export const pako = () => {
           zlib_deflate.deflateSetHeader(this.strm, opt.header)
         }
         if (opt.dictionary) {
-          var dict
+          let dict
           if (typeof opt.dictionary === 'string') {
             dict = strings.string2buf(opt.dictionary)
           } else if (toString.call(opt.dictionary) === '[object ArrayBuffer]') {
@@ -2269,9 +2269,9 @@ export const pako = () => {
         }
       }
       Deflate.prototype.push = function (data, mode) {
-        var strm = this.strm
-        var chunkSize = this.options.chunkSize
-        var status, _mode
+        const strm = this.strm
+        const chunkSize = this.options.chunkSize
+        let status, _mode
         if (this.ended) {
           return false
         }
@@ -2337,7 +2337,7 @@ export const pako = () => {
         this.msg = this.strm.msg
       }
       function deflate(input, options) {
-        var deflator = new Deflate(options)
+        const deflator = new Deflate(options)
         deflator.push(input, true)
         if (deflator.err) {
           throw deflator.msg || msg[deflator.err]
@@ -2359,7 +2359,7 @@ export const pako = () => {
       exports.deflateRaw = deflateRaw
       exports.gzip = gzip
       __m['i'].sts = 1
-    }.bind(this),
+    },
   }
   __m['j'] = {
     sts: null,
@@ -2367,43 +2367,43 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['j'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['j'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['j'].sts = 0
       ;('use strict')
-      var BAD = 30
-      var TYPE = 12
+      const BAD = 30
+      const TYPE = 12
       module.exports = function inflate_fast(strm, start) {
-        var state
-        var _in
-        var last
-        var _out
-        var beg
-        var end
-        var dmax
-        var wsize
-        var whave
-        var wnext
-        var s_window
-        var hold
-        var bits
-        var lcode
-        var dcode
-        var lmask
-        var dmask
-        var here
-        var op
-        var len
-        var dist
-        var from
-        var from_source
-        var input, output
+        let state
+        let _in
+        let last
+        let _out
+        let beg
+        let end
+        let dmax
+        let wsize
+        let whave
+        let wnext
+        let s_window
+        let hold
+        let bits
+        let lcode
+        let dcode
+        let lmask
+        let dmask
+        let here
+        let op
+        let len
+        let dist
+        let from
+        let from_source
+        let input, output
         state = strm.state
         _in = strm.next_in
         input = strm.input
@@ -2431,7 +2431,7 @@ export const pako = () => {
             bits += 8
           }
           here = lcode[hold & lmask]
-          dolen: for (;;) {
+          for (;;) {
             op = here >>> 24
             hold >>>= op
             bits -= op
@@ -2457,7 +2457,7 @@ export const pako = () => {
                 bits += 8
               }
               here = dcode[hold & dmask]
-              dodist: for (;;) {
+              for (;;) {
                 op = here >>> 24
                 hold >>>= op
                 bits -= op
@@ -2562,7 +2562,7 @@ export const pako = () => {
                   }
                 } else if ((op & 64) === 0) {
                   here = dcode[(here & 65535) + (hold & ((1 << op) - 1))]
-                  continue dodist
+                  continue
                 } else {
                   strm.msg = 'invalid distance code'
                   state.mode = BAD
@@ -2572,7 +2572,7 @@ export const pako = () => {
               }
             } else if ((op & 64) === 0) {
               here = lcode[(here & 65535) + (hold & ((1 << op) - 1))]
-              continue dolen
+              continue
             } else if (op & 32) {
               state.mode = TYPE
               break top
@@ -2597,7 +2597,7 @@ export const pako = () => {
         return
       }
       __m['j'].sts = 1
-    }.bind(this),
+    },
   }
   __m['k'] = {
     sts: null,
@@ -2605,38 +2605,38 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['k'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['k'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           '../utils/common': 'a',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['k'].sts = 0
       ;('use strict')
-      var utils = require('../utils/common')
-      var MAXBITS = 15
-      var ENOUGH_LENS = 852
-      var ENOUGH_DISTS = 592
-      var CODES = 0
-      var LENS = 1
-      var DISTS = 2
-      var lbase = [
+      const utils = require('../utils/common')
+      const MAXBITS = 15
+      const ENOUGH_LENS = 852
+      const ENOUGH_DISTS = 592
+      const CODES = 0
+      const LENS = 1
+      const DISTS = 2
+      const lbase = [
         3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115,
         131, 163, 195, 227, 258, 0, 0,
       ]
-      var lext = [
+      const lext = [
         16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18, 19, 19, 19, 19, 20, 20, 20,
         20, 21, 21, 21, 21, 16, 72, 78,
       ]
-      var dbase = [
+      const dbase = [
         1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537,
         2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577, 0, 0,
       ]
-      var dext = [
+      const dext = [
         16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 24, 25, 25, 26,
         26, 27, 27, 28, 28, 29, 29, 64, 64,
       ]
@@ -2650,30 +2650,30 @@ export const pako = () => {
         work,
         opts
       ) {
-        var bits = opts.bits
-        var len = 0
-        var sym = 0
-        var min = 0,
+        const bits = opts.bits
+        let len = 0
+        let sym = 0
+        let min = 0,
           max = 0
-        var root = 0
-        var curr = 0
-        var drop = 0
-        var left = 0
-        var used = 0
-        var huff = 0
-        var incr
-        var fill
-        var low
-        var mask
-        var next
-        var base = null
-        var base_index = 0
-        var end
-        var count = new utils.Buf16(MAXBITS + 1)
-        var offs = new utils.Buf16(MAXBITS + 1)
-        var extra = null
-        var extra_index = 0
-        var here_bits, here_op, here_val
+        let root = 0
+        let curr = 0
+        let drop = 0
+        let left = 0
+        let used = 0
+        let huff = 0
+        let incr
+        let fill
+        let low
+        let mask
+        let next
+        let base = null
+        let base_index = 0
+        let end
+        const count = new utils.Buf16(MAXBITS + 1)
+        const offs = new utils.Buf16(MAXBITS + 1)
+        let extra = null
+        let extra_index = 0
+        let here_bits, here_op, here_val
         for (len = 0; len <= MAXBITS; len++) {
           count[len] = 0
         }
@@ -2815,7 +2815,7 @@ export const pako = () => {
         return 0
       }
       __m['k'].sts = 1
-    }.bind(this),
+    },
   }
   __m['l'] = {
     sts: null,
@@ -2823,77 +2823,77 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['l'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['l'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           '../utils/common': 'a',
           './adler32': 'c',
           './crc32': 'd',
           './inffast': 'j',
           './inftrees': 'k',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['l'].sts = 0
       ;('use strict')
-      var utils = require('../utils/common')
-      var adler32 = require('./adler32')
-      var crc32 = require('./crc32')
-      var inflate_fast = require('./inffast')
-      var inflate_table = require('./inftrees')
-      var CODES = 0
-      var LENS = 1
-      var DISTS = 2
-      var Z_FINISH = 4
-      var Z_BLOCK = 5
-      var Z_TREES = 6
-      var Z_OK = 0
-      var Z_STREAM_END = 1
-      var Z_NEED_DICT = 2
-      var Z_STREAM_ERROR = -2
-      var Z_DATA_ERROR = -3
-      var Z_MEM_ERROR = -4
-      var Z_BUF_ERROR = -5
-      var Z_DEFLATED = 8
-      var HEAD = 1
-      var FLAGS = 2
-      var TIME = 3
-      var OS = 4
-      var EXLEN = 5
-      var EXTRA = 6
-      var NAME = 7
-      var COMMENT = 8
-      var HCRC = 9
-      var DICTID = 10
-      var DICT = 11
-      var TYPE = 12
-      var TYPEDO = 13
-      var STORED = 14
-      var COPY_ = 15
-      var COPY = 16
-      var TABLE = 17
-      var LENLENS = 18
-      var CODELENS = 19
-      var LEN_ = 20
-      var LEN = 21
-      var LENEXT = 22
-      var DIST = 23
-      var DISTEXT = 24
-      var MATCH = 25
-      var LIT = 26
-      var CHECK = 27
-      var LENGTH = 28
-      var DONE = 29
-      var BAD = 30
-      var MEM = 31
-      var SYNC = 32
-      var ENOUGH_LENS = 852
-      var ENOUGH_DISTS = 592
-      var MAX_WBITS = 15
-      var DEF_WBITS = MAX_WBITS
+      const utils = require('../utils/common')
+      const adler32 = require('./adler32')
+      const crc32 = require('./crc32')
+      const inflate_fast = require('./inffast')
+      const inflate_table = require('./inftrees')
+      const CODES = 0
+      const LENS = 1
+      const DISTS = 2
+      const Z_FINISH = 4
+      const Z_BLOCK = 5
+      const Z_TREES = 6
+      const Z_OK = 0
+      const Z_STREAM_END = 1
+      const Z_NEED_DICT = 2
+      const Z_STREAM_ERROR = -2
+      const Z_DATA_ERROR = -3
+      const Z_MEM_ERROR = -4
+      const Z_BUF_ERROR = -5
+      const Z_DEFLATED = 8
+      const HEAD = 1
+      const FLAGS = 2
+      const TIME = 3
+      const OS = 4
+      const EXLEN = 5
+      const EXTRA = 6
+      const NAME = 7
+      const COMMENT = 8
+      const HCRC = 9
+      const DICTID = 10
+      const DICT = 11
+      const TYPE = 12
+      const TYPEDO = 13
+      const STORED = 14
+      const COPY_ = 15
+      const COPY = 16
+      const TABLE = 17
+      const LENLENS = 18
+      const CODELENS = 19
+      const LEN_ = 20
+      const LEN = 21
+      const LENEXT = 22
+      const DIST = 23
+      const DISTEXT = 24
+      const MATCH = 25
+      const LIT = 26
+      const CHECK = 27
+      const LENGTH = 28
+      const DONE = 29
+      const BAD = 30
+      const MEM = 31
+      const SYNC = 32
+      const ENOUGH_LENS = 852
+      const ENOUGH_DISTS = 592
+      const MAX_WBITS = 15
+      const DEF_WBITS = MAX_WBITS
       function zswap32(q) {
         return ((q >>> 24) & 255) + ((q >>> 8) & 65280) + ((q & 65280) << 8) + ((q & 255) << 24)
       }
@@ -2935,7 +2935,7 @@ export const pako = () => {
         this.was = 0
       }
       function inflateResetKeep(strm) {
-        var state
+        let state
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -2959,7 +2959,7 @@ export const pako = () => {
         return Z_OK
       }
       function inflateReset(strm) {
-        var state
+        let state
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -2970,8 +2970,8 @@ export const pako = () => {
         return inflateResetKeep(strm)
       }
       function inflateReset2(strm, windowBits) {
-        var wrap
-        var state
+        let wrap
+        let state
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -2996,8 +2996,8 @@ export const pako = () => {
         return inflateReset(strm)
       }
       function inflateInit2(strm, windowBits) {
-        var ret
-        var state
+        let ret
+        let state
         if (!strm) {
           return Z_STREAM_ERROR
         }
@@ -3013,11 +3013,11 @@ export const pako = () => {
       function inflateInit(strm) {
         return inflateInit2(strm, DEF_WBITS)
       }
-      var virgin = true
-      var lenfix, distfix
+      let virgin = true
+      let lenfix, distfix
       function fixedtables(state) {
         if (virgin) {
-          var sym
+          let sym
           lenfix = new utils.Buf32(512)
           distfix = new utils.Buf32(32)
           sym = 0
@@ -3051,8 +3051,8 @@ export const pako = () => {
         state.distbits = 5
       }
       function updatewindow(strm, src, end, copy) {
-        var dist
-        var state = strm.state
+        let dist
+        const state = strm.state
         if (state.window === null) {
           state.wsize = 1 << state.wbits
           state.wnext = 0
@@ -3087,26 +3087,26 @@ export const pako = () => {
         return 0
       }
       function inflate(strm, flush) {
-        var state
-        var input, output
-        var next
-        var put
-        var have, left
-        var hold
-        var bits
-        var _in, _out
-        var copy
-        var from
-        var from_source
-        var here = 0
-        var here_bits, here_op, here_val
-        var last_bits, last_op, last_val
-        var len
-        var ret
-        var hbuf = new utils.Buf8(4)
-        var opts
-        var n
-        var order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
+        let state
+        let input, output
+        let next
+        let put
+        let have, left
+        let hold
+        let bits
+        let _in, _out
+        let copy
+        let from
+        let from_source
+        let here = 0
+        let here_bits, here_op, here_val
+        let last_bits, last_op, last_val
+        let len
+        let ret
+        const hbuf = new utils.Buf8(4)
+        let opts
+        let n
+        const order = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
         if (!strm || !strm.state || !strm.output || (!strm.input && strm.avail_in !== 0)) {
           return Z_STREAM_ERROR
         }
@@ -4055,7 +4055,7 @@ export const pako = () => {
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
-        var state = strm.state
+        const state = strm.state
         if (state.window) {
           state.window = null
         }
@@ -4063,7 +4063,7 @@ export const pako = () => {
         return Z_OK
       }
       function inflateGetHeader(strm, head) {
-        var state
+        let state
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -4076,10 +4076,10 @@ export const pako = () => {
         return Z_OK
       }
       function inflateSetDictionary(strm, dictionary) {
-        var dictLength = dictionary.length
-        var state
-        var dictid
-        var ret
+        const dictLength = dictionary.length
+        let state
+        let dictid
+        let ret
         if (!strm || !strm.state) {
           return Z_STREAM_ERROR
         }
@@ -4113,7 +4113,7 @@ export const pako = () => {
       exports.inflateSetDictionary = inflateSetDictionary
       exports.inflateInfo = 'pako inflate (from Nodeca project)'
       __m['l'].sts = 1
-    }.bind(this),
+    },
   }
   __m['m'] = {
     sts: null,
@@ -4121,11 +4121,11 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['m'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['m'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
@@ -4161,7 +4161,7 @@ export const pako = () => {
         Z_DEFLATED: 8,
       }
       __m['m'].sts = 1
-    }.bind(this),
+    },
   }
   __m['n'] = {
     sts: null,
@@ -4169,11 +4169,11 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['n'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {}
-        var k = namemap[name]
+      const module = __m['n'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {}
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
@@ -4193,7 +4193,7 @@ export const pako = () => {
       }
       module.exports = GZheader
       __m['n'].sts = 1
-    }.bind(this),
+    },
   }
   __m['o'] = {
     sts: null,
@@ -4201,10 +4201,10 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['o'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['o'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           './zlib/inflate': 'l',
           './utils/common': 'a',
           './utils/strings': 'g',
@@ -4213,20 +4213,20 @@ export const pako = () => {
           './zlib/zstream': 'h',
           './zlib/gzheader': 'n',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['o'].sts = 0
       ;('use strict')
-      var zlib_inflate = require('./zlib/inflate')
-      var utils = require('./utils/common')
-      var strings = require('./utils/strings')
-      var c = require('./zlib/constants')
-      var msg = require('./zlib/messages')
-      var ZStream = require('./zlib/zstream')
-      var GZheader = require('./zlib/gzheader')
-      var toString = Object.prototype.toString
+      const zlib_inflate = require('./zlib/inflate')
+      const utils = require('./utils/common')
+      const strings = require('./utils/strings')
+      const c = require('./zlib/constants')
+      const msg = require('./zlib/messages')
+      const ZStream = require('./zlib/zstream')
+      const GZheader = require('./zlib/gzheader')
+      const toString = Object.prototype.toString
       function Inflate(options) {
         if (!(this instanceof Inflate)) return new Inflate(options)
         this.options = utils.assign(
@@ -4237,7 +4237,7 @@ export const pako = () => {
           },
           options || {}
         )
-        var opt = this.options
+        const opt = this.options
         if (opt.raw && opt.windowBits >= 0 && opt.windowBits < 16) {
           opt.windowBits = -opt.windowBits
           if (opt.windowBits === 0) {
@@ -4258,7 +4258,7 @@ export const pako = () => {
         this.chunks = []
         this.strm = new ZStream()
         this.strm.avail_out = 0
-        var status = zlib_inflate.inflateInit2(this.strm, opt.windowBits)
+        const status = zlib_inflate.inflateInit2(this.strm, opt.windowBits)
         if (status !== c.Z_OK) {
           throw new Error(msg[status])
         }
@@ -4266,13 +4266,13 @@ export const pako = () => {
         zlib_inflate.inflateGetHeader(this.strm, this.header)
       }
       Inflate.prototype.push = function (data, mode) {
-        var strm = this.strm
-        var chunkSize = this.options.chunkSize
-        var dictionary = this.options.dictionary
-        var status, _mode
-        var next_out_utf8, tail, utf8str
-        var dict
-        var allowBufError = false
+        const strm = this.strm
+        const chunkSize = this.options.chunkSize
+        const dictionary = this.options.dictionary
+        let status, _mode
+        let next_out_utf8, tail, utf8str
+        let dict
+        let allowBufError = false
         if (this.ended) {
           return false
         }
@@ -4369,7 +4369,7 @@ export const pako = () => {
         this.msg = this.strm.msg
       }
       function inflate(input, options) {
-        var inflator = new Inflate(options)
+        const inflator = new Inflate(options)
         inflator.push(input, true)
         if (inflator.err) {
           throw inflator.msg || msg[inflator.err]
@@ -4386,7 +4386,7 @@ export const pako = () => {
       exports.inflateRaw = inflateRaw
       exports.ungzip = inflate
       __m['o'].sts = 1
-    }.bind(this),
+    },
   }
   __m['p'] = {
     sts: null,
@@ -4394,30 +4394,30 @@ export const pako = () => {
       exports: {},
     },
     load: function () {
-      var module = __m['p'].mod
-      var exports = module.exports
-      var require = function (name) {
-        var namemap = {
+      const module = __m['p'].mod
+      const exports = module.exports
+      const require = function (name) {
+        const namemap = {
           './lib/utils/common': 'a',
           './lib/deflate': 'i',
           './lib/inflate': 'o',
           './lib/zlib/constants': 'm',
         }
-        var k = namemap[name]
+        const k = namemap[name]
         return k ? __m.__r(k) : __m.__sr(name)
       }
       require.resolve = __m.__sr.resolve
       __m['p'].sts = 0
       ;('use strict')
-      var assign = require('./lib/utils/common').assign
-      var deflate = require('./lib/deflate')
-      var inflate = require('./lib/inflate')
-      var constants = require('./lib/zlib/constants')
-      var pako = {}
+      const assign = require('./lib/utils/common').assign
+      const deflate = require('./lib/deflate')
+      const inflate = require('./lib/inflate')
+      const constants = require('./lib/zlib/constants')
+      const pako = {}
       assign(pako, deflate, inflate, constants)
       module.exports = pako
       __m['p'].sts = 1
-    }.bind(this),
+    },
   }
   return __m.__r('p')
 }

@@ -1,13 +1,8 @@
-import { Instructions } from '@models/general/instructions.model'
 import { HttpRequest } from '../HttpRequest'
 
-import { XMLParser } from '@utils/XMLParser'
 import { ShiftError } from '@error'
 
-import { DocumentModel } from '@models/general/document.mode'
-import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'
 import { AxiosError } from 'axios'
-import { issueDocumentChequePrepareRequestDataXML } from '../issueDocumentCheque/issueDocumentCheque.api.prepareRequestDataXML'
 import { SubjectsEditorDataRequest } from '@models/data/subjectsEditor.data.request.model'
 import { commitSubjectsPrepareRequestDataXML } from './commitSubjects.api.prepareRequestDataXML'
 import { commitSubjectsTransformResponseDataXML } from './commitSubjects.api.transformResponseDataXML'

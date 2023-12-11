@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { Input } from '../../UI/Input'
 
 import styles from './ChequeTotalForm.module.css'
@@ -81,7 +80,7 @@ export const ChequeTotalForm = () => {
           <div className={styles.original}>Оригинал чека без копий</div>
         </div>
         <div className={styles.footer}>
-          {sendButtonVisible ? <Button text="Сформировать" onClick={handleSubmit} /> : null }
+          {sendButtonVisible ? <Button text="Сформировать" onClick={handleSubmit} /> : null}
         </div>
       </div>
     </div>

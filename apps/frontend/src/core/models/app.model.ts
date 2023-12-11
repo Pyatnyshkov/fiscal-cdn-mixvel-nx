@@ -7,6 +7,8 @@ import { ShiftState } from './general/shiftState.model'
 import { TaxPayer } from './general/taxPayer.model'
 import { TaxationSystemModel } from './general/taxationSystem.model'
 import { Token } from './token.model'
+import { EncashmentOperation } from './general/encashment.model'
+import { RefillOperation } from './general/refill.model'
 
 type PureObject = Record<string, string>
 
@@ -33,9 +35,9 @@ export interface App {
   }
   generalError: GeneralErrorWithState
   agent: {
-    roles: {}
-  },
-  ignoreOpenShiftButtonClick: boolean,
+    roles: Record<string, string>
+  }
+  ignoreOpenShiftButtonClick: boolean
   ignoreCloseShiftButtonClick: boolean
 }
 
@@ -83,7 +85,7 @@ export interface Single {
       }
       taxPayer: TaxPayer
       pointOfSettlement: PointOfSettlement
-      agent: { roles: {} }
+      agent: { roles: Record<string, string> }
     }
   }
   allowedOperations: {
@@ -97,8 +99,8 @@ export interface Single {
       }
       currentSettlementReport: PureObject
     }
-    encashment: {}
-    refill: {}
+    encashment: EncashmentOperation
+    refill: RefillOperation
     flowStatementsReport: PureObject
   }
   departments: []

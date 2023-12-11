@@ -8,6 +8,6 @@ export interface DocumentCurrentSettlementReportData {
   taxPayer: TaxPayer
   instructions: Instructions
   document: {
-    currentSettlementReport: {}
+    currentSettlementReport: Record<string, string>
   }
 }

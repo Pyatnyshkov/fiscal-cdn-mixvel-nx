@@ -9,7 +9,7 @@ export class HttpRequest {
     this._client.defaults.headers.post['Content-Type'] = 'text/xml'
   }
 
-  public post(data: string) {
-    return this._client.post(this._url, data)
+  public post<T>(data: string) {
+    return this._client.post<T>(this._url, data)
   }
 }

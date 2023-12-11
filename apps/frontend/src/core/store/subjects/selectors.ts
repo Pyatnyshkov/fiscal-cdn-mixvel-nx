@@ -1,7 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit'
 import { RootState } from '..'
-import { isTaxationSystem } from '@models/subjectElement.state.model'
-// import { isTaxationSystem } from '@models/subjectElement.state.model'
 
 export const selectSubjects = (state: RootState) => state.subjects
 export const selectSubjectsEntities = (state: RootState) => selectSubjects(state).entities

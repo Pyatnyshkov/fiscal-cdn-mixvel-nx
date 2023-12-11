@@ -1,9 +1,8 @@
-import { Middleware, MiddlewareAPI } from 'redux'
+import { Middleware } from 'redux'
 import { io, Socket } from 'socket.io-client'
 
-import { websocket, reconnect } from './websocket'
+import { websocket } from './websocket'
 import { network } from './network'
-import { fetchIssueDocumentCheque } from './document/'
 import { documentSlice } from './document'
 import { appSlice } from './app'
 
@@ -82,7 +81,7 @@ const socketMiddleware: Middleware = (store) => {
     }
 
     // if (appSlice.actions.websocketOpenShift.match(action)) {
-    //   socket.once("issueResult", (msg: any) => { 
+    //   socket.once("issueResult", (msg: any) => {
     //     store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
     //     store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
     //     const err = msg.error;

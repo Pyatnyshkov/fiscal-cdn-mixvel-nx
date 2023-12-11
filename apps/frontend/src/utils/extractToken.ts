@@ -2,7 +2,7 @@ import { Token } from '../core/models/token.model'
 import { pako } from './pako'
 
 export const extractToken = (): Token | undefined => {
-  const url = new URL(location.href)
+  const url = new URL(window.location.href)
   const tokenParam = url.searchParams.get('token')
 
   if (!tokenParam) {

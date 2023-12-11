@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { AppThunk } from '..'
-import { selectIsDevelop, selectSoapEndpoint } from './selectors'
+import { selectSoapEndpoint } from './selectors'
 
 interface InitialState {
   soapEndpoint: string

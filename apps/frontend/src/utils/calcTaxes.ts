@@ -1,7 +1,7 @@
 const getVatMult = (type: number) => {
-  var d = new Date()
-  var y = d.getFullYear()
-  var mult = 0
+  const d = new Date()
+  const y = d.getFullYear()
+  let mult = 0
   /* Цифры в кейсах 1-2 не перепутаны с кейсами 3-4! Нам известна сумма с налогом и мы вычисляем сумму налога */
   switch (type) {
     case 1:
@@ -31,23 +31,25 @@ const toNum = (s: string) => {
   try {
     if (typeof s !== 'string') return s
     return +s.replace(/,/g, '.')
-  } catch (e) {}
+  } catch (e) {
+    console.error(e)
+  }
   return +s
 }
 
 const formatNum = (n: number) => {
   if (+n < 0) n = 0
-  var v = (+n).toFixed(2)
-  while (v[v.length - 1] == '0') {
+  let v = (+n).toFixed(2)
+  while (v[v.length - 1] === '0') {
     v = v.slice(0, -1)
   }
-  if (v[v.length - 1] == '.') v = v.slice(0, -1)
+  if (v[v.length - 1] === '.') v = v.slice(0, -1)
   return v
 }
 
 export const calcVatAmount = (vat: string, itemAmount: string) => {
-  var type = +(vat || 0)
-  var mult = getVatMult(type)
+  const type = +(vat || 0)
+  const mult = getVatMult(type)
   if (mult === 0)
     return {
       amount: toNum(itemAmount).toString(),

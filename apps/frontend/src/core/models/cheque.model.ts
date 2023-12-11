@@ -15,19 +15,19 @@ export interface ChequeModel {
   copies: string
   chequeType: 'credit' | 'debit' | 'creditReturn' | 'debitReturn'
   document: {
-    cheque: {}
+    cheque: Record<string, string>
   }
   pointOfSettlement: PointOfSettlement
   totalAmount: number
   taxationSystem: TaxationSystemModel['type']
-  issueResult: {}
-  issueError: {}
+  issueResult: Record<string, string>
+  issueError: Record<string, string>
   instructions: {
-    deviceRouting: {}
-    responseDelivery: {}
+    deviceRouting: Record<string, string>
+    responseDelivery: Record<string, string>
   }
   taxation: {
-    enabledTaxationSystems: {}
+    enabledTaxationSystems: Record<string, string>
   }
   id: number
   sendButtonDisabled: boolean

@@ -1,4 +1,3 @@
-import { DocumentSubject } from '@models/documentSubject.model'
 import { SubjectElement } from '@models/subjectElement.state.model'
 
 import { EntityId, PayloadAction, createEntityAdapter, createSlice } from '@reduxjs/toolkit'

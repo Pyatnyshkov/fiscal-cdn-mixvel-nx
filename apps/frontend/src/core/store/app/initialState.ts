@@ -133,8 +133,8 @@ export const initialState: App = {
             operatorName: '',
           },
           response: {
-            amountBefore: '',
-            amountAfter: '',
+            amountBefore: 0,
+            amountAfter: 0,
           },
         },
         flowStatementsReport: {},
@@ -218,5 +218,5 @@ export const initialState: App = {
     roles: {},
   },
   ignoreOpenShiftButtonClick: false,
-  ignoreCloseShiftButtonClick: false
+  ignoreCloseShiftButtonClick: false,
 }

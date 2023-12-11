@@ -6,25 +6,12 @@ import { useEffect } from 'react'
 import { initEditorSubjects } from '@store/editorSubjects'
 
 export const EditorSubjectsPage = () => {
-  // const shiftOpened = useAppSelector(selectShiftOpened)
-
-  // const started = useAppSelector(selectAppStarted)
-  // const errorMessage = useAppSelector(selectErrorMessage)
-
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    document.title = 'EditorSubjects'
+    document.title = 'Editor'
     dispatch(initEditorSubjects)
-  }, [])
-
-  // if (errorMessage) {
-  //   return <div>{errorMessage}</div>
-  // }
-
-  // if (!started) {
-  //   return
-  // }
+  }, [dispatch])
 
   return (
     <div className={styles.root}>

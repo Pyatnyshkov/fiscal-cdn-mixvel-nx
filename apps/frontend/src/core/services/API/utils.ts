@@ -9,7 +9,7 @@ export const getTextFromElement = (el: any): any => {
 }
 
 export const getNumberFromElement = (el: any) => {
-  var t = getTextFromElement(el)
+  const t = getTextFromElement(el)
   if (t) return +t
   return 0
 }
@@ -20,12 +20,12 @@ export const isElementHaveValue = (el: any) => {
 }
 
 export const mangle = (s: any) => {
-  if (s == undefined) return ''
+  if (s === undefined) return ''
   return (s + '').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/&/g, '&amp;')
 }
 
 export const mangleNumber = (s: any) => {
-  if (s == undefined) return ''
+  if (s === undefined) return ''
   return (s + '')
     .replace(/,/g, '.')
     .replace(/</g, '&lt;')
@@ -38,24 +38,24 @@ type GetFaultFromResponse = (response: any) => GeneralError | undefined
 export const getFaultFromResponse: GetFaultFromResponse = (response: any) => {
   if (!response) return
   try {
-    var fault = response
+    const fault = response
       .getElementsByTagName('soap:Envelope')[0]
       .getElementsByTagName('soap:Fault')[0]
     if (fault) {
-      var faultCodeX = fault.getElementsByTagName('faultcode')[0]
-      var faultDescriptionX = fault.getElementsByTagName('faultstring')[0]
+      const faultCodeX = fault.getElementsByTagName('faultcode')[0]
+      const faultDescriptionX = fault.getElementsByTagName('faultstring')[0]
       if (faultCodeX) {
         return {
           code: `${getTextFromElement(faultCodeX)}`,
           description: `${getTextFromElement(faultDescriptionX)}`,
         }
       }
-      var soapCode = fault.getElementsByTagName('soap:Code')[0]
+      let soapCode = fault.getElementsByTagName('soap:Code')[0]
       if (soapCode) {
-        var soapSubCode = soapCode.getElementsByTagName('soap:Subcode')[0]
+        let soapSubCode = soapCode.getElementsByTagName('soap:Subcode')[0]
         if (soapSubCode)
           soapSubCode = getTextFromElement(soapCode.getElementsByTagName('soap:value')[0])
-        var soapText = fault.getElementsByTagName('soap:Reason')[0]
+        let soapText = fault.getElementsByTagName('soap:Reason')[0]
         if (soapText) soapText = getTextFromElement(soapText.getElementsByTagName('soap:Text')[0])
         soapCode = getTextFromElement(soapCode.getElementsByTagName('soap:Value')[0])
         return {

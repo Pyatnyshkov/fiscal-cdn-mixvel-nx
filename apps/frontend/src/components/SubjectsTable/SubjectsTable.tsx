@@ -35,7 +35,7 @@ export const SubjectsTable: React.FC<SubjectsTable> = ({ className }) => {
 
   useEffect(() => {
     dispatch(extractToSubjects)
-  }, [subjects])
+  }, [dispatch, subjects])
 
   const handleAddSubject = () => {
     dispatch(addSubject)

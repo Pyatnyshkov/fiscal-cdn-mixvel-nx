@@ -3,7 +3,6 @@ import { HttpRequest } from '../HttpRequest'
 
 import { XMLParser } from '@utils/XMLParser'
 import { ShiftError } from '@error'
-import { EncashmentOperation } from '@models/general/encashment.model'
 import { operationsTransformResponseDataXML } from '../operations/operations.api.transformResponseDataXML'
 import { refillPrepareRequestDataXML } from './refill.api.prepareRequestDataXML'
 import { RefillOperation } from '@models/general/refill.model'

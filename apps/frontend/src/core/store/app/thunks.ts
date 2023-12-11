@@ -1,8 +1,6 @@
 import { AxiosError } from 'axios'
 import { ShiftError } from '@error'
-import { subjectsSlice } from '@store/subjects'
 import { extractAppDataToDocument } from '@store/document'
-import { TaxationSystems } from '@consts'
 import { appSubjectsSlice } from '@store/appSubjects'
 import { AppThunk } from '@store'
 import { selectAppStarted } from './selectors'
@@ -85,6 +83,7 @@ export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) =>
   dispatch(appSlice.actions.toggleCloseShiftButtonClick(true))
   dispatch(appSlice.actions.websocketCloseShift())
   try {
+    console.log(closeShiftAction)
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))

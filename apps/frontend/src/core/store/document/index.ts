@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { EncashmentOperation } from '@models/general/encashment.model'
 import { AppThunk } from '@store'
 import { hasError } from '@store/app'
 import { ShiftError } from '@error'
@@ -16,8 +15,6 @@ import { selectDocumentSubjectsEntities } from '@store/documentSubjects/selector
 import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
 import moment from 'moment'
 import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
-import { Instructions } from '@models/general/instructions.model'
-import { getInstructionsWithZoneId } from '@utils/getInstructionsWithZoneId'
 
 interface InitialState {
   chequeType: DocumentModel['chequeType']
@@ -283,7 +280,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
     attributes: {
       id: app.attributes.id || '1',
     },
-    instructions: getInstructionsWithZoneId(app.instructions, websocket.state.zoneId),
+    instructions: app.instructions,
     printoutInjections: {
       documentReferenceNumber: document.printoutInjections.documentReferenceNumber,
       payments: {
@@ -308,6 +305,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.cheque.post(network.soapEndpoint, documentData)
+    console.log(data)
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
@@ -336,7 +334,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
       id: moment().format('YYYYMMDDHHmmssSSS'),
     },
     taxPayer: app.taxPayer,
-    instructions: getInstructionsWithZoneId(app.instructions, websocket.state.zoneId),
+    instructions: app.instructions,
     document: {
       currentSettlementReport: {},
     },
@@ -349,6 +347,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
       network.soapEndpoint,
       currentSettlementReportData
     )
+    console.log(data)
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))

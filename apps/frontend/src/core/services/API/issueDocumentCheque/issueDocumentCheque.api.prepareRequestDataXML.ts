@@ -134,19 +134,19 @@ export const issueDocumentChequePrepareRequestDataXML = (doc: DocumentModel): st
     '              </vat>\n'
   const supplierTemplate = '<supplier><name>$name$</name><tin>$tin$</tin></supplier>'
   const agentTemplate = '<agent><roles>$role$</roles></agent>'
-  const agentRoles = {
-    1: 'bankPaymentAgent',
-    2: 'bankPaymentSubagent',
-    4: 'paymentAgent',
-    8: 'paymentSubagent',
-    16: 'attorney',
-    32: 'commissionAgent',
-    64: 'another',
-  }
+  // const agentRoles = {
+  //   1: 'bankPaymentAgent',
+  //   2: 'bankPaymentSubagent',
+  //   4: 'paymentAgent',
+  //   8: 'paymentSubagent',
+  //   16: 'attorney',
+  //   32: 'commissionAgent',
+  //   64: 'another',
+  // }
   let supplier = ''
   let agent = ''
   let printoutInjections = ''
-  let departmentTemplate = '<subject><department code="$code$" /></subject>\n'
+  const departmentTemplate = '<subject><department code="$code$" /></subject>\n'
   const document = doc.document
   const cheque = document.cheque
 
@@ -155,7 +155,7 @@ export const issueDocumentChequePrepareRequestDataXML = (doc: DocumentModel): st
   }
 
   let chequeType = ''
-  let chequeContent = cheque.credit || cheque.debit || cheque.creditReturn || cheque.debitReturn
+  const chequeContent = cheque.credit || cheque.debit || cheque.creditReturn || cheque.debitReturn
   if (cheque.credit) {
     chequeType = 'credit'
   }

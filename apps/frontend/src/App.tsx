@@ -6,7 +6,7 @@ import styles from './App.module.css'
 import { EditorSubjectsPage } from '@pages/EditorSubjectsPage'
 
 export const Router = () => {
-  const editorSubjectsRoute = location.pathname.includes('subjects')
+  const editorSubjectsRoute = window.location.pathname.includes('subjects')
 
   if (editorSubjectsRoute) {
     return <EditorSubjectsPage />

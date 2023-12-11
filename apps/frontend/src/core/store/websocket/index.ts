@@ -28,7 +28,7 @@ type Subscribe = (zoneId: number) => AppThunk
 
 export const reconnect: reconnectType = () => (dispatch, getState) => {
   dispatch(wsSlice.actions.reconnect())
-  var interval = setInterval(() => {
+  const interval = setInterval(() => {
     const state = getState().websocket.state
     if (state.connected) {
       clearInterval(interval)

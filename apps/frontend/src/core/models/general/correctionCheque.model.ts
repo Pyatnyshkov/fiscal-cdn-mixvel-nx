@@ -10,9 +10,9 @@ export interface CorrectionCheque {
 
   taxationSystem: TaxationSystemModel
   taxation: {
-    enabledTaxationSystems: {}
+    enabledTaxationSystems: Record<string, string>
   }
-  issueResult: {}
+  issueResult: Record<string, string>
   correctionChequeTaxationSystemsHTML: ''
   correctionChequeTypes: ['credit', 'debit']
 }

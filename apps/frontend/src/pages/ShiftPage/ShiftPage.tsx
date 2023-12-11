@@ -17,9 +17,9 @@ export const ShiftPage = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    document.title = 'Shift'
+    document.title = 'Fiscal Console'
     dispatch(initApp)
-  }, [])
+  }, [dispatch])
 
   if (errorMessage) {
     return <div>{errorMessage}</div>

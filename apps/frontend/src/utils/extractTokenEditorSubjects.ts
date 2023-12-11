@@ -1,7 +1,5 @@
-import { Departments } from '@models/general/departments.model'
-
-export const extractTokenEditorSubjects = (): any => {
-  const url = new URL(location.href)
+export const extractTokenEditorSubjects = (): unknown => {
+  const url = new URL(window.location.href)
   const tokenParam = url.searchParams.get('token')
 
   if (!tokenParam) {

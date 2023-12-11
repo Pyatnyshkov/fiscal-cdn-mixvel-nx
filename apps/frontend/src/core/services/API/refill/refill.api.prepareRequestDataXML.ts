@@ -8,8 +8,7 @@ export const refillPrepareRequestDataXML = (
   deviceRouting: DeviceRouting,
   request: RefillOperation['request']
 ): string => {
-  var self = this
-  var bodyTemplate =
+  const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
     '  <soapenv:Body>\n' +
@@ -37,7 +36,7 @@ export const refillPrepareRequestDataXML = (
     '    </sir:refill>\n' +
     '  </soapenv:Body>\n' +
     '</soapenv:Envelope>\n'
-  var body = bodyTemplate
+  let body = bodyTemplate
     .replace('$SERIAL$', deviceRouting.cashRegistersService.cashRegister.serialNumber)
     .replace('$VENDOR$', deviceRouting.cashRegistersService.cashRegister.vendor)
     .replace('$AMOUNT$', request.amount)

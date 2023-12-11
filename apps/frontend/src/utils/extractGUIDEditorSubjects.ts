@@ -1,5 +1,5 @@
 export const extractGUIDEditorSubjects = (): string => {
-  const url = new URL(location.href)
+  const url = new URL(window.location.href)
   const guidParam = url.searchParams.get('guid')
 
   if (!guidParam) {

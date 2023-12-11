@@ -26,11 +26,11 @@ interface TableItem {
 export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, className }) => {
   const documentSubject = useAppSelector(selectDocumentSubjectsById(id))
 
+  const dispatch = useAppDispatch()
+
   if (!documentSubject) {
     return
   }
-
-  const dispatch = useAppDispatch()
 
   const taxesOptionsDefaultIndex = getDefaultOptionIndex(TaxesSelectOptions, documentSubject.taxes)
   const signsSubjectOptionsDefaultIndex = getDefaultOptionIndex(

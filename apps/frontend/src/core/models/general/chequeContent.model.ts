@@ -44,7 +44,7 @@ export interface ChequeContent {
     $value: number
   }
   correction: {
-    own: {}
+    own: Record<string, string>
     forced: undefined
     reason: {
       description: string

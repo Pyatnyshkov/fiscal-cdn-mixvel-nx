@@ -1,9 +1,6 @@
-import { Instructions } from '@models/general/instructions.model'
 import { HttpRequest } from '../HttpRequest'
 
-import { XMLParser } from '@utils/XMLParser'
 import { ShiftError } from '@error'
-import { operationsTransformResponseDataXML } from '../operations/operations.api.transformResponseDataXML'
 import { issueDocumentChequePrepareRequestDataXML } from './issueDocumentCheque.api.prepareRequestDataXML'
 import { DocumentModel } from '@models/general/document.mode'
 import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'

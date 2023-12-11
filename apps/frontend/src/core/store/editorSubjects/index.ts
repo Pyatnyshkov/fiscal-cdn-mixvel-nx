@@ -3,10 +3,8 @@ import { initialState } from './initialState'
 import { AppThunk } from '@store'
 import { extractGUIDEditorSubjects } from '@utils/extractGUIDEditorSubjects'
 import { extractTokenEditorSubjects } from '@utils/extractTokenEditorSubjects'
-import { hasError } from '@store/app'
-import { subjectsSlice } from '@store/subjects'
 import { appSubjectsSlice, extractDepartmentsByCode } from '@store/appSubjects'
-import { Department, Departments } from '@models/general/departments.model'
+import { Department } from '@models/general/departments.model'
 
 export const initEditorSubjects: AppThunk = async (dispatch, getState) => {
   try {
@@ -34,7 +32,9 @@ export const fetchSubjects: AppThunk = async (dispatch, getState, { API }) => {
       editorSubjects.subjectsSOAPEndpoint,
       editorSubjects.identification.guid
     )
-    dispatch(appSubjectsSlice.actions.success(subjectData))
+    if (subjectData) {
+      dispatch(appSubjectsSlice.actions.success(subjectData))
+    }
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message)

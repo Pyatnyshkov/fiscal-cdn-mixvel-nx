@@ -1,11 +1,5 @@
 import { Single } from '@models/app.model'
-import {
-  getErrorFromResponse,
-  getFaultFromResponse,
-  getNumberFromElement,
-  getTextFromElement,
-  isElementHaveValue,
-} from '../utils'
+import { getNumberFromElement, getTextFromElement, isElementHaveValue } from '../utils'
 
 // type SingleData = {
 //   single: Data | DataShort | DataFail
@@ -50,12 +44,12 @@ export const isSingleDataFail = (data: any): data is { single: SingleDataFail } 
 }
 
 export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (res) => {
-  var i
-  var fault = getFaultFromResponse(res)
+  let i
+  // const fault = getFaultFromResponse(res)
   // if (fault) return callback(fault);
-  var error = getErrorFromResponse(res)
+  // const error = getErrorFromResponse(res)
   // if (error) return callback(error);
-  var single = res
+  const single = res
     .getElementsByTagName('soap:Envelope')[0]
     .getElementsByTagName('soap:Body')[0]
     .getElementsByTagName('tns:deviceRouteStatusResponse')[0]
@@ -63,20 +57,20 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
   // if (!single) return callback({
   //   description: "No single in response"
   // });
-  var turnOnNotCompletedBecauseShiftCloseRequired = single.getElementsByTagName(
+  let turnOnNotCompletedBecauseShiftCloseRequired = single.getElementsByTagName(
     'turnOnNotCompletedBecauseShiftCloseRequired'
   )
   if (turnOnNotCompletedBecauseShiftCloseRequired)
     turnOnNotCompletedBecauseShiftCloseRequired = turnOnNotCompletedBecauseShiftCloseRequired[0]
   if (turnOnNotCompletedBecauseShiftCloseRequired)
     turnOnNotCompletedBecauseShiftCloseRequired = true
-  var allowedOperationsX = single.getElementsByTagName('allowedOperations')[0]
-  var issueDocuments: any = {}
-  var allowedOperations: any = {
+  const allowedOperationsX = single.getElementsByTagName('allowedOperations')[0]
+  const issueDocuments: any = {}
+  const allowedOperations: any = {
     issueDocuments: issueDocuments,
   }
-  var departments = []
-  var availableServices = {
+  const departments = []
+  const availableServices = {
     issueDocuments: {
       soap: {
         service: {
@@ -113,9 +107,9 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       },
     },
   }
-  var availableServicesX = single.getElementsByTagName('availableServices')[0]
+  const availableServicesX = single.getElementsByTagName('availableServices')[0]
   if (availableServicesX) {
-    var a = availableServicesX.getElementsByTagName('issueDocuments')[0]
+    let a = availableServicesX.getElementsByTagName('issueDocuments')[0]
     if (a)
       availableServices.issueDocuments.soap.service.url = getTextFromElement(
         a.getElementsByTagName('url')
@@ -127,8 +121,8 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       )
     a = availableServicesX.getElementsByTagName('subjectsEditor')[0]
     if (a) {
-      var b = a.getElementsByTagName('soap')[0]
-      var c = a.getElementsByTagName('web')[0]
+      const b = a.getElementsByTagName('soap')[0]
+      const c = a.getElementsByTagName('web')[0]
       availableServices.subjectsEditor.soap.service.url = getTextFromElement(
         b.getElementsByTagName('url')
       )
@@ -150,38 +144,38 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
     }
   }
   if (allowedOperationsX) {
-    var allowedOperationsEncashment = allowedOperationsX.getElementsByTagName('encashment')[0]
+    const allowedOperationsEncashment = allowedOperationsX.getElementsByTagName('encashment')[0]
       ? {}
       : undefined
-    var allowedOperationsRefill = allowedOperationsX.getElementsByTagName('refill')[0]
+    const allowedOperationsRefill = allowedOperationsX.getElementsByTagName('refill')[0]
       ? {}
       : undefined
-    var allowedOperationsFlowStatementsReport = allowedOperationsX.getElementsByTagName(
+    const allowedOperationsFlowStatementsReport = allowedOperationsX.getElementsByTagName(
       'flowStatementsReport'
     )[0]
       ? {}
       : undefined
-    var issueDocumentsX = allowedOperationsX.getElementsByTagName('issueDocuments')[0]
+    const issueDocumentsX = allowedOperationsX.getElementsByTagName('issueDocuments')[0]
     if (issueDocumentsX) {
-      var issueDocumentsOpenShift = issueDocumentsX.getElementsByTagName('openShift')[0]
+      const issueDocumentsOpenShift = issueDocumentsX.getElementsByTagName('openShift')[0]
         ? {}
         : undefined
-      var issueDocumentsXCloseShift = issueDocumentsX.getElementsByTagName('closeShift')[0]
-      var issueDocumentsCloseShift: any = issueDocumentsXCloseShift ? {} : undefined
+      const issueDocumentsXCloseShift = issueDocumentsX.getElementsByTagName('closeShift')[0]
+      const issueDocumentsCloseShift: any = issueDocumentsXCloseShift ? {} : undefined
       if (
         issueDocumentsXCloseShift &&
         issueDocumentsXCloseShift.getElementsByTagName('shiftExpired')[0]
       )
         issueDocumentsCloseShift.shiftExpired = {}
-      var issueDocumentsCheque: any = issueDocumentsX.getElementsByTagName('cheque')[0]
+      const issueDocumentsCheque: any = issueDocumentsX.getElementsByTagName('cheque')[0]
         ? {}
         : undefined
-      var issueDocumentsCorrectionCheque: any = issueDocumentsX.getElementsByTagName(
+      const issueDocumentsCorrectionCheque: any = issueDocumentsX.getElementsByTagName(
         'correctionCheque'
       )[0]
         ? {}
         : undefined
-      var issueDocumentsCurrentSettlementReport: any = issueDocumentsX.getElementsByTagName(
+      const issueDocumentsCurrentSettlementReport: any = issueDocumentsX.getElementsByTagName(
         'currentSettlementReport'
       )[0]
         ? {}
@@ -190,7 +184,7 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       if (issueDocumentsCloseShift) issueDocuments.closeShift = issueDocumentsCloseShift
       if (issueDocumentsCheque) {
         issueDocuments.cheque = issueDocumentsCheque
-        var issueChequeX = issueDocumentsX.getElementsByTagName('cheque')[0]
+        const issueChequeX = issueDocumentsX.getElementsByTagName('cheque')[0]
         if (issueChequeX.getElementsByTagName('credit')[0]) issueDocumentsCheque.credit = {}
         if (issueChequeX.getElementsByTagName('debit')[0]) issueDocumentsCheque.debit = {}
         if (issueChequeX.getElementsByTagName('creditReturn')[0])
@@ -200,7 +194,7 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       }
       if (issueDocumentsCorrectionCheque) {
         issueDocuments.correctionCheque = issueDocumentsCorrectionCheque
-        var issueCorrectionChequeX = issueDocumentsX.getElementsByTagName('correctionCheque')[0]
+        const issueCorrectionChequeX = issueDocumentsX.getElementsByTagName('correctionCheque')[0]
         if (issueCorrectionChequeX.getElementsByTagName('credit')[0])
           issueDocumentsCorrectionCheque.credit = {}
         if (issueCorrectionChequeX.getElementsByTagName('debit')[0])
@@ -213,7 +207,7 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
     if (allowedOperationsRefill) allowedOperations.refill = allowedOperationsRefill
     if (allowedOperationsFlowStatementsReport)
       allowedOperations.flowStatementsReport = allowedOperationsFlowStatementsReport
-    var failX = single.getElementsByTagName('fail')[0]
+    const failX = single.getElementsByTagName('fail')[0]
     if (failX) {
       const failed: any = {
         single: {
@@ -243,7 +237,7 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       //   },
       // })
     }
-    var currentShift = single.getElementsByTagName('currentShift')
+    let currentShift = single.getElementsByTagName('currentShift')
     if (currentShift && currentShift.length) currentShift = currentShift[0]
     else {
       const short = {
@@ -263,30 +257,30 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
     var openShiftReport = currentShift.getElementsByTagName('openShiftReport')[0]
     var shift = openShiftReport.getElementsByTagName('shift')[0]
     var cashRegister = openShiftReport.getElementsByTagName('cashRegister')[0]
-    var currentRegistrationX = single.getElementsByTagName('currentRegistration')[0]
+    const currentRegistrationX = single.getElementsByTagName('currentRegistration')[0]
     var currentRegistration: any = {}
     if (currentRegistrationX) {
-      var registrationReport: any = {}
+      const registrationReport: any = {}
       currentRegistration.registrationReport = registrationReport
-      var registrationReportX = currentRegistrationX.getElementsByTagName('registrationReport')[0]
-      var taxationSystems: any = {}
-      var taxationSystem: any = []
+      const registrationReportX = currentRegistrationX.getElementsByTagName('registrationReport')[0]
+      const taxationSystems: any = {}
+      const taxationSystem: any = []
       registrationReport.taxationSystems = taxationSystems
       taxationSystems.taxationSystem = taxationSystem
       if (registrationReportX) {
-        var taxationSystemsX = registrationReportX.getElementsByTagName('taxationSystem')
+        const taxationSystemsX = registrationReportX.getElementsByTagName('taxationSystem')
         i = 0
         for (i = 0; i < taxationSystemsX.length; ++i) {
-          var systemX = taxationSystemsX[i]
+          const systemX = taxationSystemsX[i]
           taxationSystem.push({
             attributes: { codepage: systemX.getAttribute('codepage') },
             $value: getNumberFromElement(systemX),
           })
         }
-        var taxPayerX = registrationReportX.getElementsByTagName('taxPayer')
+        const taxPayerX = registrationReportX.getElementsByTagName('taxPayer')
         if (taxPayerX) {
-          var tin = getTextFromElement(taxPayerX[0].getElementsByTagName('tin'))
-          var name = getTextFromElement(taxPayerX[0].getElementsByTagName('name'))
+          const tin = getTextFromElement(taxPayerX[0].getElementsByTagName('tin'))
+          const name = getTextFromElement(taxPayerX[0].getElementsByTagName('name'))
           if (tin && name) {
             registrationReport.taxPayer = {
               tin: tin,
@@ -294,19 +288,19 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
             }
           }
         }
-        var pointOfSettlementX = registrationReportX.getElementsByTagName('pointOfSettlement')
+        const pointOfSettlementX = registrationReportX.getElementsByTagName('pointOfSettlement')
         if (pointOfSettlementX) {
-          var address = getTextFromElement(pointOfSettlementX[0].getElementsByTagName('address'))
+          const address = getTextFromElement(pointOfSettlementX[0].getElementsByTagName('address'))
           if (address)
             registrationReport.pointOfSettlement = {
               address: address,
             }
         }
-        var agentModeX = registrationReportX.getElementsByTagName('agentMode')
+        const agentModeX = registrationReportX.getElementsByTagName('agentMode')
         if (agentModeX && agentModeX[0]) {
-          var agentModeRolesX = agentModeX[0].getElementsByTagName('roles')
+          const agentModeRolesX = agentModeX[0].getElementsByTagName('roles')
           if (agentModeRolesX && agentModeRolesX[0]) {
-            var agentModeRoles: any = {}
+            const agentModeRoles: any = {}
             registrationReport.agent = { roles: agentModeRoles }
             if (isElementHaveValue(agentModeRolesX[0].getElementsByTagName('bankPaymentAgent')))
               agentModeRoles.bankPaymentAgent = true
@@ -327,14 +321,14 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       }
     }
     var printoutCopies: any = {}
-    var supportedExtensionsX = single.getElementsByTagName('supportedExtensions')
+    const supportedExtensionsX = single.getElementsByTagName('supportedExtensions')
     if (supportedExtensionsX && supportedExtensionsX[0]) {
-      var departmentsX = supportedExtensionsX[0].getElementsByTagName('departments')
+      const departmentsX = supportedExtensionsX[0].getElementsByTagName('departments')
       if (departmentsX && departmentsX[0]) {
-        var departmentX = departmentsX[0].getElementsByTagName('department')
+        const departmentX = departmentsX[0].getElementsByTagName('department')
         for (i = 0; i < departmentX.length; ++i) {
-          var dcode = getTextFromElement(departmentX[i].getElementsByTagName('code'))
-          var dname = getTextFromElement(departmentX[i].getElementsByTagName('title'))
+          const dcode = getTextFromElement(departmentX[i].getElementsByTagName('code'))
+          let dname = getTextFromElement(departmentX[i].getElementsByTagName('title'))
           if (!dname) dname = getTextFromElement(departmentX[i].getElementsByTagName('name'))
           departments.push({
             code: dcode,
@@ -342,15 +336,15 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
           })
         }
       }
-      var printoutCopiesX = supportedExtensionsX[0].getElementsByTagName('printoutCopies')
+      const printoutCopiesX = supportedExtensionsX[0].getElementsByTagName('printoutCopies')
       if (printoutCopiesX && printoutCopiesX[0]) {
-        var iDocumentsX = printoutCopiesX[0].getElementsByTagName('issueDocuments')[0]
+        const iDocumentsX = printoutCopiesX[0].getElementsByTagName('issueDocuments')[0]
         if (iDocumentsX) {
           const iDocumentsCheque: any = iDocumentsX.getElementsByTagName('cheque')[0]
             ? {}
             : undefined
           if (iDocumentsCheque) {
-            var iChequeX = iDocumentsX.getElementsByTagName('cheque')[0]
+            const iChequeX = iDocumentsX.getElementsByTagName('cheque')[0]
             if (iChequeX.getElementsByTagName('credit')[0]) iDocumentsCheque.credit = {}
             if (iChequeX.getElementsByTagName('debit')[0]) iDocumentsCheque.debit = {}
             if (iChequeX.getElementsByTagName('creditReturn')[0]) iDocumentsCheque.creditReturn = {}
@@ -363,7 +357,7 @@ export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (r
       }
     }
   }
-  var resp = {
+  const resp = {
     single: {
       currentShift: {
         openShiftReport: {

@@ -38,7 +38,7 @@ export const Subjects: React.FC<Subjects> = ({ className }) => {
           <input
             type="hidden"
             name="token"
-            value={new URL(location.href).searchParams.get('token') || ''}
+            value={new URL(window.location.href).searchParams.get('token') || ''}
             className="token"
           />
           <input type="file" name="filetoupload" />

@@ -8,7 +8,7 @@ export const flowStatementReportTransformResponseDataXML: FlowStatementReportTra
   if (fault) throw new ShiftError(fault);
   const error = getErrorFromResponse(res);
   if (error) throw new ShiftError(error);
-  var response = res.getElementsByTagName("soap:Envelope")[0]
+  const response = res.getElementsByTagName("soap:Envelope")[0]
       .getElementsByTagName("soap:Body")[0]
       .getElementsByTagName("tns:flowStatementReportResponse")[0];
   if (!response) throw new ShiftError({

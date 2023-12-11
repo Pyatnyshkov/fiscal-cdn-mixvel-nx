@@ -1,10 +1,9 @@
-import { App } from '@models/app.model'
 import { Instructions } from '@models/general/instructions.model'
 
 export type SubjectsDeviceRouting = string | Instructions['deviceRouting']
 
 export const subjectsPrepareRequestDataXML = (deviceRouting: SubjectsDeviceRouting): string => {
-  var bodyTemplateCR =
+  const bodyTemplateCR =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
     '  <soapenv:Body>\n' +
@@ -18,7 +17,7 @@ export const subjectsPrepareRequestDataXML = (deviceRouting: SubjectsDeviceRouti
     '    </sir:fetchSubjectsList>\n' +
     '  </soapenv:Body>\n' +
     '</soapenv:Envelope>\n'
-  var bodyTemplateGUID =
+  const bodyTemplateGUID =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +
     '  <soapenv:Body>\n' +
@@ -32,7 +31,7 @@ export const subjectsPrepareRequestDataXML = (deviceRouting: SubjectsDeviceRouti
     '  </soapenv:Body>\n' +
     '</soapenv:Envelope>\n'
 
-  var body = ''
+  let body = ''
 
   if (typeof deviceRouting === 'string') {
     body = bodyTemplateGUID.replace('$guid$', deviceRouting)

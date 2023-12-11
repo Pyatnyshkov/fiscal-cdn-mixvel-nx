@@ -1,14 +1,9 @@
 import { Instructions } from '@models/general/instructions.model'
-import { HttpRequest } from '../HttpRequest'
 
 import { singleMockDataXML } from './single.api.mockDataXML'
 
 import { XMLParser } from '@utils/XMLParser'
-import { singlePrepareRequestDataXML } from './single.api.prepareRequestDataXML'
-import {
-  SingleDataSuccess,
-  singleTransformResponseDataXML,
-} from './single.api.transformResponseDataXML'
+import { singleTransformResponseDataXML } from './single.api.transformResponseDataXML'
 import { ShiftError } from '@error'
 
 export const singleAPI = {

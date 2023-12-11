@@ -1,4 +1,3 @@
-import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from '..'
 
 export const selectEditorSubjects = (state: RootState) => state.editorSubjects

@@ -2,7 +2,6 @@ import { HttpRequest } from '../HttpRequest'
 
 import { ShiftError } from '@error'
 
-import { DocumentModel } from '@models/general/document.mode'
 import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'
 import { AxiosError } from 'axios'
 import { issueDocumentCurrentSettlementReportPrepareRequestDataXML } from './issueDocumentCurrentSettlementReport.api.prepareRequestDataXML'
