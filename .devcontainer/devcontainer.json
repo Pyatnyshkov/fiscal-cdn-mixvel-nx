@@ -1,0 +1,12 @@
+{
+  "name": "fiscal-cdn-mixvel.com",
+  "build": {
+    "dockerfile": "../env/development/nginx/Dockerfile"
+  },
+  // Automatically expose port 8080 (mapped to container's port 80, nginx's default) for development
+  "appPort": "8080:80",
+  // Make sure our nginx container's default command runs, which starts up the web server in the background.
+  "overrideCommand": false,
+  "workspaceMount": "source=${localWorkspaceFolder}/dist/apps/frontend,target=/fiscal/fh/,type=bind",
+  "workspaceFolder": ""
+}
