@@ -50,8 +50,6 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     return
   }
 
-  dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
-  dispatch(appSlice.actions.websocketOpenShift())
   try {
     const singleData = await API.single.post(
       network.deviceStatusSOAPEndpoint,
@@ -78,6 +76,8 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
       }
 
       dispatch(setDataToNetwork(networkData))
+      dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
+      dispatch(appSlice.actions.websocketOpenShift())
     }
 
     dispatch(fetchAppSubjects)

@@ -17,8 +17,13 @@ const socketMiddleware: Middleware = (store) => {
 
   return (next) => (action) => {
     if (network.success.match(action) || websocket.connect.match(action)) {
+      const getUrl = (url: string) => {
+        return !store.getState().network.development
+          ? url
+          : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
+      }
       const socketIOAddress = action.payload
-        ? action.payload.socketIOAddress
+        ? getUrl(action.payload.socketIOAddress)
         : store.getState().websocket.socketIOAddress
       const socketIOPath = action.payload
         ? action.payload.socketIOPath
@@ -80,20 +85,20 @@ const socketMiddleware: Middleware = (store) => {
       })
     }
 
-    // if (appSlice.actions.websocketOpenShift.match(action)) {
-    //   socket.once("issueResult", (msg: any) => {
-    //     store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
-    //     store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
-    //     const err = msg.error;
-    //     if (err) {
-    //       store.dispatch(appSlice.actions.setError({
-    //         code: err.code,
-    //         description: err.description
-    //       }))
-    //     }
-    //     // reloadDeviceStatus();
-    //   });
-    // }
+    if (appSlice.actions.websocketOpenShift.match(action)) {
+      socket.once("issueResult", (msg: any) => {
+        store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
+        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        const err = msg.error;
+        if (err) {
+          store.dispatch(appSlice.actions.setError({
+            code: err.code,
+            description: err.description
+          }))
+        }
+        // reloadDeviceStatus();
+      });
+    }
 
     if (appSlice.actions.websocketCloseShift.match(action)) {
       socket.once('issueResult', (msg: any) => {
