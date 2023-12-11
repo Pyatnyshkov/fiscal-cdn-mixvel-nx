@@ -73,20 +73,20 @@ const socketMiddleware: Middleware = store => {
       });
     }
 
-    if (appSlice.actions.websocketOpenShift.match(action)) {
-      socket.once("issueResult", (msg: any) => { 
-        store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
-        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
-        const err = msg.error;
-        if (err) {
-          store.dispatch(appSlice.actions.setError({
-            code: err.code,
-            description: err.description
-          }))
-        }
-        // reloadDeviceStatus();
-      });
-    }
+    // if (appSlice.actions.websocketOpenShift.match(action)) {
+    //   socket.once("issueResult", (msg: any) => { 
+    //     store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
+    //     store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+    //     const err = msg.error;
+    //     if (err) {
+    //       store.dispatch(appSlice.actions.setError({
+    //         code: err.code,
+    //         description: err.description
+    //       }))
+    //     }
+    //     // reloadDeviceStatus();
+    //   });
+    // }
 
     if (appSlice.actions.websocketCloseShift.match(action)) {
       socket.once("issueResult", (msg: any) => { 
