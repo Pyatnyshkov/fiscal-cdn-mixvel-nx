@@ -22,15 +22,12 @@ export const subjectsAPI = {
       )
 
       if (data) {
-        return subjectsTransformResponseDataXML(data)
+        return subjectsTransformResponseDataXML(XMLParser(data))
       }
-
-      return subjectsTransformResponseDataXML(XMLParser(subjectsMockDataXML))
     } catch (error) {
       if (error instanceof Error) {
         console.error('subjectsAPI', error.message)
       }
-      return subjectsTransformResponseDataXML(XMLParser(subjectsMockDataXML))
     }
   },
 }

@@ -4,9 +4,12 @@ import { initialState } from './initialState'
 
 import { GeneralError, GeneralErrorWithState } from '@models/general/generalError.model'
 import { Token } from '@models/token.model'
-import { SingleDataSuccess } from '@services/API/app/single.api.transformResponseDataXML'
+import {
+  SingleData,
+  SingleDataSuccess,
+} from '@services/API/app/single.api.transformResponseDataXML'
 
-type PayloadSuccess = PayloadAction<SingleDataSuccess>
+type PayloadSuccess = PayloadAction<SingleData>
 type PayloadError = PayloadAction<Omit<GeneralError, 'deviceErrorState'>>
 
 export const appSlice = createSlice({
@@ -141,7 +144,7 @@ export const appSlice = createSlice({
       state.deviceRouteStatus.loaded = true
       state.deviceRouteStatus.loadFailed = false
 
-      const resp = { single: payload }
+      const resp = payload
       const applicationModel = state
       const deviceRouteStatusModel = state.deviceRouteStatus
       const shift = state.shift
@@ -156,7 +159,7 @@ export const appSlice = createSlice({
 
       state.shift.single.allowedOperations = resp.single.allowedOperations
 
-      if (payload.currentShift) {
+      if (payload.single.currentShift) {
         if (
           printoutCopies &&
           printoutCopies.issueDocuments &&
@@ -165,8 +168,8 @@ export const appSlice = createSlice({
           // if (printoutCopies.issueDocuments.cheque[chequeModel.chequeType] != undefined)
           //   $('.printoutCopies').show()
         }
-        if (payload.currentRegistration) {
-          const registrationReport = payload.currentRegistration.registrationReport
+        if (payload.single.currentRegistration) {
+          const registrationReport = payload.single.currentRegistration.registrationReport
 
           if (registrationReport) {
             applicationModel.agent = registrationReport.agent
@@ -199,7 +202,7 @@ export const appSlice = createSlice({
         shift.state.opened = true
         shift.state.closed = false
 
-        const openShiftReport = payload.currentShift.openShiftReport
+        const openShiftReport = payload.single.currentShift.openShiftReport
 
         state.shift.single.shiftNumber = openShiftReport.shift.number
         state.shift.single.fiscalNumber = openShiftReport.fiscalNumber

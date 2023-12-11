@@ -23,11 +23,11 @@ export const Shift = () => {
   const dispatch = useAppDispatch()
 
   const handleShiftOpen = () => {
-    if (shiftOpened) {
-      dispatch(closeShiftAction)
-      return
-    }
-    dispatch(fetchAppData)
+    // if (shiftOpened) {
+    //   dispatch(closeShiftAction)
+    //   return
+    // }
+    // dispatch(fetchAppData)
   }
 
   return (

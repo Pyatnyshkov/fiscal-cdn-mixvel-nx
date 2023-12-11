@@ -37,6 +37,21 @@ export const Select: React.FC<Select> = ({
         className={styles.input}
         defaultValue={options[getOptionNumber(options, defaultValue)]}
         onChange={(value) => onChange(value)}
+        classNamePrefix="select"
+        styles={{
+          control: (styles, state) => ({
+            ...styles,
+            borderColor: '#a0bfdf',
+          }),
+          indicatorsContainer: (styles, state) => ({
+            ...styles,
+            width: '50px',
+          }),
+          indicatorSeparator: (styles, state) => ({
+            ...styles,
+            width: '40px',
+          }),
+        }}
       />
     </div>
   )

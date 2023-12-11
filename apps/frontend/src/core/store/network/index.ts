@@ -24,7 +24,7 @@ const initialState: InitialState = {
   socketIOAddress: '',
   socketIOPath: '',
   socketIONamespace: '',
-  development: false,
+  development: true,
 }
 
 type PayloadSuccess = PayloadAction<Omit<InitialState, 'deviceStatusSOAPEndpoint' | 'development'>>

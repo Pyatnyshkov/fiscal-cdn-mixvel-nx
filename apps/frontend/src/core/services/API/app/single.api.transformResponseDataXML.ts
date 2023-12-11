@@ -5,24 +5,28 @@ import { getNumberFromElement, getTextFromElement, isElementHaveValue } from '..
 //   single: Data | DataShort | DataFail
 // }
 
-export type SingleData = SingleDataSuccess | SingleDataShortSuccess | SingleDataFail
+export type SingleData = SingleDataSuccess
 
-export type SingleDataSuccess = Pick<
-  Single,
-  | 'currentShift'
-  | 'currentRegistration'
-  | 'allowedOperations'
-  | 'departments'
-  | 'printoutCopies'
-  | 'availableServices'
-> &
-  turnOnNot
+export type SingleDataSuccess = {
+  single: Pick<
+    Single,
+    | 'currentShift'
+    | 'currentRegistration'
+    | 'allowedOperations'
+    | 'departments'
+    | 'printoutCopies'
+    | 'availableServices'
+  > &
+    turnOnNot
+}
 
 type turnOnNot = { turnOnNotCompletedBecauseShiftCloseRequired?: boolean }
 
-export type SingleDataShortSuccess = Pick<SingleDataSuccess, 'currentShift' | 'currentRegistration'>
-export type SingleDataFail = SingleDataShortSuccess & Fail
-type Fail = {
+export type SingleDataShortSuccess = {
+  single: Pick<Single, 'currentShift' | 'currentRegistration'>
+}
+export type SingleDataFail = {
+  single: Pick<Single, 'currentShift' | 'currentRegistration'>
   fail: {
     code: string
     description: string
@@ -31,16 +35,16 @@ type Fail = {
 
 type SingleTransformResponseDataXML = (data: any) => SingleData
 
-export const isSingleDataSuccess = (data: any): data is { single: SingleDataSuccess } => {
-  return data.single?.departments ? true : false
+export const isSingleDataSuccess = (data: any): data is SingleDataSuccess => {
+  return data.single.currentShift ? true : false
 }
 
-export const isSingleDataShortSuccess = (data: any): data is { single: SingleDataShortSuccess } => {
-  return !data.single?.departments ? true : false
+export const isSingleDataShortSuccess = (data: any): data is SingleDataShortSuccess => {
+  return !data.single.currentShift ? true : false
 }
 
-export const isSingleDataFail = (data: any): data is { single: SingleDataFail } => {
-  return data.single?.fail ? true : false
+export const isSingleDataFail = (data: any): data is SingleDataFail => {
+  return data.single.fail ? true : false
 }
 
 export const singleTransformResponseDataXML: SingleTransformResponseDataXML = (res) => {

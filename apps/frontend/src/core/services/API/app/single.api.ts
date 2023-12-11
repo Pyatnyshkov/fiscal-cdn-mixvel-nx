@@ -1,21 +1,24 @@
 import { Instructions } from '@models/general/instructions.model'
 
-import { singleMockDataXML } from './single.api.mockDataXML'
-
-import { XMLParser } from '@utils/XMLParser'
 import { singleTransformResponseDataXML } from './single.api.transformResponseDataXML'
-import { ShiftError } from '@error'
+
+import { HttpRequest } from '../HttpRequest'
+import { singlePrepareRequestDataXML } from './single.api.prepareRequestDataXML'
+import { XMLParser } from '@utils/XMLParser'
 
 export const singleAPI = {
-  post: async (url: string, data: Instructions['deviceRouting']) => {
+  post: async (url: string, dataRequest: Instructions['deviceRouting']) => {
     try {
-      // const response = await new HttpRequest(url).post(singlePrepareRequestDataXML(data))
+      const response = await new HttpRequest(url).post(singlePrepareRequestDataXML(dataRequest))
+      console.log('data', response.data)
+      console.log('response', response)
+      if (!response.data) {
+        return
+      }
 
-      // return singleTransformResponseDataXML(XMLParser(response.data))
-      return singleTransformResponseDataXML(XMLParser(singleMockDataXML))
+      return singleTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       console.log(error)
-      throw new ShiftError({ code: 'hello', description: 'huyak' })
     }
   },
 }

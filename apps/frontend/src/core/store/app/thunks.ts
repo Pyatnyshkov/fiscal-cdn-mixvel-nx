@@ -24,6 +24,7 @@ export const initApp: AppThunk = async (dispatch, getState) => {
     if (token) {
       dispatch(appSlice.actions.starting({ token, GUID }))
     }
+    dispatch(fetchAppData)
   } catch (error) {
     if (error instanceof Error) {
       dispatch(hasError({ code: '', description: error.message }))
@@ -31,6 +32,17 @@ export const initApp: AppThunk = async (dispatch, getState) => {
   }
 }
 
+export const fetchAppSubjects: AppThunk = async (dispatch, getState, { API }) => {
+  const { app, network } = getState()
+  const subjectData = await API.subjects.post(
+    network.subjectsSOAPEndpoint,
+    app.instructions.deviceRouting
+  )
+
+  if (subjectData) {
+    dispatch(appSubjectsSlice.actions.success(subjectData))
+  }
+}
 export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   const { network, app } = getState()
 
@@ -41,13 +53,18 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
   dispatch(appSlice.actions.websocketOpenShift())
   try {
-    const [singleData, subjectData] = await Promise.all([
-      API.single.post(network.deviceStatusSOAPEndpoint, app.instructions.deviceRouting),
-      API.subjects.post(network.subjectsSOAPEndpoint, app.instructions.deviceRouting),
-    ])
+    const singleData = await API.single.post(
+      network.deviceStatusSOAPEndpoint,
+      app.instructions.deviceRouting
+    )
+
+    if (!singleData) {
+      return
+    }
+    console.log('singleData', singleData.single)
 
     if (isSingleDataSuccess(singleData)) {
-      dispatch(appSlice.actions.success(singleData.single))
+      dispatch(appSlice.actions.success(singleData))
 
       const { availableServices } = singleData.single
       const networkData = {
@@ -63,8 +80,8 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
       dispatch(setDataToNetwork(networkData))
     }
 
+    dispatch(fetchAppSubjects)
     dispatch(extractAppDataToDocument)
-    dispatch(appSubjectsSlice.actions.success(subjectData))
     dispatch(appSlice.actions.servicesAvailable())
   } catch (error) {
     if (error instanceof ShiftError) {

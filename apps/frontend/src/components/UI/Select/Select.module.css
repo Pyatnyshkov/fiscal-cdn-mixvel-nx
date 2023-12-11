@@ -38,3 +38,7 @@
   border: 1px solid var(--input-border-color);
   background: var(--input-bg);
 }
+
+.selectBorder {
+  border-color: var(--input-border-color);
+}
