@@ -67,21 +67,20 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
 
     if (isSingleDataSuccess(singleData)) {
       dispatch(appSlice.actions.success(singleData))
-
-      const { availableServices } = singleData.single
-      const networkData = {
-        soapEndpoint: availableServices.issueDocuments.soap.service.url,
-        operationsSOAPEndpoint: availableServices.operations.soap.service.url,
-        subjectsSOAPEndpoint: availableServices.subjectsEditor.soap.service.url,
-        subjectsWebEndpoint: availableServices.subjectsEditor.web.site.url,
-        socketIOAddress: availableServices.responseDeliveryGateway.socketio.service.url,
-        socketIOPath: availableServices.responseDeliveryGateway.socketio.service.path,
-        socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
-      }
-
-      dispatch(setDataToNetwork(networkData))
-      dispatch(appSlice.actions.websocketOpenShift())
     }
+    
+    const { availableServices } = singleData.single
+    const networkData = {
+      soapEndpoint: availableServices.issueDocuments.soap.service.url,
+      operationsSOAPEndpoint: availableServices.operations.soap.service.url,
+      subjectsSOAPEndpoint: availableServices.subjectsEditor.soap.service.url,
+      subjectsWebEndpoint: availableServices.subjectsEditor.web.site.url,
+      socketIOAddress: availableServices.responseDeliveryGateway.socketio.service.url,
+      socketIOPath: availableServices.responseDeliveryGateway.socketio.service.path,
+      socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
+    }
+    dispatch(setDataToNetwork(networkData))
+    dispatch(appSlice.actions.websocketOpenShift())
 
     dispatch(extractDocumentChequeData)
     dispatch(fetchAppSubjects)

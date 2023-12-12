@@ -10,6 +10,7 @@ type IssueDocumentTransformResponseDataXML = (data: any) => Status
 export const issueDocumentTransformResponseDataXML: IssueDocumentTransformResponseDataXML = (
   res
 ) => {
+  console.log(res)
   const fault = getFaultFromResponse(res)
   if (fault) throw new ShiftError(fault)
   const error = getErrorFromResponse(res)
