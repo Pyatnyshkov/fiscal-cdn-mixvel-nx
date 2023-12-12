@@ -5,6 +5,7 @@ import { issueDocumentCloseShiftPrepareRequestDataXML } from './issueDocumentClo
 import { DocumentCloseShift } from '@models/general/documentCloseShift.model'
 import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'
 import { AxiosError } from 'axios'
+import { XMLParser } from '@utils/XMLParser'
 
 export const issueDocumentCloseShift = {
   post: async (url: string, document: DocumentCloseShift) => {
@@ -13,7 +14,7 @@ export const issueDocumentCloseShift = {
         issueDocumentCloseShiftPrepareRequestDataXML(document)
       )
 
-      return issueDocumentTransformResponseDataXML(response.data)
+      return issueDocumentTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.config?.data)

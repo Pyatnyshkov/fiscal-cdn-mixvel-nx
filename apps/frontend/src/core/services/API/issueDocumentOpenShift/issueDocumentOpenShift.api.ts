@@ -5,6 +5,7 @@ import { issueDocumentOpenShiftPrepareRequestDataXML } from './issueDocumentOpen
 import { DocumentOpenShift } from '@models/general/documentOpenShift.model'
 import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'
 import { AxiosError } from 'axios'
+import { XMLParser } from '@utils/XMLParser'
 
 export const issueDocumentOpenShift = {
   post: async (url: string, document: DocumentOpenShift) => {
@@ -13,7 +14,7 @@ export const issueDocumentOpenShift = {
         issueDocumentOpenShiftPrepareRequestDataXML(document)
       )
 
-      return issueDocumentTransformResponseDataXML(response.data)
+      return issueDocumentTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.config?.data)
