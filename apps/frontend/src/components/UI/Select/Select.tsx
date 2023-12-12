@@ -28,13 +28,17 @@ export const Select: React.FC<Select> = ({
   className,
   classNameLabel,
   defaultValue = '',
-  placeholder = '>',
+  placeholder = '--',
   isDisabled,
   view,
 }) => {
-  const getOptionNumber = (array: SelectOptions, value: string) =>
-    array.findIndex((el) => el.value === value) || 0
+  const getOptionNumber = (array: SelectOptions, value: string | number) =>
+    array.findIndex((el) => el.value === value.toString())
 
+  console.log('defaultValue', options, typeof defaultValue)
+
+  const defaultValueResult = options[getOptionNumber(options, defaultValue)]
+  console.log('defaultValueResult', defaultValueResult)
   return (
     <div className={clsx(styles.root, className)}>
       {view !== SelectViewVarinant.inTable && (
@@ -46,21 +50,27 @@ export const Select: React.FC<Select> = ({
       <ReactSelect
         options={options}
         className={styles.input}
-        defaultValue={options[getOptionNumber(options, defaultValue)]}
+        defaultValue={defaultValueResult}
         onChange={(value) => onChange(value)}
         classNamePrefix="select"
         placeholder={placeholder}
         isDisabled={isDisabled}
         menuPlacement={view === SelectViewVarinant.inTable ? 'top' : 'bottom'}
         styles={{
+          container: (styles, state) => ({
+            ...styles,
+            width: view === SelectViewVarinant.inTable ? '100%' : '300px',
+          }),
           control: (styles, state) => ({
             ...styles,
             borderColor: '#a0bfdf',
-            width: view === SelectViewVarinant.inTable ? 'inherit' : '300px',
+            display: 'flex',
+            width: '100%',
             height: view === SelectViewVarinant.inTable ? '36px' : '48px',
             borderRadius: view === SelectViewVarinant.inTable ? '0' : '8px',
             borderStyle: view === SelectViewVarinant.inTable ? 'inherit' : 'solid',
             borderWidth: view === SelectViewVarinant.inTable ? '0' : '1px',
+            backgroundColor: view === SelectViewVarinant.inTable ? 'transperent' : 'white',
             overflow: 'hidden',
             '&:hover': {
               borderColor: 'transperent',
@@ -102,7 +112,7 @@ export const Select: React.FC<Select> = ({
           }),
           indicatorsContainer: (styles, state) => ({
             ...styles,
-            background: '#a0bfdf',
+            background: view === SelectViewVarinant.inTable ? 'transperent' : '#a0bfdf',
           }),
           indicatorSeparator: (styles, state) => ({
             ...styles,
@@ -110,15 +120,16 @@ export const Select: React.FC<Select> = ({
           }),
           dropdownIndicator: (styles, state) => ({
             ...styles,
-            width: view === SelectViewVarinant.inTable ? '10px' : '24px',
+            width: view === SelectViewVarinant.inTable ? '14px' : '24px',
             padding: '0',
+            paddingRight: view === SelectViewVarinant.inTable ? '5px' : '0',
             height: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
+            color: view === SelectViewVarinant.inTable ? '#a0bfdf' : 'white',
             '&:hover': {
-              color: 'white',
+              color: view === SelectViewVarinant.inTable ? '#a0bfdf' : 'white',
             },
           }),
         }}

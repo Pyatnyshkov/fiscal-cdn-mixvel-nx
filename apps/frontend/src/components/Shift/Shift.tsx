@@ -52,6 +52,7 @@ export const Shift = () => {
             label="ФИО кассира"
             value={fullName}
             className={styles.inputMargin}
+            classNameLabel={styles.widthLabel}
             disabled
           />
           <Input name="inn" label="ИНН" value={tin} classNameInput={styles.inputWidth} disabled />

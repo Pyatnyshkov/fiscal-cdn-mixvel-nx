@@ -79,11 +79,11 @@ td:nth-last-child(2) {
 
 /* th:nth-child(7),
 td:nth-child(7), */
-th:nth-last-child(6),
+/* th:nth-last-child(6),
 td:nth-last-child(6) {
   border-right: 0;
-  border-left: solid 3px var(--input-border-color);
-}
+  border-left: solid 1px var(--input-border-color);
+} */
 
 /* первые 6 колонок */
 

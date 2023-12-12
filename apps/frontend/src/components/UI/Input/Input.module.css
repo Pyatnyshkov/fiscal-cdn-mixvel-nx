@@ -65,10 +65,6 @@
   border-radius: 0;
   border: 0;
   padding: 0 10px;
-  color: var(--font-color-black);
   font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
   background: transparent;
 }

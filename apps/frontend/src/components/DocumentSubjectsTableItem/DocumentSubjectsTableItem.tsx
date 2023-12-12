@@ -44,6 +44,8 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
     documentSubject.agentRole
   )
 
+  console.warn('agentRoleOptionsDefaultIndex', agentRoleOptionsDefaultIndex)
+
   const handleDocumentRemoveSubject = (id: string) => dispatch(documentRemoveSubject(id))
 
   const handleDocumentUpdateSubject = (value: string, name: string) => {
@@ -95,11 +97,52 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
         />
       </td>
       <td>
+        <Select
+          options={TaxesSelectOptions}
+          defaultValue={documentSubject.taxes}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'taxes')}
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
         <Input
           name="taxesAmount"
           value={documentSubject.taxesAmount}
           view={InputView.tableCol}
           disabled
+        />
+      </td>
+      <td>
+        <Select
+          // options={SignsSubjectSelectOptions}
+          // defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex].value}
+          // onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
+          isDisabled
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={SignsSubjectSelectOptions}
+          defaultValue={documentSubject.signsSubject}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={SignsMethodSelectOptions}
+          defaultValue={documentSubject.signsMethod}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsMethod')}
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={AgentRoleSelectOptions}
+          defaultValue={documentSubject.agentRole}
+          view={SelectViewVarinant.inTable}
+          isDisabled
         />
       </td>
       <td>
@@ -118,50 +161,6 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
           view={InputView.tableCol}
         />
       </td>
-      <td>
-        <Select
-          options={TaxesSelectOptions}
-          defaultValue={TaxesSelectOptions[taxesOptionsDefaultIndex].value}
-          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'taxes')}
-          view={SelectViewVarinant.inTable}
-        />
-      </td>
-
-      <td>
-        <Select
-          // options={SignsSubjectSelectOptions}
-          // defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex].value}
-          // onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
-          isDisabled
-          placeholder="Отдел"
-          view={SelectViewVarinant.inTable}
-        />
-      </td>
-      <td>
-        <Select
-          options={SignsSubjectSelectOptions}
-          defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex].value}
-          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
-          view={SelectViewVarinant.inTable}
-        />
-      </td>
-      <td>
-        <Select
-          options={SignsMethodSelectOptions}
-          defaultValue={SignsMethodSelectOptions[signsMethodOptionsDefaultIndex].value}
-          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsMethod')}
-          view={SelectViewVarinant.inTable}
-        />
-      </td>
-      <td>
-        <Select
-          options={AgentRoleSelectOptions}
-          defaultValue={AgentRoleSelectOptions[agentRoleOptionsDefaultIndex].value}
-          view={SelectViewVarinant.inTable}
-          isDisabled
-        />
-      </td>
-
       <td>
         <button
           type="button"
