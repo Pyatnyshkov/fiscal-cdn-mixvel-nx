@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@store'
 import { reconnect } from '@store/websocket'
 import { API } from '@services/API'
 
-import { Notice, NoticeMessages, NoticeStatuses } from '../Notice'
+import { Notice, NoticeMessages, NoticeStatuses, NoticeViewVariant } from '../Notice'
 import { selectNetwork } from '@store/network/selectors'
 import { selectApp } from '@store/app/selectors'
 import { selectAppSubjects } from '@store/appSubjects/selectors'
@@ -49,6 +49,7 @@ export const Notices: React.FC<Notices> = ({ className }) => {
         className={styles.noticeMargin}
         timer={wsState.secondsToNextAttempt}
         reload={() => dispatch(reconnect())}
+        view={NoticeViewVariant.left}
       />
       <Notice
         status={subjectsStatus()}
@@ -63,6 +64,7 @@ export const Notices: React.FC<Notices> = ({ className }) => {
         status={fiscalStatus()}
         message={NoticeMessages.fiscalRegistrar}
         timer={app.deviceRouteStatus.nextReloadSeconds}
+        view={NoticeViewVariant.right}
         reload={() => {
           API.single.post(network.deviceStatusSOAPEndpoint, app.instructions.deviceRouting)
         }}

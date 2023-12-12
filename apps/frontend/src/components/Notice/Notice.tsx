@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import styles from './Notice.module.css'
-import { NoticeMessages, NoticeStatuses } from './const'
+import { NoticeMessages, NoticeStatuses, NoticeViewVariant } from './const'
 
 interface Notice {
   status: NoticeStatuses
@@ -8,6 +8,7 @@ interface Notice {
   className?: string
   reload?: () => void
   timer?: number
+  view?: NoticeViewVariant
 }
 
 type headerStatuses = {
@@ -21,7 +22,7 @@ const headerStatuses: headerStatuses = {
   [NoticeStatuses.unavailable]: 'Недоступно',
 }
 
-export const Notice: React.FC<Notice> = ({ status, message, className, reload, timer }) => {
+export const Notice: React.FC<Notice> = ({ status, message, className, view, reload, timer }) => {
   return (
     <div
       className={clsx(
@@ -31,6 +32,8 @@ export const Notice: React.FC<Notice> = ({ status, message, className, reload, t
           [styles.statusWaiting]: status === NoticeStatuses.waiting,
           [styles.statusFailed]: status === NoticeStatuses.failed,
           [styles.statusUnavailable]: status === NoticeStatuses.unavailable,
+          [styles.viewLeft]: view === NoticeViewVariant.left,
+          [styles.viewRight]: view === NoticeViewVariant.right,
         },
         className
       )}

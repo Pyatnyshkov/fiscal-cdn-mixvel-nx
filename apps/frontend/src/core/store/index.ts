@@ -16,9 +16,11 @@ import socketMiddleware from './socketMiddleware'
 import { editorSubjectsSlice } from './editorSubjects'
 import { listenerZoneIdMiddleware } from './listenerZoneIdMiddleware'
 import { documentChequeSlice } from './documentCheque'
+import { uiSlice } from './ui'
 
 export const store = configureStore({
   reducer: {
+    ui: uiSlice.reducer,
     app: appSlice.reducer,
     editorSubjects: editorSubjectsSlice.reducer,
     network: networkSlice.reducer,

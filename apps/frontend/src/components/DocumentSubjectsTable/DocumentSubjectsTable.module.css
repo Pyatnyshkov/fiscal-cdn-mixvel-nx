@@ -77,14 +77,64 @@ td:nth-last-child(2) {
   border-right: 0;
 }
 
-th:nth-child(7) {
+/* th:nth-child(7),
+td:nth-child(7), */
+th:nth-last-child(6),
+td:nth-last-child(6) {
+  border-right: 0;
+  border-left: solid 3px var(--input-border-color);
+}
+
+/* первые 6 колонок */
+
+th:nth-child(1) {
+  width: 20px;
+}
+th:nth-child(2) {
+  width: 200px;
+}
+th:nth-child(3) {
+  width: 300px;
+}
+th:nth-child(4) {
+  width: 300px;
+}
+th:nth-child(5) {
+  width: 400px;
+}
+th:nth-child(6) {
   width: 400px;
 }
 
-th:nth-last-child(4),
-th:nth-last-child(5),
-th:nth-last-child(6) {
-  width: 300px;
+/* 5 колонок селкеторов */
+
+th:nth-child(7) {
+  width: auto;
+}
+th:nth-child(8) {
+  width: 400px;
+}
+th:nth-child(9) {
+  width: 400px;
+}
+th:nth-child(10) {
+  width: 400px;
+}
+th:nth-child(11) {
+  width: 400px;
+}
+
+/* последние 2 колоноки */
+
+th:nth-last-child(1) {
+  width: 400px;
+}
+th:nth-last-child(2) {
+  width: 400px;
+}
+
+th {
+  width: auto !important;
 }
 
 .buttonAddRow {

@@ -1,5 +1,5 @@
-export const InputView = {
-  tableCol: 'tableCol',
+export const SelectViewVarinant = {
+  inTable: 'inTable',
 } as const
 
-export type InputView = (typeof InputView)[keyof typeof InputView]
+export type SelectViewVarinant = (typeof SelectViewVarinant)[keyof typeof SelectViewVarinant]

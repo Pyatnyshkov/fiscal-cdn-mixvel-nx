@@ -18,14 +18,14 @@ const subjectsTableHeader = {
   quantity: 'Количество',
   amount: 'Стоимость',
   measure: 'Единица',
-  taxes: 'Налог',
   taxesAmount: 'Сумма налога',
+  supplierName: 'Поставщик',
+  supplierTin: 'ИНН Поставщика',
+  taxes: 'Налог',
   department: 'Отдел',
   subject: 'Предмет расчёта',
   method: 'Способ расчёта',
   agentRole: 'Агент',
-  supplierTin: 'ИНН Поставщика',
-  supplierName: 'Поставщик',
 }
 
 export const DocumentSubjectsTable: React.FC<DocumentSubjectsTable> = ({ className }) => {

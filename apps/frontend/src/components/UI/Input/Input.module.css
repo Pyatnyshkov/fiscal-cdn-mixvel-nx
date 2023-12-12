@@ -37,11 +37,12 @@
   color: var(--font-color-black);
   font-size: 14px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300;
   line-height: normal;
   border-radius: 8px;
   border: 1px solid var(--input-border-color);
   background: var(--input-bg);
+  /* font-family: inherit; */
 }
 
 .disabled {

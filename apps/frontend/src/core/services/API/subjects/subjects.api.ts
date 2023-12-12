@@ -14,8 +14,6 @@ import { AxiosError } from 'axios'
 import { mockSubjects } from '../_mokc'
 
 export const subjectsAPI = {
-  // subjectsSOAPEndpoint
-
   post: async (url: string, dataRequest: SubjectsDeviceRouting) => {
     try {
       // const { data } = await new HttpRequest(url).post<SubjectsData>(

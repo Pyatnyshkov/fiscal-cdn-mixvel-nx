@@ -34,6 +34,8 @@ export const ChequeForm = () => {
         options={ChequeTypeSelectOptions}
         defaultValue={documentChequeValues.chequeType}
         onChange={(option) => handleUpdateCheque(option?.value || '', 'chequeType')}
+        className={styles.marginBottom}
+        classNameLabel={styles.widthLabel}
       />
       <div className={clsx(styles.row, styles.marginBottom)}>
         <Input
@@ -88,6 +90,8 @@ export const ChequeForm = () => {
         options={TaxationSystemsSelectOptions}
         defaultValue={TaxationSystemsSelectOptions[0].value}
         onChange={() => {}}
+        className={styles.marginBottom}
+        classNameLabel={styles.widthLabel}
       />
 
       {/* // <Select

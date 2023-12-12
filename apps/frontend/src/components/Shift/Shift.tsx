@@ -4,7 +4,6 @@ import { Input } from '../UI/Input'
 
 import styles from './Shift.module.css'
 import { Notices } from '../Notices'
-import { ShiftError } from '../Error'
 import { useAppDispatch, useAppSelector } from '@store'
 import {
   selectShiftCashier,
@@ -13,6 +12,7 @@ import {
   selectIgnoreCloseShiftButtonClick,
 } from '@store/app/selectors'
 import { closeShiftAction, fetchAppData } from '@store/app/thunks'
+import { Alert } from '@components/Alert'
 
 export const Shift = () => {
   const shiftOpened = useAppSelector(selectShiftOpened)
@@ -57,7 +57,7 @@ export const Shift = () => {
           <Input name="inn" label="ИНН" value={tin} classNameInput={styles.inputWidth} disabled />
         </div>
         <div className={clsx(styles.col, styles.error)}>
-          <ShiftError />
+          <Alert />
         </div>
       </div>
     </div>

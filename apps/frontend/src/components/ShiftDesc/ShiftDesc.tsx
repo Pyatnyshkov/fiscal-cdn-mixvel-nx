@@ -7,9 +7,10 @@ import { RefillForm } from '../DocumentForms/RefillForm'
 import { DocumentToggle } from '../DocumentToggle'
 import { useAppSelector } from '@store'
 import { selectIsManualCheckOpen } from '@store/app/selectors'
+import { selectUiDocumentIsOpen } from '@store/ui/selectors'
 
 export const ShiftDesc = () => {
-  const isManualCheckOpen = useAppSelector(selectIsManualCheckOpen)
+  const documentIsOpen = useAppSelector(selectUiDocumentIsOpen)
 
   return (
     <>
@@ -27,7 +28,7 @@ export const ShiftDesc = () => {
         </div>
         <DocumentToggle />
       </div>
-      {isManualCheckOpen && <Document />}
+      {documentIsOpen && <Document />}
     </>
   )
 }

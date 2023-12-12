@@ -16,6 +16,7 @@ import {
 } from '@consts'
 import { documentRemoveSubject, documentUpdateSubject } from '@store/documentSubjects/thunks'
 import { getDefaultOptionIndex } from '@utils/getDefaultOptionIndex'
+import { Select, SelectViewVarinant } from '@components/UI/Select'
 
 interface TableItem {
   id: EntityId
@@ -94,13 +95,6 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
         />
       </td>
       <td>
-        <ReactSelect
-          options={TaxesSelectOptions}
-          defaultValue={TaxesSelectOptions[taxesOptionsDefaultIndex]}
-          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'taxes')}
-        />
-      </td>
-      <td>
         <Input
           name="taxesAmount"
           value={documentSubject.taxesAmount}
@@ -109,25 +103,11 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
         />
       </td>
       <td>
-        <ReactSelect />
-      </td>
-      <td>
-        <ReactSelect
-          options={SignsSubjectSelectOptions}
-          defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex]}
-        />
-      </td>
-      <td>
-        <ReactSelect
-          options={SignsMethodSelectOptions}
-          defaultValue={SignsMethodSelectOptions[signsMethodOptionsDefaultIndex]}
-        />
-      </td>
-      <td>
-        <ReactSelect
-          options={AgentRoleSelectOptions}
-          defaultValue={AgentRoleSelectOptions[agentRoleOptionsDefaultIndex]}
-          isDisabled
+        <Input
+          name="supplierName"
+          value={documentSubject.supplierName}
+          onChange={(value, name) => handleDocumentUpdateSubject(value, name)}
+          view={InputView.tableCol}
         />
       </td>
       <td>
@@ -139,13 +119,49 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
         />
       </td>
       <td>
-        <Input
-          name="supplierName"
-          value={documentSubject.supplierName}
-          onChange={(value, name) => handleDocumentUpdateSubject(value, name)}
-          view={InputView.tableCol}
+        <Select
+          options={TaxesSelectOptions}
+          defaultValue={TaxesSelectOptions[taxesOptionsDefaultIndex].value}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'taxes')}
+          view={SelectViewVarinant.inTable}
         />
       </td>
+
+      <td>
+        <Select
+          // options={SignsSubjectSelectOptions}
+          // defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex].value}
+          // onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
+          isDisabled
+          placeholder="Отдел"
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={SignsSubjectSelectOptions}
+          defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex].value}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsSubject')}
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={SignsMethodSelectOptions}
+          defaultValue={SignsMethodSelectOptions[signsMethodOptionsDefaultIndex].value}
+          onChange={(option) => handleDocumentUpdateSubject(option?.value || '', 'signsMethod')}
+          view={SelectViewVarinant.inTable}
+        />
+      </td>
+      <td>
+        <Select
+          options={AgentRoleSelectOptions}
+          defaultValue={AgentRoleSelectOptions[agentRoleOptionsDefaultIndex].value}
+          view={SelectViewVarinant.inTable}
+          isDisabled
+        />
+      </td>
+
       <td>
         <button
           type="button"

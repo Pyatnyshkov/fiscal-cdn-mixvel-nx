@@ -15,6 +15,7 @@ interface Input {
   classNameLabel?: string
   classNameInput?: string
   view?: InputView
+  autocomplete?: 'off' | 'on'
   onChange?: (value: string, name: string) => void
   onBlur?: (value: string, name: string) => void
 }
@@ -31,6 +32,7 @@ export const Input = forwardRef<HTMLInputElement, Input>(
       className,
       classNameLabel,
       classNameInput,
+      autocomplete = 'off',
       view,
       onChange = () => {},
       onBlur = () => {},
@@ -70,6 +72,7 @@ export const Input = forwardRef<HTMLInputElement, Input>(
             classNameInput
           )}
           disabled={disabled}
+          autoComplete={autocomplete}
           value={value}
           onChange={(e) => handleOnChange(e.target.value)}
           onBlur={(e) => handleOnBlur(e.target.value)}

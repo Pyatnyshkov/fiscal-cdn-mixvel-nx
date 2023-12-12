@@ -32,8 +32,13 @@ export const DocumentSubjectsPanel: React.FC<DocumentSubjectsPanel> = ({ classNa
 
   return (
     <div className={clsx(styles.root, className)}>
-      <Select label="Товарные позиции" options={subjectsOptions} onChange={setSelectedSubject} />
-      <Button text="Добавить" onClick={handleDocumentAddSubject} />
+      <Select
+        label="Товарные позиции"
+        options={subjectsOptions}
+        onChange={setSelectedSubject}
+        placeholder="Выберите товар"
+      />
+      <Button text="Добавить" onClick={handleDocumentAddSubject} className={styles.marginLeft} />
     </div>
   )
 }
