@@ -8,7 +8,7 @@ import { selectDocumentView } from '@store/app/selectors'
 import {
   fetchFlowStatementReport,
   fetchIssueDocumentCurrentSettlementReport,
-} from '@store/document'
+} from '@store/document/thunks'
 
 export const ShiftDocumentForm = () => {
   const { shiftNumber, registrationNumber, factoryNumber, fiscalStorageFactoryNumber } =

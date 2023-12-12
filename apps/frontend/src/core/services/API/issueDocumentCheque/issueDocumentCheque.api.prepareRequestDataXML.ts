@@ -134,15 +134,15 @@ export const issueDocumentChequePrepareRequestDataXML = (doc: DocumentModel): st
     '              </vat>\n'
   const supplierTemplate = '<supplier><name>$name$</name><tin>$tin$</tin></supplier>'
   const agentTemplate = '<agent><roles>$role$</roles></agent>'
-  // const agentRoles = {
-  //   1: 'bankPaymentAgent',
-  //   2: 'bankPaymentSubagent',
-  //   4: 'paymentAgent',
-  //   8: 'paymentSubagent',
-  //   16: 'attorney',
-  //   32: 'commissionAgent',
-  //   64: 'another',
-  // }
+  const agentRoles = {
+    1: 'bankPaymentAgent',
+    2: 'bankPaymentSubagent',
+    4: 'paymentAgent',
+    8: 'paymentSubagent',
+    16: 'attorney',
+    32: 'commissionAgent',
+    64: 'another',
+  }
   let supplier = ''
   let agent = ''
   let printoutInjections = ''
@@ -186,7 +186,7 @@ export const issueDocumentChequePrepareRequestDataXML = (doc: DocumentModel): st
       if (item.agent) {
         const agentRole = item.agent.role
         if (agentRole && agentRole.$value)
-          agent = agentTemplate.replace('$role$', '<' + AgentRole[agentRole.$value] + ' />')
+          agent = agentTemplate.replace('$role$', '<' + agentRoles[agentRole.$value] + ' />')
       }
       if (item.supplier) {
         const subjectSupplier = item.supplier

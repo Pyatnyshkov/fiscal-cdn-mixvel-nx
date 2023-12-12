@@ -15,6 +15,7 @@ import { API } from '@services/API'
 import socketMiddleware from './socketMiddleware'
 import { editorSubjectsSlice } from './editorSubjects'
 import { listenerZoneIdMiddleware } from './listenerZoneIdMiddleware'
+import { documentChequeSlice } from './documentCheque'
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     refill: refillSlice.reducer,
     document: documentSlice.reducer,
     documentSubjects: documentSubjectsSlice.reducer,
+    documentCheque: documentChequeSlice.reducer,
     subjects: subjectsSlice.reducer,
     websocket: wsSlice.reducer,
   },

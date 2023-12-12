@@ -17,3 +17,12 @@ export interface TaxationSystemModel {
     $value: TaxationSystemsValue
   }
 }
+
+export interface TaxationSystemType {
+  attributes: {
+    codepage: 'fts-1.31_1#taxationSystem'
+  }
+  $value: TaxationSystemsValue
+}
+
+export type TaxationSystemsType = TaxationSystemType[]

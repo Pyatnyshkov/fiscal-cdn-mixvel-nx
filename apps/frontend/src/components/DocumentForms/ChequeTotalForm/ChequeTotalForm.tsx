@@ -3,22 +3,21 @@ import { Input } from '../../UI/Input'
 import styles from './ChequeTotalForm.module.css'
 
 import { useAppDispatch, useAppSelector } from '@store'
-import { selectDocumentChequeTotal, selectSendButtonVisible } from '@store/document/selectors'
+import { selectSendButtonVisible } from '@store/document/selectors'
 import { Button } from '@components/UI/Button'
-import { documentSlice, fetchIssueDocumentCheque } from '@store/document'
+
+import { selectDocumentChequeValues } from '@store/documentCheque/selectors'
+import { fetchIssueDocumentCheque } from '@store/document/thunks'
+import { updateDocumentCheque } from '@store/documentCheque/thunks'
 
 export const ChequeTotalForm = () => {
-  const chequeTotal = useAppSelector(selectDocumentChequeTotal)
+  const documentChequeValues = useAppSelector(selectDocumentChequeValues)
   const sendButtonVisible = useAppSelector(selectSendButtonVisible)
 
   const dispatch = useAppDispatch()
 
-  const onChange = (value: string, name: string) => {
-    const copyChequeTotal = { ...chequeTotal }
-    //@ts-ignore
-    copyChequeTotal[name] = value
-
-    dispatch(documentSlice.actions.updateChequeTotal(copyChequeTotal))
+  const handleUpdateCheque = (value: string, name: string) => {
+    dispatch(updateDocumentCheque(value, name))
   }
 
   const handleSubmit = () => {
@@ -30,52 +29,52 @@ export const ChequeTotalForm = () => {
       <div className={styles.header}>Итого:</div>
       <div className={styles.form}>
         <Input
-          value={chequeTotal.electronicAmount}
+          value={documentChequeValues.electronicAmount}
           name="electronicAmount"
           label="Электронно"
           className={styles.inputMarginButton}
           classNameInput={styles.inputWidth}
           classNameLabel={styles.inputWidthLabel}
-          onChange={(value, name) => onChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={chequeTotal.cashAmount}
+          value={documentChequeValues.cashAmount}
           name="cashAmount"
           label="Наличные"
           className={styles.inputMarginButton}
           classNameInput={styles.inputWidth}
           classNameLabel={styles.inputWidthLabel}
-          onChange={(value, name) => onChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={chequeTotal.considerationAmount}
+          value={documentChequeValues.considerationAmount}
           name="considerationAmount"
           label="Встречное предоставление"
           labelDesc="мена и аналогичн."
           className={styles.inputMarginButton}
           classNameInput={styles.inputWidth}
           classNameLabel={styles.inputWidthLabel}
-          onChange={(value, name) => onChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={chequeTotal.electronicMaskedCardPAN}
+          value={documentChequeValues.electronicMaskedCardPAN}
           name="electronicMaskedCardPAN"
           label="Номер карты"
           labelDesc="маскированный"
           className={styles.inputMarginButton}
           classNameInput={styles.inputWidth}
           classNameLabel={styles.inputWidthLabel}
-          onChange={(value, name) => onChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <div className={styles.row}>
           <Input
-            value={chequeTotal.copies}
+            value={documentChequeValues.copies}
             name="copies"
             label="Чек"
             labelDesc="экземпляры"
             classNameInput={styles.inputWidthSmall}
             classNameLabel={styles.inputWidthLabel}
-            onChange={(value, name) => onChange(value, name)}
+            onChange={(value, name) => handleUpdateCheque(value, name)}
           />
           <div className={styles.original}>Оригинал чека без копий</div>
         </div>

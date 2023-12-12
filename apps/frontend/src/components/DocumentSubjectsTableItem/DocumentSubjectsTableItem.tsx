@@ -14,7 +14,7 @@ import {
   SignsSubjectSelectOptions,
   TaxesSelectOptions,
 } from '@consts'
-import { documentUpdateSubject } from '@store/documentSubjects/thunks'
+import { documentRemoveSubject, documentUpdateSubject } from '@store/documentSubjects/thunks'
 import { getDefaultOptionIndex } from '@utils/getDefaultOptionIndex'
 
 interface TableItem {
@@ -43,8 +43,7 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
     documentSubject.agentRole
   )
 
-  const handleDocumentRemoveSubject = (id: string) =>
-    dispatch(documentSubjectsSlice.actions.removeSubject(id))
+  const handleDocumentRemoveSubject = (id: string) => dispatch(documentRemoveSubject(id))
 
   const handleDocumentUpdateSubject = (value: string, name: string) => {
     dispatch(documentUpdateSubject(id, name, value))

@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios'
 import { ShiftError } from '@error'
-import { extractAppDataToDocument } from '@store/document'
 import { appSubjectsSlice } from '@store/appSubjects'
 import { AppThunk } from '@store'
 import { selectAppStarted } from './selectors'
@@ -9,6 +8,8 @@ import { createGUID } from '@utils/createGUID'
 import { appSlice, hasError } from '.'
 import { isSingleDataSuccess } from '@services/API/app/single.api.transformResponseDataXML'
 import { setDataToNetwork } from '@store/network'
+import { ExtractDocumentChequeData, documentChequeSlice } from '@store/documentCheque'
+import { extractDocumentChequeData } from '@store/documentCheque/thunks'
 
 export const initApp: AppThunk = async (dispatch, getState) => {
   const started = selectAppStarted(getState())
@@ -80,8 +81,8 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
       dispatch(appSlice.actions.websocketOpenShift())
     }
 
+    dispatch(extractDocumentChequeData)
     dispatch(fetchAppSubjects)
-    dispatch(extractAppDataToDocument)
     dispatch(appSlice.actions.servicesAvailable())
   } catch (error) {
     if (error instanceof ShiftError) {

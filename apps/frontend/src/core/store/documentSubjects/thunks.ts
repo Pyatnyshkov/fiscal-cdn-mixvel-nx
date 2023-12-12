@@ -1,13 +1,65 @@
 import { DocumentSubject } from '@models/documentSubject.model'
 import { AppThunk } from '@store'
-import { documentSubjectsSlice } from '.'
+import { TotalAmounts, documentSubjectsSlice } from '.'
 import { EntityId } from '@reduxjs/toolkit'
-import { selectDocumentSubjectsById } from './selectors'
+import {
+  selectDocumentSubjectsAmount,
+  selectDocumentSubjectsById,
+  selectDocumentSubjectsEntities,
+  selectDocumentSubjectsTotalTaxesAmount,
+} from './selectors'
 import { calcAmounts } from '@utils/calcAmounts'
 import { selectSubjectByName } from '@store/appSubjects/selectors'
+import { documentChequeSlice } from '@store/documentCheque'
 
 type DocumentAddSubject = (subjectName: string | null) => AppThunk
+type DocumentRemoveSubject = (id: string) => AppThunk
 type DocumentUpdateSubject = (id: EntityId, name: string, value: string) => AppThunk
+
+export const calcTotalAmount: AppThunk = (dispatch, getState) => {
+  const subjectsEntities = selectDocumentSubjectsEntities(getState())
+  const totalTaxesAmountList = selectDocumentSubjectsTotalTaxesAmount(getState())
+
+  const subjects = Object.values(subjectsEntities)
+
+  const totalAmount = subjects.reduce<number>((acc, subject) => {
+    return acc + parseInt(subject?.amount || '0')
+  }, 0)
+
+  const totalTaxesAmount = subjects.reduce<any>(
+    (acc, subject) => {
+      if (!subject) {
+        return acc
+      }
+
+      const taxesType = subject.taxes
+      const taxesAmount = parseFloat(subject.taxesAmount)
+
+      acc[taxesType] += taxesAmount
+
+      return acc
+    },
+    {
+      '1': 0,
+      '2': 0,
+      '3': 0,
+      '4': 0,
+      '5': 0,
+      '6': 0,
+    }
+  )
+
+  console.log('amounts', { totalAmount, totalTaxesAmount })
+
+  dispatch(documentChequeSlice.actions.updatedElectronicAmount(totalAmount.toString()))
+  dispatch(documentSubjectsSlice.actions.updatedAmounts({ totalAmount, totalTaxesAmount }))
+}
+
+export const documentRemoveSubject: DocumentRemoveSubject =
+  (id: string) => (dispatch, getState) => {
+    dispatch(documentSubjectsSlice.actions.removeSubject(id))
+    dispatch(calcTotalAmount)
+  }
 
 export const documentAddSubject: DocumentAddSubject = (subjectName) => (dispatch, getState) => {
   const subject = selectSubjectByName(subjectName)(getState())
@@ -36,6 +88,7 @@ export const documentAddSubject: DocumentAddSubject = (subjectName) => (dispatch
   }
 
   dispatch(documentSubjectsSlice.actions.addSubject(documentSubject))
+  dispatch(calcTotalAmount)
 }
 
 export const documentUpdateSubject: DocumentUpdateSubject =
@@ -64,7 +117,6 @@ export const documentUpdateSubject: DocumentUpdateSubject =
       updateSubjectData.changes.taxesAmount = taxesAmount
     }
 
-    console.warn(updateSubjectData.changes)
-
     dispatch(documentSubjectsSlice.actions.updateSubject(updateSubjectData))
+    dispatch(calcTotalAmount)
   }

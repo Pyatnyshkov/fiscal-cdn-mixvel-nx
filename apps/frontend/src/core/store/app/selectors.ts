@@ -28,19 +28,8 @@ export const selectAppError = (state: RootState) => {
 export const selectAppEnabledTaxationSystems = (state: RootState) =>
   selectApp(state).taxation.enabledTaxationSystems
 
-// chequeTaxationSystems
-
-export const selectTaxationSystems = createSelector(
-  [selectAppEnabledTaxationSystems],
-  (enabledTaxationSystems) =>
-    Object.entries(enabledTaxationSystems).reduce<{ value: string; label: string }[]>(
-      (acc, [key, value]) => {
-        acc.push({ value: key, label: value })
-        return acc
-      },
-      []
-    )
-)
+export const selectAppTaxationSystem = (state: RootState) =>
+  selectSingle(state).currentRegistration.registrationReport.taxationSystems.taxationSystem
 
 // forms
 

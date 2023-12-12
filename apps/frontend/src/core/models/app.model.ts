@@ -5,7 +5,7 @@ import { Instructions } from './general/instructions.model'
 import { PointOfSettlement } from './general/pointOfSettlement.model'
 import { ShiftState } from './general/shiftState.model'
 import { TaxPayer } from './general/taxPayer.model'
-import { TaxationSystemModel } from './general/taxationSystem.model'
+import { TaxationSystemModel, TaxationSystemsType } from './general/taxationSystem.model'
 import { Token } from './token.model'
 import { EncashmentOperation } from './general/encashment.model'
 import { RefillOperation } from './general/refill.model'
@@ -81,7 +81,7 @@ export interface Single {
   currentRegistration: {
     registrationReport: {
       taxationSystems: {
-        taxationSystem: TaxationSystemModel[]
+        taxationSystem: TaxationSystemsType
       }
       taxPayer: TaxPayer
       pointOfSettlement: PointOfSettlement

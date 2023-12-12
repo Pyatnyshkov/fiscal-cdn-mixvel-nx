@@ -8,6 +8,7 @@ import {
   SingleData,
   SingleDataSuccess,
 } from '@services/API/app/single.api.transformResponseDataXML'
+import { TaxationSystems } from '@consts'
 
 type PayloadSuccess = PayloadAction<SingleData>
 type PayloadError = PayloadAction<Omit<GeneralError, 'deviceErrorState'>>
@@ -133,7 +134,6 @@ export const appSlice = createSlice({
     websocketCloseShift: (state) => {},
 
     success: (state, { payload }: PayloadSuccess) => {
-      // error nulled
       state.generalError.code = ''
       state.generalError.description = ''
       state.generalError.deviceErrorState = false
@@ -144,35 +144,29 @@ export const appSlice = createSlice({
       state.deviceRouteStatus.loaded = true
       state.deviceRouteStatus.loadFailed = false
 
-      const resp = payload
-      const applicationModel = state
-      const deviceRouteStatusModel = state.deviceRouteStatus
-      const shift = state.shift
+      state.shift.single.currentRegistration.registrationReport.taxationSystems.taxationSystem =
+        payload.single.currentRegistration.registrationReport.taxationSystems.taxationSystem
 
-      state.shift.single = Object.assign(state.shift.single, payload)
+      state.shift.single.departments = payload.single.departments || []
 
-      state.shift.single.departments = resp.single.departments || []
+      state.deviceRouteStatus.reloadDeviceStatusRetries = 0
 
-      const printoutCopies = (state.shift.single.printoutCopies = resp.single.printoutCopies)
-
-      deviceRouteStatusModel.reloadDeviceStatusRetries = 0
-
-      state.shift.single.allowedOperations = resp.single.allowedOperations
+      state.shift.single.allowedOperations = payload.single.allowedOperations
 
       if (payload.single.currentShift) {
-        if (
-          printoutCopies &&
-          printoutCopies.issueDocuments &&
-          printoutCopies.issueDocuments.cheque
-        ) {
-          // if (printoutCopies.issueDocuments.cheque[chequeModel.chequeType] != undefined)
-          //   $('.printoutCopies').show()
-        }
+        // if (
+        //   state.shift.single.printoutCopies  &&
+        //   state.shift.single.printoutCopies .issueDocuments &&
+        //   state.shift.single.printoutCopies .issueDocuments.cheque
+        // ) {
+        //   if (state.shift.single.printoutCopies .issueDocuments.cheque[chequeModel.chequeType] != undefined)
+        //     $('.state.shift.single.printoutCopies ').show()
+        // }
         if (payload.single.currentRegistration) {
           const registrationReport = payload.single.currentRegistration.registrationReport
 
           if (registrationReport) {
-            applicationModel.agent = registrationReport.agent
+            state.agent = registrationReport.agent
             if (state.shift.state.status === 'closed') {
               if (registrationReport.taxPayer) {
                 if (registrationReport.taxPayer.tin)
@@ -198,9 +192,9 @@ export const appSlice = createSlice({
           }
         }
 
-        shift.state.status = 'opened'
-        shift.state.opened = true
-        shift.state.closed = false
+        state.shift.state.status = 'opened'
+        state.shift.state.opened = true
+        state.shift.state.closed = false
 
         const openShiftReport = payload.single.currentShift.openShiftReport
 
@@ -209,37 +203,44 @@ export const appSlice = createSlice({
         state.shift.single.fiscalSignature = openShiftReport.fiscalSignature
         state.shift.single.cashRegister = openShiftReport.cashRegister
       } else {
-        shift.state.status = 'closed'
-        shift.state.opened = false
-        shift.state.closed = true
+        state.shift.state.status = 'closed'
+        state.shift.state.opened = false
+        state.shift.state.closed = true
       }
 
       state.shift.state.dataLoaded = true
 
-      // calculateTaxationSystems
-
       if (
-        shift &&
-        shift.single &&
-        shift.single.currentRegistration &&
-        shift.single.currentRegistration.registrationReport
+        state.shift &&
+        state.shift.single &&
+        state.shift.single.currentRegistration &&
+        state.shift.single.currentRegistration.registrationReport
       ) {
-        const registrationReport = shift.single.currentRegistration.registrationReport
+        state.taxation.enabledTaxationSystems = {}
+
         if (
-          registrationReport.taxationSystems &&
-          registrationReport.taxationSystems.taxationSystem &&
-          registrationReport.taxationSystems.taxationSystem.length
+          state.shift &&
+          state.shift.single &&
+          state.shift.single.currentRegistration &&
+          state.shift.single.currentRegistration.registrationReport
         ) {
-          // const taxationSystems = registrationReport.taxationSystems.taxationSystem
-          // taxationSystems.forEach(({ $value }) => {
-          //   // state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
-          // })
+          const registrationReport = payload.single.currentRegistration.registrationReport
+          if (
+            registrationReport.taxationSystems &&
+            registrationReport.taxationSystems.taxationSystem &&
+            registrationReport.taxationSystems.taxationSystem.length
+          ) {
+            const taxationSystems = registrationReport.taxationSystems.taxationSystem
+
+            console.log(' !!! taxationSystems', taxationSystems)
+
+            taxationSystems.forEach(({ $value }) => {
+              //@ts-ignore
+              state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]
+            })
+          }
         }
       }
-
-      // documentChanged()
-      // if (!applicationModel.started) deviceRouteProviderSuccess()
-      // if (callback) return callback(null)
     },
   },
 })

@@ -92,7 +92,14 @@ export const initialState: App = {
       currentRegistration: {
         registrationReport: {
           taxationSystems: {
-            taxationSystem: [],
+            taxationSystem: [
+              {
+                attributes: {
+                  codepage: 'fts-1.31_1#taxationSystem',
+                },
+                $value: '',
+              },
+            ],
           },
           taxPayer: {
             tin: '',

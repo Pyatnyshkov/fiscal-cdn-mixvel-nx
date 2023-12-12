@@ -6,27 +6,23 @@ import { useAppDispatch, useAppSelector } from '@store'
 import { Input } from '@components/UI/Input'
 import { Select } from '@components/UI/Select'
 
-import { selectDocumentCheque } from '@store/document/selectors'
-import { selectTaxationSystems } from '@store/app/selectors'
-import { documentSlice } from '@store/document'
+import { selectAppTaxationSystem } from '@store/app/selectors'
 import { ChequeTypeSelectOptions } from '@consts'
+import { selectDocumentChequeValues } from '@store/documentCheque/selectors'
+import { DocumentCheque, documentChequeSlice } from '@store/documentCheque'
+import { convertToSelectOptions } from '@utils/convertToSelectOptions'
+import { updateDocumentCheque } from '@store/documentCheque/thunks'
 
 export const ChequeForm = () => {
-  const taxationSystems = useAppSelector(selectTaxationSystems)
-  const cheque = useAppSelector(selectDocumentCheque)
+  const taxationSystem = useAppSelector(selectAppTaxationSystem)
+  const documentChequeValues = useAppSelector(selectDocumentChequeValues)
+
+  const TaxationSystemsSelectOptions = convertToSelectOptions(taxationSystem)
 
   const dispatch = useAppDispatch()
 
-  const handleChange = (value: string, name: string) => {
-    const copyCheque = { ...cheque }
-
-    console.log(value)
-
-    //@ts-ignore
-
-    copyCheque[name] = value
-
-    dispatch(documentSlice.actions.updateCheque(copyCheque))
+  const handleUpdateCheque = (value: string, name: string) => {
+    dispatch(updateDocumentCheque(value, name))
   }
 
   const onSubmit = () => {}
@@ -36,61 +32,61 @@ export const ChequeForm = () => {
       <Select
         label={'Кассовый чек'}
         options={ChequeTypeSelectOptions}
-        defaultValue={cheque.chequeType}
-        onChange={(option) => handleChange(option?.value || '', 'chequeType')}
+        defaultValue={documentChequeValues.chequeType}
+        onChange={(option) => handleUpdateCheque(option?.value || '', 'chequeType')}
       />
       <div className={clsx(styles.row, styles.marginBottom)}>
         <Input
-          value={cheque.taxPayerName}
+          value={documentChequeValues.taxPayerName}
           name="taxPayerName"
           label="Организация"
           labelDesc="полное наименование"
           className={styles.marginRight}
           classNameLabel={styles.widthLabel}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={cheque.taxPayerTin}
+          value={documentChequeValues.taxPayerTin}
           name="taxPayerTin"
           label="ИНН"
           classNameInput={styles.widthInputSmall}
           classNameLabel={styles.widthLabelSmall}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
       </div>
       <div className={clsx(styles.row, styles.marginBottom)}>
         <Input
-          value={cheque.cashierName}
+          value={documentChequeValues.cashierName}
           name="cashierName"
           label="ФИО кассира"
           className={styles.marginRight}
           classNameLabel={styles.widthLabel}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={cheque.cashierTin}
+          value={documentChequeValues.cashierTin}
           name="cashierTin"
           label="ИНН"
           classNameInput={styles.widthInputSmall}
           classNameLabel={styles.widthLabelSmall}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
       </div>
       <Input
-        value={cheque.pointOfSettlementAddress}
+        value={documentChequeValues.pointOfSettlementAddress}
         name="pointOfSettlementAddress"
         label="Адрес точки"
         labelDesc="продажи"
         className={clsx(styles.marginBottom, styles.widthFull)}
         classNameInput={styles.widthFull}
         classNameLabel={styles.widthLabel}
-        onChange={(value, name) => handleChange(value, name)}
+        onChange={(value, name) => handleUpdateCheque(value, name)}
       />
 
       <Select
         label={'Система налогооблажения'}
-        options={taxationSystems}
-        defaultValue="0"
+        options={TaxationSystemsSelectOptions}
+        defaultValue={TaxationSystemsSelectOptions[0].value}
         onChange={() => {}}
       />
 
@@ -102,30 +98,30 @@ export const ChequeForm = () => {
       // /> */}
       <div className={clsx(styles.row, styles.marginBottom)}>
         <Input
-          value={cheque.customerEmail}
+          value={documentChequeValues.customerEmail}
           name="customerEmail"
           label="E-mail клиента"
           className={styles.marginRight}
           classNameLabel={styles.widthLabel}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
         <Input
-          value={cheque.customerPhone}
+          value={documentChequeValues.customerPhone}
           name="customerPhone"
           label="Тел"
           classNameInput={styles.widthInputSmall}
           classNameLabel={styles.widthLabelSmall}
-          onChange={(value, name) => handleChange(value, name)}
+          onChange={(value, name) => handleUpdateCheque(value, name)}
         />
       </div>
       <Input
-        value={cheque.referenceNumber}
+        value={documentChequeValues.referenceNumber}
         name="referenceNumber"
         label="Номер документа основания"
         className={clsx(styles.widthFull, styles.marginBottom)}
         classNameInput={styles.widthFull}
         classNameLabel={styles.widthLabel}
-        onChange={(value, name) => handleChange(value, name)}
+        onChange={(value, name) => handleUpdateCheque(value, name)}
       />
     </div>
   )
