@@ -1,6 +1,6 @@
 import { buildResponseDelivery } from '../utils'
 
-export const issueDocumentOpenShift = (doc: any): string => {
+export const issueDocumentOpenShiftPrepareRequestDataXML = (doc: any): string => {
   const bodyTemplate =
     '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sir="http://sirena-travel.ru">\n' +
     '  <soapenv:Header />\n' +

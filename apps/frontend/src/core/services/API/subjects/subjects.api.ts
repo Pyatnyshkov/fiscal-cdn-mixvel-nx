@@ -11,19 +11,17 @@ import {
   subjectsPrepareRequestDataXML,
 } from './subjects.api.prepareRequestDataXML'
 import { AxiosError } from 'axios'
-import { mockSubjects } from '../_mokc'
 
 export const subjectsAPI = {
   post: async (url: string, dataRequest: SubjectsDeviceRouting) => {
     try {
-      // const { data } = await new HttpRequest(url).post<SubjectsData>(
-      //   subjectsPrepareRequestDataXML(dataRequest)
-      // )
+      const { data } = await new HttpRequest(url).post<SubjectsData>(
+        subjectsPrepareRequestDataXML(dataRequest)
+      )
 
-      // if (data) {
-      //   return subjectsTransformResponseDataXML(XMLParser(data))
-      // }
-      return subjectsTransformResponseDataXML(XMLParser(mockSubjects))
+      if (data) {
+        return subjectsTransformResponseDataXML(XMLParser(data))
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.error('subjectsAPI', error.message)

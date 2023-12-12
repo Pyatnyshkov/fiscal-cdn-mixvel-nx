@@ -11,7 +11,7 @@ import {
   selectIgnoreOpenShiftButtonClick,
   selectIgnoreCloseShiftButtonClick,
 } from '@store/app/selectors'
-import { closeShiftAction, fetchAppData } from '@store/app/thunks'
+import { closeShiftAction, openShiftAction } from '@store/app/thunks'
 import { Alert } from '@components/Alert'
 
 export const Shift = () => {
@@ -23,11 +23,11 @@ export const Shift = () => {
   const dispatch = useAppDispatch()
 
   const handleShiftOpen = () => {
-    // if (shiftOpened) {
-    //   dispatch(closeShiftAction)
-    //   return
-    // }
-    // dispatch(fetchAppData)
+    if (shiftOpened) {
+      dispatch(closeShiftAction)
+      return
+    }
+    dispatch(openShiftAction)
   }
 
   return (

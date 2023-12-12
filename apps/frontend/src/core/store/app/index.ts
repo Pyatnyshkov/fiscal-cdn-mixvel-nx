@@ -245,4 +245,4 @@ export const appSlice = createSlice({
   },
 })
 
-export const { openShift, closeShift, toggleManualCheck, hasError } = appSlice.actions
+export const { openShift, closeShift, toggleManualCheck, hasError, toggleOpenShiftButtonClick } = appSlice.actions

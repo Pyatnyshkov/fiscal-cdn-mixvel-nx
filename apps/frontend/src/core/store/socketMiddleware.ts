@@ -33,7 +33,6 @@ const socketMiddleware: Middleware = (store) => {
         timeout: 1000,
       }
       if (socketIOPath) options.path = socketIOPath
-      // socket.disconnect()
       if (!socket) {
         socket = io(socketIOAddress, options)
         const guid = store.getState().app.guid
@@ -46,18 +45,14 @@ const socketMiddleware: Middleware = (store) => {
             })
           )
         )
-        socket.on('disconnect', () => store.dispatch(websocket.setDisconnected()))
+        socket.on('disconnect', () => {
+          store.dispatch(websocket.setDisconnected())
+          store.dispatch(websocket.reconnect());
+        })
         socket.on('connect_error', () => store.dispatch(websocket.setConnectError()))
         socket.on('connect_timeout', () => store.dispatch(websocket.setConnectTimeout()))
         socket.on('ping', () => store.dispatch(websocket.ping()))
         socket.on('pong', () => store.dispatch(websocket.pong()))
-
-        // const checkInterval = setInterval(() => {
-        //   var state = store.getState().websocket.state;
-        //   if (!state.connected) {
-        //     store.dispatch(reconnect());
-        //   }
-        // }, 10000);
       }
       store.dispatch(websocket.setConnecting())
       socket.connect()
@@ -81,7 +76,6 @@ const socketMiddleware: Middleware = (store) => {
             })
           )
         }
-        // reloadDeviceStatus();
       })
     }
 
@@ -96,7 +90,6 @@ const socketMiddleware: Middleware = (store) => {
             description: err.description
           }))
         }
-        // reloadDeviceStatus();
       });
     }
 
@@ -113,7 +106,6 @@ const socketMiddleware: Middleware = (store) => {
             })
           )
         }
-        // reloadDeviceStatus();
       })
     }
 

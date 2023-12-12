@@ -10,6 +10,9 @@ import { isSingleDataSuccess } from '@services/API/app/single.api.transformRespo
 import { setDataToNetwork } from '@store/network'
 import { ExtractDocumentChequeData, documentChequeSlice } from '@store/documentCheque'
 import { extractDocumentChequeData } from '@store/documentCheque/thunks'
+import { DocumentOpenShift } from '@models/general/documentOpenShift.model'
+import { DocumentCloseShift } from '@models/general/documentCloseShift.model'
+import moment from 'moment'
 
 export const initApp: AppThunk = async (dispatch, getState) => {
   const started = selectAppStarted(getState())
@@ -77,7 +80,6 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
       }
 
       dispatch(setDataToNetwork(networkData))
-      dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
       dispatch(appSlice.actions.websocketOpenShift())
     }
 
@@ -97,11 +99,55 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   }
 }
 
+export const openShiftAction: AppThunk = async (dispatch, getState, { API }) => {
+  const { app, network } = getState()
+  const openShiftData: DocumentOpenShift = {
+    attributes: {
+      id: moment().format('YYYYMMDDHHmmssSSS'),
+    },
+    taxPayer: app.taxPayer,
+    instructions: app.instructions,
+    document: {
+      openShiftReport: {
+        cashier: app.cashier
+      }
+    }
+  }
+  dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
+  
+  try {
+    const data = await API.document.openShift.post(network.soapEndpoint, openShiftData)
+  } catch (error) {
+    if (error instanceof ShiftError) {
+      dispatch(hasError(error.reason))
+    }
+    if (error instanceof AxiosError) {
+      console.error(error)
+    }
+    if (error instanceof Error) {
+      console.error(error)
+    }
+  }
+}
+
 export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) => {
+  const { app, network } = getState()
+  const closeShiftData: DocumentCloseShift = {
+    attributes: {
+      id: moment().format('YYYYMMDDHHmmssSSS'),
+    },
+    taxPayer: app.taxPayer,
+    instructions: app.instructions,
+    document: {
+      closeShiftReport: {
+        cashier: app.cashier
+      }
+    }
+  }
   dispatch(appSlice.actions.toggleCloseShiftButtonClick(true))
   dispatch(appSlice.actions.websocketCloseShift())
   try {
-    console.log(closeShiftAction)
+    const data = await API.document.closeShift.post(network.soapEndpoint, closeShiftData)
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
