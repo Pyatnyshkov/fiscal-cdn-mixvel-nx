@@ -5,6 +5,7 @@ import { websocket } from './websocket'
 import { network } from './network'
 import { documentSlice } from './document'
 import { appSlice } from './app'
+import { fetchAppSubjects } from './app/thunks'
 
 interface IOoptions {
   reconnection: boolean
@@ -76,7 +77,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
             })
           )
         }
-        dispatch(websocket.update(msg));
+        // dispatch(websocket.update(msg));
       })
     }
 
@@ -91,7 +92,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
             description: err.description
           }))
         }
-        dispatch(websocket.update(msg));
+        dispatch<any>(fetchAppSubjects);
       });
     }
 
@@ -108,7 +109,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
             })
           )
         }
-        dispatch(websocket.update(msg));
+        dispatch<any>(fetchAppSubjects);
       })
     }
 
