@@ -5,6 +5,7 @@ import { issueDocumentChequePrepareRequestDataXML } from './issueDocumentCheque.
 import { DocumentModel } from '@models/general/document.mode'
 import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDocument.api.transformResponseDataXML'
 import { AxiosError } from 'axios'
+import { XMLParser } from '@utils/XMLParser'
 
 export const issueDocumentChequeAPI = {
   post: async (url: string, document: DocumentModel) => {
@@ -13,8 +14,7 @@ export const issueDocumentChequeAPI = {
         issueDocumentChequePrepareRequestDataXML(document)
       )
 
-      // return singleTransformResponseDataXML(XMLParser(response.data))
-      return issueDocumentTransformResponseDataXML(response.data)
+      return issueDocumentTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.config?.data)

@@ -6,6 +6,7 @@ import { issueDocumentTransformResponseDataXML } from '../issueDocument/issueDoc
 import { AxiosError } from 'axios'
 import { issueDocumentCurrentSettlementReportPrepareRequestDataXML } from './issueDocumentCurrentSettlementReport.api.prepareRequestDataXML'
 import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
+import { XMLParser } from '@utils/XMLParser'
 
 export const issueDocumentCurrentSettlementReportAPI = {
   post: async (url: string, document: DocumentCurrentSettlementReportData) => {
@@ -15,7 +16,7 @@ export const issueDocumentCurrentSettlementReportAPI = {
       )
 
       // return singleTransformResponseDataXML(XMLParser(response.data))
-      return issueDocumentTransformResponseDataXML(response.data)
+      return issueDocumentTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.config?.data)

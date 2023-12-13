@@ -77,7 +77,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
             })
           )
         }
-        // dispatch(websocket.update(msg));
+        dispatch<any>(fetchAppSubjects);
       })
     }
 

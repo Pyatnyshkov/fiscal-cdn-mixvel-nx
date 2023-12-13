@@ -247,7 +247,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   }
 
   console.log('documentData', documentData)
-  dispatch(documentSlice.actions.fetchDocumentCheque(true))
+  dispatch(documentSlice.actions.fetchDocumentCheque(true)) 
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.cheque.post(network.soapEndpoint, documentData)
@@ -286,7 +286,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     },
   }
 
-  dispatch(documentSlice.actions.fetchDocumentCheque(true))
+
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.currentSettlementReport.post(
@@ -298,6 +298,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
   } catch (error) {
+    console.log(error)
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
     }
@@ -316,7 +317,7 @@ export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { A
   try {
     const data = await API.report.post(
       network.operationsSOAPEndpoint,
-      app.instructions.deviceRouting
+      app.instructions.deviceRouting 
     )
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
