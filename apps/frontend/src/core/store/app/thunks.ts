@@ -80,7 +80,6 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
       socketIONamespace: availableServices.responseDeliveryGateway.socketio.service.namespace,
     }
     dispatch(setDataToNetwork(networkData))
-    dispatch(appSlice.actions.websocketOpenShift())
 
     dispatch(extractDocumentChequeData)
     dispatch(fetchAppSubjects)
@@ -113,6 +112,7 @@ export const openShiftAction: AppThunk = async (dispatch, getState, { API }) => 
     }
   }
   dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
+  dispatch(appSlice.actions.websocketOpenShift())
   
   try {
     const data = await API.document.openShift.post(network.soapEndpoint, openShiftData)

@@ -93,6 +93,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
           }))
         }
         dispatch<any>(fetchAppSubjects);
+        dispatch(appSlice.actions.openShift());
       });
     }
 
@@ -110,6 +111,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
           )
         }
         dispatch<any>(fetchAppSubjects);
+        dispatch(appSlice.actions.closeShift());
       })
     }
 
