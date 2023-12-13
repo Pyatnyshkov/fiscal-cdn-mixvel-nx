@@ -15,6 +15,7 @@ import { API } from '@services/API'
 import socketMiddleware from './socketMiddleware'
 import { editorSubjectsSlice } from './editorSubjects'
 import { listenerZoneIdMiddleware } from './listenerZoneIdMiddleware'
+import { listenerUpdateMiddleware } from './listenerUpdateMiddleware'
 import { documentChequeSlice } from './documentCheque'
 import { uiSlice } from './ui'
 
@@ -38,7 +39,11 @@ export const store = configureStore({
       thunk: {
         extraArgument: { API },
       },
-    }).concat(socketMiddleware, listenerZoneIdMiddleware.middleware),
+    }).concat(
+      socketMiddleware,
+      listenerZoneIdMiddleware.middleware,
+      listenerUpdateMiddleware.middleware
+    ),
 })
 
 type ExtraArgument = { API: API }

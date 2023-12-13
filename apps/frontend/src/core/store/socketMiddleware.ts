@@ -12,22 +12,22 @@ interface IOoptions {
   path?: string
 }
 
-const socketMiddleware: Middleware = (store) => {
+const socketMiddleware: Middleware = ({ dispatch, getState }) => {
   let socket: Socket
 
   return (next) => (action) => {
     if (network.success.match(action) || websocket.connect.match(action)) {
       const getUrl = (url: string) => {
-        return !store.getState().network.development
+        return !getState().network.development
           ? url
           : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
       }
       const socketIOAddress = action.payload
         ? getUrl(action.payload.socketIOAddress)
-        : store.getState().websocket.socketIOAddress
+        : getState().websocket.socketIOAddress
       const socketIOPath = action.payload
         ? action.payload.socketIOPath
-        : store.getState().websocket.socketIOPath
+        : getState().websocket.socketIOPath
       const options: IOoptions = {
         reconnection: false,
         timeout: 1000,
@@ -35,9 +35,9 @@ const socketMiddleware: Middleware = (store) => {
       if (socketIOPath) options.path = socketIOPath
       if (!socket) {
         socket = io(socketIOAddress, options)
-        const guid = store.getState().app.guid
+        const guid = getState().app.guid
         socket.on('connect', () =>
-          store.dispatch(
+          dispatch(
             websocket.setConnected({
               guid,
               socketIOAddress,
@@ -46,66 +46,69 @@ const socketMiddleware: Middleware = (store) => {
           )
         )
         socket.on('disconnect', () => {
-          store.dispatch(websocket.setDisconnected())
-          store.dispatch(websocket.reconnect());
+          dispatch(websocket.setDisconnected())
+          dispatch(websocket.reconnect());
         })
-        socket.on('connect_error', () => store.dispatch(websocket.setConnectError()))
-        socket.on('connect_timeout', () => store.dispatch(websocket.setConnectTimeout()))
-        socket.on('ping', () => store.dispatch(websocket.ping()))
-        socket.on('pong', () => store.dispatch(websocket.pong()))
+        socket.on('connect_error', () => dispatch(websocket.setConnectError()))
+        socket.on('connect_timeout', () => dispatch(websocket.setConnectTimeout()))
+        socket.on('ping', () => dispatch(websocket.ping()))
+        socket.on('pong', () => dispatch(websocket.pong()))
       }
-      store.dispatch(websocket.setConnecting())
+      dispatch(websocket.setConnecting())
       socket.connect()
     }
 
     if (websocket.setConnected.match(action)) {
-      socket.emit('subscribe', { guid: action.payload }, (zoneId: number) => {
-        store.dispatch(websocket.subscribe(zoneId))
+      socket.emit('subscribe', { guid: action.payload.guid }, (zoneId: number) => {
+        dispatch(websocket.subscribe(zoneId))
       })
     }
 
     if (documentSlice.actions.fetchDocumentCheque.match(action)) {
       socket.once('issueResult', (msg: any) => {
-        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
-        store.dispatch(documentSlice.actions.successCloseChequeApp(msg))
+        dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(documentSlice.actions.successCloseChequeApp(msg))
         if (msg.error && msg.error.error) {
-          store.dispatch(
+          dispatch(
             appSlice.actions.setError({
               code: msg.error.error.code,
               description: msg.error.error.description,
             })
           )
         }
+        dispatch(websocket.update(msg));
       })
     }
 
     if (appSlice.actions.websocketOpenShift.match(action)) {
       socket.once("issueResult", (msg: any) => {
-        store.dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
-        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
+        dispatch(documentSlice.actions.fetchDocumentCheque(false))
         const err = msg.error;
         if (err) {
-          store.dispatch(appSlice.actions.setError({
+          dispatch(appSlice.actions.setError({
             code: err.code,
             description: err.description
           }))
         }
+        dispatch(websocket.update(msg));
       });
     }
 
     if (appSlice.actions.websocketCloseShift.match(action)) {
       socket.once('issueResult', (msg: any) => {
-        store.dispatch(appSlice.actions.toggleCloseShiftButtonClick(false))
-        store.dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(appSlice.actions.toggleCloseShiftButtonClick(false))
+        dispatch(documentSlice.actions.fetchDocumentCheque(false))
         const err = msg.error
         if (err) {
-          store.dispatch(
+          dispatch(
             appSlice.actions.setError({
               code: err.code,
               description: err.description,
             })
           )
         }
+        dispatch(websocket.update(msg));
       })
     }
 

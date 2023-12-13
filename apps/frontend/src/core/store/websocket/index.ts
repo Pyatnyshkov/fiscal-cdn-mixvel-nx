@@ -103,6 +103,9 @@ export const wsSlice = createSlice({
     countdown: (state: IWSstate) => {
       state.state.secondsToNextAttempt = state.state.secondsToNextAttempt - 1
     },
+    update: (state, action: PayloadAction<any>) => {
+      console.log('update payload: ', action.payload);
+    }
   },
 })
 
