@@ -42,7 +42,7 @@ export const SubjectsTable: React.FC<SubjectsTable> = ({ className }) => {
   }
 
   return (
-    <table className={clsx(styles.root, className)}>
+    <table className={clsx(styles.root, styles.table, className)}>
       <thead>
         <tr>
           <th>#</th>

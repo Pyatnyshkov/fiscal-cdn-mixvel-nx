@@ -13,6 +13,8 @@ import { extractDocumentChequeData } from '@store/documentCheque/thunks'
 import { DocumentOpenShift } from '@models/general/documentOpenShift.model'
 import { DocumentCloseShift } from '@models/general/documentCloseShift.model'
 import moment from 'moment'
+import { GlobalError } from 'core/errors/globalError'
+import { uiSlice } from '@store/ui'
 
 export const initApp: AppThunk = async (dispatch, getState) => {
   const started = selectAppStarted(getState())
@@ -30,6 +32,9 @@ export const initApp: AppThunk = async (dispatch, getState) => {
     }
     dispatch(fetchAppData)
   } catch (error) {
+    if (error instanceof GlobalError) {
+      dispatch(uiSlice.actions.globalError({ type: error.type, reason: error.reason }))
+    }
     if (error instanceof Error) {
       dispatch(hasError({ code: '', description: error.message }))
     }
@@ -68,7 +73,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     if (isSingleDataSuccess(singleData)) {
       dispatch(appSlice.actions.success(singleData))
     }
-    
+
     const { availableServices } = singleData.single
     const networkData = {
       soapEndpoint: availableServices.issueDocuments.soap.service.url,
@@ -107,13 +112,13 @@ export const openShiftAction: AppThunk = async (dispatch, getState, { API }) => 
     instructions: app.instructions,
     document: {
       openShiftReport: {
-        cashier: app.cashier
-      }
-    }
+        cashier: app.cashier,
+      },
+    },
   }
   dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
-  dispatch(appSlice.actions.websocketOpenShift())
-  
+  // dispatch(appSlice.actions.websocketOpenShift())
+
   try {
     const data = await API.document.openShift.post(network.soapEndpoint, openShiftData)
   } catch (error) {
@@ -139,9 +144,9 @@ export const closeShiftAction: AppThunk = async (dispatch, getState, { API }) =>
     instructions: app.instructions,
     document: {
       closeShiftReport: {
-        cashier: app.cashier
-      }
-    }
+        cashier: app.cashier,
+      },
+    },
   }
   dispatch(appSlice.actions.toggleCloseShiftButtonClick(true))
   dispatch(appSlice.actions.websocketCloseShift())

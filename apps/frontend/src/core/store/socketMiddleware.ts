@@ -1,11 +1,12 @@
-import { Middleware } from 'redux'
 import { io, Socket } from 'socket.io-client'
-
 import { websocket } from './websocket'
 import { network } from './network'
 import { documentSlice } from './document'
 import { appSlice } from './app'
 import { fetchAppSubjects } from './app/thunks'
+
+import { fetchAppData } from './app/thunks'
+import { AppMiddleware } from './types'
 
 interface IOoptions {
   reconnection: boolean
@@ -13,7 +14,7 @@ interface IOoptions {
   path?: string
 }
 
-const socketMiddleware: Middleware = ({ dispatch, getState }) => {
+const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
   let socket: Socket
 
   return (next) => (action) => {
@@ -48,7 +49,7 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
         )
         socket.on('disconnect', () => {
           dispatch(websocket.setDisconnected())
-          dispatch(websocket.reconnect());
+          dispatch(websocket.reconnect())
         })
         socket.on('connect_error', () => dispatch(websocket.setConnectError()))
         socket.on('connect_timeout', () => dispatch(websocket.setConnectTimeout()))
@@ -76,25 +77,28 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
               description: msg.error.error.description,
             })
           )
+          dispatch(fetchAppData)
         }
         dispatch<any>(fetchAppSubjects);
       })
     }
 
     if (appSlice.actions.websocketOpenShift.match(action)) {
-      socket.once("issueResult", (msg: any) => {
-        dispatch(appSlice.actions.toggleOpenShiftButtonClick(false));
+      socket.once('issueResult', (msg: any) => {
+        dispatch(appSlice.actions.toggleOpenShiftButtonClick(false))
         dispatch(documentSlice.actions.fetchDocumentCheque(false))
-        const err = msg.error;
+        const err = msg.error
         if (err) {
-          dispatch(appSlice.actions.setError({
-            code: err.code,
-            description: err.description
-          }))
+          dispatch(
+            appSlice.actions.setError({
+              code: err.code,
+              description: err.description,
+            })
+          )
         }
-        dispatch<any>(fetchAppSubjects);
-        dispatch(appSlice.actions.openShift());
-      });
+        dispatch(fetchAppSubjects)
+        dispatch(appSlice.actions.openShift())
+      })
     }
 
     if (appSlice.actions.websocketCloseShift.match(action)) {
@@ -110,8 +114,8 @@ const socketMiddleware: Middleware = ({ dispatch, getState }) => {
             })
           )
         }
-        dispatch<any>(fetchAppSubjects);
-        dispatch(appSlice.actions.closeShift());
+        dispatch(fetchAppSubjects)
+        dispatch(appSlice.actions.closeShift())
       })
     }
 

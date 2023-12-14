@@ -13,6 +13,9 @@ import {
 } from '@store/app/selectors'
 import { closeShiftAction, openShiftAction } from '@store/app/thunks'
 import { Alert } from '@components/Alert'
+import { Modal } from '@components/Modal'
+import { useState } from 'react'
+import { FiscalDocument } from '@components/FiscalDocument'
 
 export const Shift = () => {
   const shiftOpened = useAppSelector(selectShiftOpened)

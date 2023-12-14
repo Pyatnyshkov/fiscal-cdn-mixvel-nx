@@ -1,4 +1,4 @@
-import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit'
+import { AnyAction, ThunkAction, combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import { appSlice } from './app'
@@ -18,21 +18,23 @@ import { listenerZoneIdMiddleware } from './listenerZoneIdMiddleware'
 import { documentChequeSlice } from './documentCheque'
 import { uiSlice } from './ui'
 
+const rootReducer = combineReducers({
+  ui: uiSlice.reducer,
+  app: appSlice.reducer,
+  editorSubjects: editorSubjectsSlice.reducer,
+  network: networkSlice.reducer,
+  appSubjects: appSubjectsSlice.reducer,
+  encashment: encashmentSlice.reducer,
+  refill: refillSlice.reducer,
+  document: documentSlice.reducer,
+  documentSubjects: documentSubjectsSlice.reducer,
+  documentCheque: documentChequeSlice.reducer,
+  subjects: subjectsSlice.reducer,
+  websocket: wsSlice.reducer,
+})
+
 export const store = configureStore({
-  reducer: {
-    ui: uiSlice.reducer,
-    app: appSlice.reducer,
-    editorSubjects: editorSubjectsSlice.reducer,
-    network: networkSlice.reducer,
-    appSubjects: appSubjectsSlice.reducer,
-    encashment: encashmentSlice.reducer,
-    refill: refillSlice.reducer,
-    document: documentSlice.reducer,
-    documentSubjects: documentSubjectsSlice.reducer,
-    documentCheque: documentChequeSlice.reducer,
-    subjects: subjectsSlice.reducer,
-    websocket: wsSlice.reducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
@@ -44,11 +46,18 @@ export const store = configureStore({
     ),
 })
 
-type ExtraArgument = { API: API }
+export type ExtraArgument = { API: API }
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, ExtraArgument, Action>
+const dispatch = store.dispatch
+
+export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = typeof dispatch
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  ExtraArgument,
+  AnyAction
+>
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

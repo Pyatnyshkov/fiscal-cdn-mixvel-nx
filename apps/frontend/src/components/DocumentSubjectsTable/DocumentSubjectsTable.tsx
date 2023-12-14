@@ -38,7 +38,7 @@ export const DocumentSubjectsTable: React.FC<DocumentSubjectsTable> = ({ classNa
   }
 
   return (
-    <table className={clsx(styles.root, className)}>
+    <table className={clsx(styles.root, styles.table, className)}>
       <thead>
         <tr>
           <th>#</th>

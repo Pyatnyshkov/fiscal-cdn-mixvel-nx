@@ -35,10 +35,7 @@ export const Select: React.FC<Select> = ({
   const getOptionNumber = (array: SelectOptions, value: string | number) =>
     array.findIndex((el) => el.value === value.toString())
 
-  console.log('defaultValue', options, typeof defaultValue)
-
   const defaultValueResult = options[getOptionNumber(options, defaultValue)]
-  console.log('defaultValueResult', defaultValueResult)
   return (
     <div className={clsx(styles.root, className)}>
       {view !== SelectViewVarinant.inTable && (
@@ -103,12 +100,14 @@ export const Select: React.FC<Select> = ({
           }),
           valueContainer: (styles, state) => ({
             ...styles,
-            padding: '0 14px',
+            padding: view === SelectViewVarinant.inTable ? '0 10px' : '0 14px',
           }),
           singleValue: (styles, state) => ({
             ...styles,
             fontSize: '14px',
             fontWeight: '300',
+            marginLeft: '0',
+            marginRight: '0',
           }),
           indicatorsContainer: (styles, state) => ({
             ...styles,

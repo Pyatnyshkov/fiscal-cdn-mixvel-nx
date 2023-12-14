@@ -2,7 +2,6 @@ import { AppThunk } from '@store'
 import { documentSlice } from '.'
 import {
   selectDocumentSubjectsEntities,
-  selectDocumentSubjectsTotalAmount,
   selectDocumentSubjectsTotalTaxesAmount,
 } from '@store/documentSubjects/selectors'
 import { SubjectsDocumentDataRequest } from '@models/data/subjectsDocument.data.request.model'
@@ -12,13 +11,13 @@ import { ShiftError } from '@error'
 import { AxiosError } from 'axios'
 import { DocumentCurrentSettlementReportData } from '@models/data/documentCurrentSettlementReport.data.model'
 import moment from 'moment'
-import { selectDocumentChequeTotalAmount } from '@store/documentCheque/selectors'
+import { uiSlice } from '@store/ui'
+import { pushError } from '@store/ui/thunks'
 
 export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { API }) => {
   const { app, document, documentCheque, network } = getState()
   const documentSubjectsEntities = selectDocumentSubjectsEntities(getState())
 
-  const subjectsTotalAmount = selectDocumentSubjectsTotalAmount(getState())
   const subjectsTotalTaxesAmount = selectDocumentSubjectsTotalTaxesAmount(getState())
 
   const totalAmount = () => {
@@ -49,42 +48,49 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
 
   console.log('totalTaxesAmount', totalTaxesAmount())
 
-  // check
+  // проверка данных
+  const checkDocumentCheque = () => {
+    const subjects = Object.values(documentSubjectsEntities)
 
-  //   const check = () => {
-  //     const subjects = Object.values(documentSubjectsEntities)
-  //     if (!subjects) {
-  //       // Необходимы товарные позиции
-  //       return
-  //     }
-  //     // if (!document.taxationSystem || !(parseInt(document.taxationSystem.$value) >= 0)) {
-  //     //   // Укажите систему налогообложения"
-  //     //   return
-  //     // }
-  //     if (!document.pointOfSettlement || !document.pointOfSettlement.address) {
-  //       // Укажите адрес точки обслуживания"
-  //       return
-  //     }
-  //     if (subjects.every((subject) => subject?.amount && subject?.taxesAmount)) {
-  //       return
-  //     }
+    // // Необходимы данные организации
+    // if (!documentCheque.taxPayerName && !documentCheque.taxPayerTin) {
+    //   dispatch(pushError('Необходимы данные организации'))
+    //   return
+    // }
 
-  //     if (document.taxPayer.name && document.taxPayer.tin) {
-  //       return
-  //     }
+    // Необходимы товарные позиции
+    if (!subjects.length) {
+      dispatch(pushError('Необходимы товарные позиции'))
+      return
+    }
 
-  //     if (document.taxPayer.name && document.taxPayer.tin) {
-  //       return
-  //     }
+    // Укажите систему налогообложения
+    if (!documentCheque.taxationSystem) {
+      dispatch(pushError('Укажите систему налогообложения'))
+      return
+    }
 
-  //     if (document.electronicAmount || document.cashAmount || document.considerationAmount) {
-  //       return
-  //     }
+    // Укажите адрес точки обслуживания
+    if (!documentCheque.pointOfSettlementAddress) {
+      dispatch(pushError('Укажите адрес точки обслуживания'))
+      return
+    }
 
-  //     if (document.electronicAmount || document.cashAmount || document.considerationAmount) {
-  //       return
-  //     }
-  //   }
+    // Товарные позиции недооформлены
+    if (parseFloat(documentCheque.totalAmount) <= 0) {
+      dispatch(pushError('Товарные позиции недооформлены'))
+      return
+    }
+
+    return true
+  }
+
+  if (!checkDocumentCheque()) {
+    return
+  }
+
+  console.log('hello')
+  //
 
   const subjectsList = Object.values(documentSubjectsEntities).reduce<
     SubjectsDocumentDataRequest[]
@@ -217,7 +223,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
           fullName: documentCheque.cashierName,
         },
         pointOfSettlement: {
-          address: documentCheque.pointOfSettlementAdsress,
+          address: documentCheque.pointOfSettlementAddress,
         },
       },
     },
@@ -246,8 +252,7 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
     },
   }
 
-  console.log('documentData', documentData)
-  dispatch(documentSlice.actions.fetchDocumentCheque(true)) 
+  dispatch(documentSlice.actions.fetchDocumentCheque(true))
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.cheque.post(network.soapEndpoint, documentData)
@@ -286,7 +291,6 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     },
   }
 
-
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.currentSettlementReport.post(
@@ -317,7 +321,7 @@ export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { A
   try {
     const data = await API.report.post(
       network.operationsSOAPEndpoint,
-      app.instructions.deviceRouting 
+      app.instructions.deviceRouting
     )
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"

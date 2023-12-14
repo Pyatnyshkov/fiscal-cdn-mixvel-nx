@@ -17,7 +17,7 @@ export const issueDocumentChequeAPI = {
       return issueDocumentTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error.config?.data)
+        console.log(error)
       }
       throw new ShiftError({
         code: 'issueDocumentChequeAPI',

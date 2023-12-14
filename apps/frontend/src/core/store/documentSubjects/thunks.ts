@@ -11,6 +11,7 @@ import {
 import { calcAmounts } from '@utils/calcAmounts'
 import { selectSubjectByName } from '@store/appSubjects/selectors'
 import { documentChequeSlice } from '@store/documentCheque'
+import { updateElectronicAmount } from '@store/documentCheque/thunks'
 
 type DocumentAddSubject = (subjectName: string | null) => AppThunk
 type DocumentRemoveSubject = (id: string) => AppThunk
@@ -51,8 +52,8 @@ export const calcTotalAmount: AppThunk = (dispatch, getState) => {
 
   console.log('amounts', { totalAmount, totalTaxesAmount })
 
-  dispatch(documentChequeSlice.actions.updatedElectronicAmount(totalAmount.toString()))
   dispatch(documentSubjectsSlice.actions.updatedAmounts({ totalAmount, totalTaxesAmount }))
+  dispatch(updateElectronicAmount)
 }
 
 export const documentRemoveSubject: DocumentRemoveSubject =

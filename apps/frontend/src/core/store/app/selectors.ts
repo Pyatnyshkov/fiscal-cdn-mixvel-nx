@@ -21,6 +21,8 @@ export const selectErrorMessage = (state: RootState) => {
   return selectApp(state).generalError && selectApp(state).generalError.description
 }
 
+export const selectErrorCode = (state: RootState) => selectApp(state).generalError.code
+
 export const selectAppError = (state: RootState) => {
   return selectApp(state).generalError && selectApp(state).generalError
 }

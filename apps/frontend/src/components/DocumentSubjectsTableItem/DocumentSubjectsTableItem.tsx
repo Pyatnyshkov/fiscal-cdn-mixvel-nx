@@ -33,19 +33,6 @@ export const DocumentSubjectsTableItem: React.FC<TableItem> = ({ id, number, cla
     return
   }
 
-  const taxesOptionsDefaultIndex = getDefaultOptionIndex(TaxesSelectOptions, documentSubject.taxes)
-  const signsSubjectOptionsDefaultIndex = getDefaultOptionIndex(
-    SignsSubjectSelectOptions,
-    documentSubject.signsSubject
-  )
-  const signsMethodOptionsDefaultIndex = 3
-  const agentRoleOptionsDefaultIndex = getDefaultOptionIndex(
-    AgentRoleSelectOptions,
-    documentSubject.agentRole
-  )
-
-  console.warn('agentRoleOptionsDefaultIndex', agentRoleOptionsDefaultIndex)
-
   const handleDocumentRemoveSubject = (id: string) => dispatch(documentRemoveSubject(id))
 
   const handleDocumentUpdateSubject = (value: string, name: string) => {

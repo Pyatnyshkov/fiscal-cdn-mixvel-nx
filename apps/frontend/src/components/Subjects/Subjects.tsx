@@ -22,7 +22,7 @@ export const Subjects: React.FC<Subjects> = ({ className }) => {
   return (
     <div className={clsx(styles.root, className)}>
       <div className={styles.panel}>
-        <h1 className={styles.title}>Товарные позиции:</h1>
+        <div className={styles.title}>Товарные позиции:</div>
       </div>
 
       <SubjectsTable />

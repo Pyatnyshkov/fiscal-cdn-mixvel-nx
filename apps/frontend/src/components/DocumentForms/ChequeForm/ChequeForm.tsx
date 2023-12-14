@@ -8,24 +8,26 @@ import { Select } from '@components/UI/Select'
 
 import { selectAppTaxationSystem } from '@store/app/selectors'
 import { ChequeTypeSelectOptions } from '@consts'
-import { selectDocumentChequeValues } from '@store/documentCheque/selectors'
-import { DocumentCheque, documentChequeSlice } from '@store/documentCheque'
+
 import { convertToSelectOptions } from '@utils/convertToSelectOptions'
 import { updateDocumentCheque } from '@store/documentCheque/thunks'
+import { selectDocumentChequeValues } from '@store/documentCheque/selectors'
 
 export const ChequeForm = () => {
   const taxationSystem = useAppSelector(selectAppTaxationSystem)
   const documentChequeValues = useAppSelector(selectDocumentChequeValues)
+  console.log('taxationSystem', taxationSystem)
 
   const TaxationSystemsSelectOptions = convertToSelectOptions(taxationSystem)
+
+  console.log('TaxationSystemsSelectOptions', TaxationSystemsSelectOptions)
+  console.log('ChequeTypeSelectOptions', ChequeTypeSelectOptions)
 
   const dispatch = useAppDispatch()
 
   const handleUpdateCheque = (value: string, name: string) => {
     dispatch(updateDocumentCheque(value, name))
   }
-
-  const onSubmit = () => {}
 
   return (
     <div className={styles.root}>
@@ -88,8 +90,8 @@ export const ChequeForm = () => {
       <Select
         label={'Система налогооблажения'}
         options={TaxationSystemsSelectOptions}
-        defaultValue={TaxationSystemsSelectOptions[0].value}
-        onChange={() => {}}
+        defaultValue={documentChequeValues.taxationSystem}
+        onChange={(option) => handleUpdateCheque(option?.value || '', 'taxationSystem')}
         className={styles.marginBottom}
         classNameLabel={styles.widthLabel}
       />

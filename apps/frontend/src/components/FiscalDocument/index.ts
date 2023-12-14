@@ -1,0 +1,1 @@
+export { FiscalDocument } from './FiscalDocument'

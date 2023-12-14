@@ -2,25 +2,23 @@ import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from '..'
 
 export const selectDocumentCheque = (state: RootState) => state.documentCheque
-export const selectDocumentPointOfSettlementAddress = (state: RootState) =>
-  selectDocumentCheque(state).pointOfSettlementAdsress
 
+export const selectDocumentPointOfSettlementAddress = (state: RootState) =>
+  selectDocumentCheque(state).pointOfSettlementAddress
 export const selectDocumentChequeTaxPayerName = (state: RootState) =>
   selectDocumentCheque(state).taxPayerName
 export const selectDocumentChequeTaxPayerTin = (state: RootState) =>
   selectDocumentCheque(state).taxPayerTin
-
 export const selectDocumentChequeCashierName = (state: RootState) =>
   selectDocumentCheque(state).cashierName
 export const selectDocumentChequeCashierTin = (state: RootState) =>
   selectDocumentCheque(state).cashierTin
-
 export const selectDocumentChequeChequeType = (state: RootState) =>
   selectDocumentCheque(state).chequeType
 export const selectDocumentChequeTaxationSystem = (state: RootState) =>
   selectDocumentCheque(state).taxationSystem
 export const selectDocumentChequeReferenceNumber = (state: RootState) =>
-  selectDocumentCheque(state).documentReferenceNumber
+  selectDocumentCheque(state).referenceNumber
 export const selectDocumentChequeCustomerPhone = (state: RootState) =>
   selectDocumentCheque(state).customerPhone
 export const selectDocumentChequeCustomerEmail = (state: RootState) =>
@@ -47,6 +45,7 @@ export const selectDocumentChequeValues = createSelector(
     selectDocumentChequeCustomerPhone,
     selectDocumentChequeCustomerEmail,
     selectDocumentPointOfSettlementAddress,
+
     selectDocumentChequeElectronicAmount,
     selectDocumentChequeCashAmount,
     selectDocumentChequeConsiderationAmount,
@@ -64,6 +63,7 @@ export const selectDocumentChequeValues = createSelector(
     customerPhone,
     customerEmail,
     pointOfSettlementAddress,
+
     electronicAmount,
     cashAmount,
     considerationAmount,
@@ -80,6 +80,7 @@ export const selectDocumentChequeValues = createSelector(
     customerPhone,
     customerEmail,
     pointOfSettlementAddress,
+
     electronicAmount,
     cashAmount,
     considerationAmount,

@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import styles from './Input.module.css'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { InputView } from './const'
-import { UseFormRegister } from 'react-hook-form'
+import { useDebouncedCallback } from 'use-debounce'
 
 interface Input {
   name: string
@@ -35,21 +35,19 @@ export const Input = forwardRef<HTMLInputElement, Input>(
       autocomplete = 'off',
       view,
       onChange = () => {},
-      onBlur = () => {},
     },
     ref
   ) => {
     const [inputValue, setInputValue] = useState<string>(value)
+    const debouncedChangeValue = useDebouncedCallback(onChange, 1000)
 
-    // console.log('inputValue', value, inputValue)
+    useEffect(() => {
+      setInputValue(value)
+    }, [value])
+
     const handleOnChange = (value: string) => {
-      // setInputValue(value)
-      onChange(value, name)
-    }
-
-    const handleOnBlur = (value: string) => {
-      // setInputValue(value)
-      onBlur(value, name)
+      setInputValue(value)
+      debouncedChangeValue(value, name)
     }
 
     return (
@@ -73,9 +71,8 @@ export const Input = forwardRef<HTMLInputElement, Input>(
           )}
           disabled={disabled}
           autoComplete={autocomplete}
-          value={value}
+          value={inputValue}
           onChange={(e) => handleOnChange(e.target.value)}
-          onBlur={(e) => handleOnBlur(e.target.value)}
           ref={ref}
         />
       </div>

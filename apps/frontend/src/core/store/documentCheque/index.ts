@@ -8,18 +8,17 @@ export interface DocumentCheque {
   taxPayerTin: string
   cashierName: string
   cashierTin: string
-  pointOfSettlementAdsress: string
+  pointOfSettlementAddress: string
   taxationSystem: string
   customerPhone: string
   customerEmail: string
-  documentReferenceNumber: string
+  referenceNumber: string
   electronicAmount: string
   cashAmount: string
   considerationAmount: string
   electronicMaskedCardPAN: string
   copies: string
   totalAmount: string
-  [key: string]: string | Record<number, string>[]
 }
 
 const initialState: DocumentCheque = {
@@ -28,17 +27,17 @@ const initialState: DocumentCheque = {
   taxPayerTin: '',
   cashierName: '',
   cashierTin: '',
-  pointOfSettlementAdsress: '',
-  taxationSystem: '2',
+  pointOfSettlementAddress: '',
+  taxationSystem: '0',
   customerPhone: '',
   customerEmail: '',
-  documentReferenceNumber: '',
+  referenceNumber: '',
   electronicAmount: '0',
   cashAmount: '0',
   considerationAmount: '0',
   electronicMaskedCardPAN: '',
   copies: '2',
-  totalAmount: '',
+  totalAmount: '0',
 }
 
 export type ExtractDocumentChequeData = {
@@ -46,10 +45,13 @@ export type ExtractDocumentChequeData = {
   taxPayerTin: string
   cashierName: string
   cashierTin: string
-  pointOfSettlementAdsress: string
+  pointOfSettlementAddress: string
 }
 
-type PayloadUpdate = PayloadAction<{ [key in keyof DocumentCheque]: DocumentCheque[key] }>
+type PayloadUpdate = PayloadAction<{
+  key: string
+  value: string
+}>
 type PayloadExtract = PayloadAction<ExtractDocumentChequeData>
 
 export const documentChequeUpdate =
@@ -57,6 +59,12 @@ export const documentChequeUpdate =
   async (dispatch, getState) => {
     const { app } = getState()
   }
+
+// type isChequeType<V extends keyof DocumentCheque> = V extends DocumentCheque['chequeType']
+//   ? DocumentCheque['chequeType']
+//   : never
+
+//   type MessageOf<T extends DocumentCheque['chequeType']> = T["chequeType"];
 
 export const documentChequeSlice = createSlice({
   name: 'documentCheque',
@@ -67,21 +75,17 @@ export const documentChequeSlice = createSlice({
       state.taxPayerTin = payload.taxPayerTin
       state.cashierName = payload.cashierName
       state.cashierTin = payload.cashierTin
-      state.pointOfSettlementAdsress = payload.pointOfSettlementAdsress
+      state.pointOfSettlementAddress = payload.pointOfSettlementAddress
     },
     updated: (state, { payload }: PayloadUpdate) => {
-      Object.entries(payload).forEach(([key, value]) => {
-        state[key] = value
-      })
+      //@ts-ignore
+      state[payload.key] = payload.value
     },
     updatedElectronicAmount: (state, { payload }: PayloadAction<string>) => {
       state.electronicAmount = payload
     },
     updatedTotalAmount: (state, { payload }: PayloadAction<string>) => {
-      state.formsTotalAmount = payload
-    },
-    updatedTotalTaxaAmount: (state, { payload }: PayloadAction<[]>) => {
-      state.formsTotalTaxaAmount = payload
+      state.totalAmount = payload
     },
   },
 })

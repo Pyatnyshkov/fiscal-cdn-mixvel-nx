@@ -3,6 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TaxationSystemModel } from '@models/general/taxationSystem.model'
 import { ChequeContent } from '@models/general/chequeContent.model'
 import { ChequeModel } from '@models/cheque.model'
+import { IssueResult } from '@models/general/issueResult.model'
 
 interface DocumentDataState {
   taxationSystem: TaxationSystemModel['type']['$value']
@@ -14,7 +15,7 @@ interface DocumentDataState {
   printoutInjections: ChequeModel['printoutInjections']
   sendButtonDisabled: ChequeModel['sendButtonDisabled']
   sendButtonVisible: ChequeModel['sendButtonVisible']
-  issueResult: ChequeModel['issueResult']
+  issueResult: IssueResult | null
   chequeContent: ChequeContent
 }
 
@@ -39,7 +40,7 @@ const initialState: DocumentDataState = {
   },
   sendButtonVisible: true,
   sendButtonDisabled: false,
-  issueResult: {},
+  issueResult: null,
   chequeContent: {} as ChequeContent,
   taxation: {
     enabledTaxationSystems: {
@@ -60,7 +61,7 @@ export const documentSlice = createSlice({
     },
     successCloseChequeApp: (state, { payload }: any) => {
       console.log('successCloseChequeApp, ', payload)
-      state.issueResult = payload;
+      state.issueResult = payload
     },
   },
 })

@@ -11,7 +11,7 @@ export const Alert = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.root}>
       <div className={styles.point}></div>
       {description}
     </div>

@@ -22,7 +22,7 @@ export const ShiftPage = () => {
   }, [dispatch])
 
   if (errorMessage) {
-    return <div>{errorMessage}</div>
+    return <div>{errorMessage} !!!</div>
   }
 
   if (!started) {
