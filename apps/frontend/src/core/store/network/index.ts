@@ -53,7 +53,7 @@ export const networkSlice = createSlice({
       }
 
       state.soapEndpoint = getUrl(payload.soapEndpoint) || ''
-      state.operationsSOAPEndpoint = payload.operationsSOAPEndpoint || ''
+      state.operationsSOAPEndpoint = getUrl(payload.operationsSOAPEndpoint) || ''
       state.subjectsSOAPEndpoint = getUrl(payload.subjectsSOAPEndpoint) || ''
       state.subjectsWebEndpoint = getUrl(payload.subjectsWebEndpoint) || ''
       state.socketIOPath = payload.socketIOPath || ''

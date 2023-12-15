@@ -70,11 +70,8 @@ export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) 
       editorSubjects.identification.guid,
       commitSubjectsData
     )
-    console.log(subjectData)
     // dispatch(appSubjectsSlice.actions.success(subjectData))
   } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message)
-    }
+    
   }
 }

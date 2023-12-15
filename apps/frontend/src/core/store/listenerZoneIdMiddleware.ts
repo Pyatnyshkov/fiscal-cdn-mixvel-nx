@@ -12,6 +12,5 @@ startListeningZoneId({
   actionCreator: wsSlice.actions.subscribe,
   effect: ({ payload: zoneId }, api) => {
     api.dispatch(appSlice.actions.updatedZoneId(zoneId))
-    console.log('zoneId ', zoneId)
   },
 })

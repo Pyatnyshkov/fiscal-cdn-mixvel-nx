@@ -60,8 +60,8 @@ export const documentSlice = createSlice({
       state.sendButtonDisabled = !payload
     },
     successCloseChequeApp: (state, { payload }: any) => {
-      console.log('successCloseChequeApp, ', payload)
       state.issueResult = payload
     },
+    fetchIssueDocumentCurrentSettlementReport: () => {},
   },
 })

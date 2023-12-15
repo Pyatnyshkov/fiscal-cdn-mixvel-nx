@@ -20,7 +20,6 @@ export const extractDocumentChequeData: AppThunk = async (dispatch, getState) =>
 export const updateDocumentCheque =
   (value: string, fieldName: string): AppThunk =>
   (dispatch) => {
-    console.log('updateDocumentCheque', value, fieldName)
     const name = fieldName as keyof DocumentCheque
 
     dispatch(documentChequeSlice.actions.updated({ key: name, value: value }))

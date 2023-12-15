@@ -46,8 +46,6 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
     }, [])
   }
 
-  console.log('totalTaxesAmount', totalTaxesAmount())
-
   // проверка данных
   const checkDocumentCheque = () => {
     const subjects = Object.values(documentSubjectsEntities)
@@ -88,9 +86,6 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   if (!checkDocumentCheque()) {
     return
   }
-
-  console.log('hello')
-  //
 
   const subjectsList = Object.values(documentSubjectsEntities).reduce<
     SubjectsDocumentDataRequest[]
@@ -256,7 +251,6 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
   dispatch(documentSlice.actions.sendButtonState(false))
   try {
     const data = await API.document.cheque.post(network.soapEndpoint, documentData)
-    console.log(data)
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
@@ -278,7 +272,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
   getState,
   { API }
 ) => {
-  const { app, network, websocket } = getState()
+  const { app, network } = getState()
 
   const currentSettlementReportData: DocumentCurrentSettlementReportData = {
     attributes: {
@@ -292,17 +286,16 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
   }
 
   dispatch(documentSlice.actions.sendButtonState(false))
+  dispatch(documentSlice.actions.fetchIssueDocumentCurrentSettlementReport())
   try {
     const data = await API.document.currentSettlementReport.post(
       network.soapEndpoint,
       currentSettlementReportData
     )
-    console.log(data)
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
   } catch (error) {
-    console.log(error)
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
     }
@@ -317,7 +310,6 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
 
 export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { API }) => {
   const { app, network } = getState()
-
   try {
     const data = await API.report.post(
       network.operationsSOAPEndpoint,

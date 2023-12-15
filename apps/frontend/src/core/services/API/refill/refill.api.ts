@@ -21,7 +21,6 @@ export const refillAPI = {
       // return singleTransformResponseDataXML(XMLParser(response.data))
       return operationsTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
-      console.log(error)
       throw new ShiftError({ code: 'refillAPI', description: 'refillAPI' })
     }
   },

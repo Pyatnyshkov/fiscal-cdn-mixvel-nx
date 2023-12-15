@@ -7,7 +7,6 @@ export const calcPrice = (price: string, quantity: string, taxesType: string) =>
 
   const amount = getAmount(price, quantity)
 
-  console.log(amount)
   const taxesAmount = calcVatAmount(taxesType, amount).amount
 
   return { amount, taxesAmount: '' }

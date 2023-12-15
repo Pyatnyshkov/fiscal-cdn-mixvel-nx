@@ -16,12 +16,8 @@ import { selectDocumentChequeValues } from '@store/documentCheque/selectors'
 export const ChequeForm = () => {
   const taxationSystem = useAppSelector(selectAppTaxationSystem)
   const documentChequeValues = useAppSelector(selectDocumentChequeValues)
-  console.log('taxationSystem', taxationSystem)
 
   const TaxationSystemsSelectOptions = convertToSelectOptions(taxationSystem)
-
-  console.log('TaxationSystemsSelectOptions', TaxationSystemsSelectOptions)
-  console.log('ChequeTypeSelectOptions', ChequeTypeSelectOptions)
 
   const dispatch = useAppDispatch()
 

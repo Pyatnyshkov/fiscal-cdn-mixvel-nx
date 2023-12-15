@@ -50,8 +50,6 @@ export const calcTotalAmount: AppThunk = (dispatch, getState) => {
     }
   )
 
-  console.log('amounts', { totalAmount, totalTaxesAmount })
-
   dispatch(documentSubjectsSlice.actions.updatedAmounts({ totalAmount, totalTaxesAmount }))
   dispatch(updateElectronicAmount)
 }

@@ -68,7 +68,6 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     if (!singleData) {
       return
     }
-    console.log('singleData', singleData.single)
 
     if (isSingleDataSuccess(singleData)) {
       dispatch(appSlice.actions.success(singleData))

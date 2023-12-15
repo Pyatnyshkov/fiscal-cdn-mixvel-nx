@@ -11,14 +11,11 @@ export const singleAPI = {
   post: async (url: string, dataRequest: Instructions['deviceRouting']) => {
     try {
       const response = await new HttpRequest(url).post(singlePrepareRequestDataXML(dataRequest))
-      console.log('data', response.data)
-      console.log('response', response)
       if (!response.data) {
         return
       }
       return singleTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
-      console.log(error)
       // return singleTransformResponseDataXML(XMLParser(mockSingle))
     }
   },

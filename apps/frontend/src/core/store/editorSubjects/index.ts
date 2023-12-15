@@ -36,9 +36,7 @@ export const fetchSubjects: AppThunk = async (dispatch, getState, { API }) => {
       dispatch(appSubjectsSlice.actions.success(subjectData))
     }
   } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message)
-    }
+    
   }
 }
 

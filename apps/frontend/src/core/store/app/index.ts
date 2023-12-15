@@ -232,8 +232,6 @@ export const appSlice = createSlice({
           ) {
             const taxationSystems = registrationReport.taxationSystems.taxationSystem
 
-            console.log(' !!! taxationSystems', taxationSystems)
-
             taxationSystems.forEach(({ $value }) => {
               //@ts-ignore
               state.taxation.enabledTaxationSystems[$value] = TaxationSystems[$value]

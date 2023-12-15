@@ -18,9 +18,6 @@ export const flowStatementReportAPI = {
       // return singleTransformResponseDataXML(XMLParser(response.data))
       return issueDocumentTransformResponseDataXML(response.data)
     } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.config?.data)
-      }
       throw new ShiftError({
         code: 'issueDocumentChequeAPI',
         description: 'issueDocumentChequeAPI',

@@ -77,7 +77,20 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
               description: msg.error.error.description,
             })
           )
-          dispatch(fetchAppData)
+        }
+        dispatch<any>(fetchAppSubjects);
+      })
+    }
+
+    if (documentSlice.actions.fetchIssueDocumentCurrentSettlementReport.match(action)) {
+      socket.once('issueResult', (msg: any) => {
+        if (msg.error) {
+          dispatch(
+            appSlice.actions.setError({
+              code: msg.error.code,
+              description: msg.error.description,
+            })
+          )
         }
         dispatch<any>(fetchAppSubjects);
       })
