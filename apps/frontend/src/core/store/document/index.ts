@@ -61,11 +61,11 @@ export const documentSlice = createSlice({
     sendButtonState: (state, { payload }: PayloadAction<boolean>) => {
       state.sendButtonDisabled = !payload
     },
-    successCloseChequeApp: (state, { payload }: any) => {
+    successCloseChequeApp: (state, { payload }: PayloadAction<any>) => {
       state.issueResult = payload
     },
     fetchIssueDocumentCurrentSettlementReport: () => {},
-    hideOnShiftOperation: (state, { payload }: boolean) => {
+    hideOnShiftOperation: (state, { payload }: PayloadAction<boolean>) => {
       state.hideOnShiftOperation = payload
     }
   },
