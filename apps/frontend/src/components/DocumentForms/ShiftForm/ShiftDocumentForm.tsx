@@ -5,6 +5,7 @@ import { Input } from '../../UI/Input'
 import styles from './ShiftDocumentForm.module.css'
 import { useAppDispatch, useAppSelector } from '@store'
 import { selectDocumentView } from '@store/app/selectors'
+import { selectHideOnShiftOperation } from '@store/document/selectors'
 import {
   fetchFlowStatementReport,
   fetchIssueDocumentCurrentSettlementReport,
@@ -13,6 +14,7 @@ import {
 export const ShiftDocumentForm = () => {
   const { shiftNumber, registrationNumber, factoryNumber, fiscalStorageFactoryNumber } =
     useAppSelector(selectDocumentView)
+  const hideOnShiftOperation = useAppSelector(selectHideOnShiftOperation)
 
   const dispatch = useAppDispatch()
 
@@ -61,7 +63,12 @@ export const ShiftDocumentForm = () => {
           className={clsx(styles.width, styles.marginRight)}
           onClick={handleIssueDocumentCurrentSettlementReport}
         />
-        <Button text="Печать" className={styles.width} onClick={handleFlowStatementReport} />
+        <Button 
+          text="Печать" 
+          className={styles.width} 
+          onClick={handleFlowStatementReport} 
+          disabled={hideOnShiftOperation}
+        />
       </div>
     </div>
   )

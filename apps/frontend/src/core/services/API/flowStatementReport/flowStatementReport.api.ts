@@ -18,10 +18,7 @@ export const flowStatementReportAPI = {
       // return singleTransformResponseDataXML(XMLParser(response.data))
       return issueDocumentTransformResponseDataXML(response.data)
     } catch (error) {
-      throw new ShiftError({
-        code: 'issueDocumentChequeAPI',
-        description: 'issueDocumentChequeAPI',
-      })
+
     }
   },
 }
