@@ -11,7 +11,6 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       hash: true,
       template: './src/index.html',
       filename: './subjects/index.html',
-      baseUrl: '/fh/subjects/index.html'
     })
   )
   return config
