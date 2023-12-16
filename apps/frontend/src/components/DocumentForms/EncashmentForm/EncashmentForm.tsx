@@ -6,6 +6,7 @@ import styles from './EncashmentForm.module.css'
 import { useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store'
 import { selectEncashmentRequest } from '@store/encashment/selectors'
+import { selectHideOnShiftOperation } from '@store/document/selectors'
 import { encashmentSlice, fetchEncashment } from '@store/encashment'
 
 interface IFormInput {
@@ -16,7 +17,7 @@ interface IFormInput {
 
 export const EncashmentForm = () => {
   const encashmentRequest = useAppSelector(selectEncashmentRequest)
-
+  const hideOnShiftOperation = useAppSelector(selectHideOnShiftOperation)
   const dispatch = useAppDispatch()
 
   const onChange = (value: string, name: string) => {
@@ -48,7 +49,12 @@ export const EncashmentForm = () => {
           onChange={(value, name) => onChange(value, name)}
         />
       </div>
-      <Button text="Инкассация" className={styles.marginLeft} onClick={onSubmit} />
+      <Button 
+        text="Инкассация" 
+        className={styles.marginLeft} 
+        onClick={onSubmit}
+        disabled={hideOnShiftOperation}
+      />
     </div>
   )
 }

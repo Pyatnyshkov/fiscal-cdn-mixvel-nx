@@ -17,3 +17,7 @@
   text-transform: uppercase;
   cursor: pointer;
 }
+
+.disabled {
+  background: var(--input-bg-disabled);
+}

@@ -13,6 +13,7 @@ import { DocumentCurrentSettlementReportData } from '@models/data/documentCurren
 import moment from 'moment'
 import { uiSlice } from '@store/ui'
 import { pushError } from '@store/ui/thunks'
+import { fetchAppSubjects } from '@store/app/thunks'
 
 export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { API }) => {
   const { app, document, documentCheque, network } = getState()
@@ -295,6 +296,7 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
+    dispatch(documentSlice.actions.hideOnShiftOperation(false));
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
@@ -310,6 +312,8 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
 
 export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { API }) => {
   const { app, network } = getState()
+  dispatch(documentSlice.actions.sendButtonState(false))
+  dispatch(documentSlice.actions.hideOnShiftOperation(true));
   try {
     const data = await API.report.post(
       network.operationsSOAPEndpoint,
@@ -318,6 +322,7 @@ export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { A
     // dispatch(documentSlice.actions.success(data))
     //TODO изменить включение кнопки только при статусе ответа "sheduled"
     dispatch(documentSlice.actions.sendButtonState(true))
+    dispatch(fetchAppSubjects);
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))

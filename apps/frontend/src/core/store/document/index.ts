@@ -17,6 +17,7 @@ interface DocumentDataState {
   sendButtonVisible: ChequeModel['sendButtonVisible']
   issueResult: IssueResult | null
   chequeContent: ChequeContent
+  hideOnShiftOperation: boolean
 }
 
 const initialState: DocumentDataState = {
@@ -47,6 +48,7 @@ const initialState: DocumentDataState = {
       value: '',
     },
   },
+  hideOnShiftOperation: false
 }
 
 export const documentSlice = createSlice({
@@ -63,5 +65,8 @@ export const documentSlice = createSlice({
       state.issueResult = payload
     },
     fetchIssueDocumentCurrentSettlementReport: () => {},
+    hideOnShiftOperation: (state, { payload }: boolean) => {
+      state.hideOnShiftOperation = payload
+    }
   },
 })

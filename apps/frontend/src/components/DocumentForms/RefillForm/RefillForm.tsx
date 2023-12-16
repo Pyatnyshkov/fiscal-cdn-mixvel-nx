@@ -4,11 +4,12 @@ import { Input } from '../../UI/Input'
 
 import styles from './RefillForm.module.css'
 import { selectRefillRequest } from '@store/refill/selectors'
+import { selectHideOnShiftOperation } from '@store/document/selectors'
 import { fetchRefill, refillSlice } from '@store/refill'
 
 export const RefillForm = () => {
   const refillRequest = useAppSelector(selectRefillRequest)
-
+  const hideOnShiftOperation = useAppSelector(selectHideOnShiftOperation)
   const dispatch = useAppDispatch()
 
   const onChange = (value: string, name: string) => {
@@ -40,7 +41,12 @@ export const RefillForm = () => {
           onChange={(value, name) => onChange(value, name)}
         />
       </div>
-      <Button text="Пополнить" className={styles.marginLeft} onClick={onSubmit} />
+      <Button 
+        text="Пополнить" 
+        className={styles.marginLeft} 
+        onClick={onSubmit} 
+        disabled={hideOnShiftOperation}
+      />
     </div>
   )
 }
