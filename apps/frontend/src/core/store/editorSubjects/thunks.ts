@@ -66,7 +66,7 @@ export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) 
         }
       }
 
-      if (Object.keys(subject.department).length) {
+      if (subject.department.code) {
         subjectElement.department = {
           code: subject.department.code,
           title: subject.department.title,
