@@ -7,3 +7,9 @@ export const selectEditorSubjectsDepartmentsByCode = (state: RootState) =>
 
 export const selectEditorSubjectsGUID = (state: RootState) =>
   selectEditorSubjects(state).identification.guid
+
+export const selectEditorSubjectsSOAPEndpoint = (state: RootState) =>
+  selectEditorSubjects(state).subjectsSOAPEndpoint
+
+export const selectEditorSubjectsDepartments = (state: RootState) =>
+  selectEditorSubjects(state).departments

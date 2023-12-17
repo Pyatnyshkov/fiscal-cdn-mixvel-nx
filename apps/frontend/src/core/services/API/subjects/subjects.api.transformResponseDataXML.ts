@@ -37,15 +37,15 @@ export const subjectsTransformResponseDataXML: SubjectsTransformResponseDataXML 
       quantity: getTextFromElement(sX.getElementsByTagName('quantity')),
       measure: getTextFromElement(sX.getElementsByTagName('measure')),
     }
-    const departmentX = sX.getElementsByTagName('department')[0]
-    if (departmentX) {
-      const department = {
-        code: getTextFromElement(departmentX.getElementsByTagName('code')),
-        title: getTextFromElement(departmentX.getElementsByTagName('title')),
-      }
-      s.department = department
-      s.departmentCode = department.code
-    }
+    // const departmentX = sX.getElementsByTagName('department')[0]
+    // if (departmentX) {
+    //   const department = {
+    //     code: getTextFromElement(departmentX.getElementsByTagName('code')),
+    //     title: getTextFromElement(departmentX.getElementsByTagName('title')),
+    //   }
+    //   s.department = department
+    //   s.departmentCode = department.code
+    // }
     const taxesX = sX.getElementsByTagName('taxes')[0]
     if (taxesX) {
       const type = getTextFromElement(taxesX.getElementsByTagName('type')[0])
@@ -125,6 +125,7 @@ export const subjectsTransformResponseDataXML: SubjectsTransformResponseDataXML 
     }
     subjects.push(s)
   }
+
   const resp = {
     identification: {
       guid: identification,

@@ -6,19 +6,20 @@ import { useAppDispatch, useAppSelector } from '@store'
 
 import { Input, InputView } from '../UI/Input'
 
-import { documentSubjectsSlice } from '@store/documentSubjects'
 import {
   AgentRoleSelectOptions,
   SignsSubjectSelectOptions,
   TaxationSystems,
   TaxesSelectOptions,
 } from '@consts'
-import { getDefaultOptionIndex } from '@utils/getDefaultOptionIndex'
 import { EntityId } from '@reduxjs/toolkit'
 import { selectSubjectsSubjectById } from '@store/subjects/selectors'
 import { removeSubject, updateSubject, updateSubjectRestrictions } from '@store/subjects/thunks'
 import { Checkbox } from '@components/UI/Checkbox'
-import { SubjectElement, isTaxationSystem } from '@models/subjectElement.state.model'
+import { isTaxationSystem } from '@models/subjectElement.state.model'
+import { Select, SelectViewVarinant } from '@components/UI/Select'
+import { selectEditorSubjectsDepartments } from '@store/editorSubjects/selectors'
+import { EditorSubjects } from '@models/editorSubjects.model'
 
 interface TableItem {
   id: EntityId
@@ -28,6 +29,7 @@ interface TableItem {
 
 export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }) => {
   const subject = useAppSelector(selectSubjectsSubjectById(id))
+  const departments = useAppSelector(selectEditorSubjectsDepartments)
 
   const dispatch = useAppDispatch()
 
@@ -35,21 +37,31 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
     return
   }
 
-  const taxesOptionsDefaultIndex = getDefaultOptionIndex(TaxesSelectOptions, subject.taxes)
-  const signsSubjectOptionsDefaultIndex = getDefaultOptionIndex(
-    SignsSubjectSelectOptions,
-    subject.signsSubject
-  )
+  const convertToSelectOptions = (data: EditorSubjects['departments']) => {
+    return data.reduce<{ value: string; label: string }[]>((acc, el) => {
+      acc.push({ value: el.code, label: el.title })
+      return acc
+    }, [])
+  }
 
-  const agentRoleOptionsDefaultIndex = getDefaultOptionIndex(
-    AgentRoleSelectOptions,
-    subject.agentRole
-  )
+  const departmentsSelectOptions = convertToSelectOptions(departments)
 
   // перенести table callback
 
   const handleUpdateSubject = (value: string, name: any) => {
     dispatch(updateSubject(id, name, value))
+  }
+
+  const handleUpdateSubjectDepartment = (
+    options: { value: string; label: string } | null,
+    name: any
+  ) => {
+    if (!options) {
+      return
+    }
+
+    const department = { code: options.value, title: options.label }
+    dispatch(updateSubject(id, name, department))
   }
 
   const handleRemoveSubject = (id: EntityId) => dispatch(removeSubject(id))
@@ -84,7 +96,6 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           view={InputView.tableCol}
         />
       </td>
-
       <td>
         <Input
           name="measure"
@@ -94,28 +105,36 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
         />
       </td>
       <td>
-        <ReactSelect
+        <Select
           options={TaxesSelectOptions}
-          defaultValue={TaxesSelectOptions[taxesOptionsDefaultIndex]}
+          defaultValue={subject.taxes}
           onChange={(option) => handleUpdateSubject(option?.value || '', 'taxes')}
+          view={SelectViewVarinant.inTable}
         />
       </td>
       <td>
-        <ReactSelect isDisabled />
+        <Select
+          options={departmentsSelectOptions}
+          // defaultValue={subject.department}
+          onChange={(option) => handleUpdateSubjectDepartment(option, 'department')}
+          view={SelectViewVarinant.inTable}
+        />
       </td>
       <td>
-        <ReactSelect
+        <Select
           options={SignsSubjectSelectOptions}
-          defaultValue={SignsSubjectSelectOptions[signsSubjectOptionsDefaultIndex]}
+          defaultValue={subject.signsSubject}
           onChange={(option) => handleUpdateSubject(option?.value || '', 'signsSubject')}
+          view={SelectViewVarinant.inTable}
         />
       </td>
 
       <td>
-        <ReactSelect
+        <Select
           options={AgentRoleSelectOptions}
-          defaultValue={AgentRoleSelectOptions[agentRoleOptionsDefaultIndex]}
+          defaultValue={subject.agentRole}
           onChange={(option) => handleUpdateSubject(option?.value || '', 'agentRole')}
+          view={SelectViewVarinant.inTable}
         />
       </td>
       <td>

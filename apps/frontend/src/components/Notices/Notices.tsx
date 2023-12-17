@@ -7,9 +7,9 @@ import { reconnect } from '@store/websocket'
 import { API } from '@services/API'
 
 import { Notice, NoticeMessages, NoticeStatuses, NoticeViewVariant } from '../Notice'
-import { selectNetwork } from '@store/network/selectors'
+import { selectNetwork, selectWebEndpoint } from '@store/network/selectors'
 import { selectApp } from '@store/app/selectors'
-import { selectAppSubjects } from '@store/appSubjects/selectors'
+import { selectAppSubjects, selectAppSubjectsGUID } from '@store/appSubjects/selectors'
 
 interface Notices {
   className?: string
@@ -18,6 +18,9 @@ interface Notices {
 export const Notices: React.FC<Notices> = ({ className }) => {
   const dispatch = useAppDispatch()
   const wsState = useAppSelector(selectWsState)
+  const subjectsGUID = useAppSelector(selectAppSubjectsGUID)
+  const webEndpoint = useAppSelector(selectWebEndpoint)
+
   const wsStatus = () => {
     if (wsState.connected) return NoticeStatuses.available
     if (wsState.connecting) return NoticeStatuses.waiting
@@ -41,6 +44,11 @@ export const Notices: React.FC<Notices> = ({ className }) => {
     if (app.deviceRouteStatus.loaded) return NoticeStatuses.available
     return NoticeStatuses.unavailable
   }
+
+  const subjectsLocationHref = (guid: string) => {
+    return webEndpoint.replace('$guid$', guid)
+  }
+
   return (
     <div className={clsx(styles.root, className)}>
       <Notice
@@ -52,6 +60,7 @@ export const Notices: React.FC<Notices> = ({ className }) => {
         view={NoticeViewVariant.left}
       />
       <Notice
+        href={subjectsLocationHref(subjectsGUID)}
         status={subjectsStatus()}
         message={NoticeMessages.productDirectory}
         className={styles.noticeMargin}

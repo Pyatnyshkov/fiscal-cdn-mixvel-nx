@@ -5,10 +5,11 @@ import { extractGUIDEditorSubjects } from '@utils/extractGUIDEditorSubjects'
 import { extractTokenEditorSubjects } from '@utils/extractTokenEditorSubjects'
 import { appSubjectsSlice, extractDepartmentsByCode } from '@store/appSubjects'
 import { Department } from '@models/general/departments.model'
+import { EditorSubjects } from '@models/editorSubjects.model'
 
 export const initEditorSubjects: AppThunk = async (dispatch, getState) => {
   try {
-    const token = extractTokenEditorSubjects()
+    const token = extractTokenEditorSubjects() as EditorSubjects['departments']
     const GUID = extractGUIDEditorSubjects()
 
     if (token) {
@@ -18,8 +19,7 @@ export const initEditorSubjects: AppThunk = async (dispatch, getState) => {
     }
   } catch (error) {
     if (error instanceof Error) {
-      console.error('ERROR', error.message)
-      // dispatch(hasError({ code: '', description: error.message }))
+      console.error(error)
     }
   }
 }
@@ -36,7 +36,7 @@ export const fetchSubjects: AppThunk = async (dispatch, getState, { API }) => {
       dispatch(appSubjectsSlice.actions.success(subjectData))
     }
   } catch (error) {
-    
+    console.log(error)
   }
 }
 
@@ -44,7 +44,10 @@ export const editorSubjectsSlice = createSlice({
   name: 'editorSubjects',
   initialState,
   reducers: {
-    starting: (state, { payload }: PayloadAction<{ GUID: string; departments: any }>) => {
+    starting: (
+      state,
+      { payload }: PayloadAction<{ GUID: string; departments: EditorSubjects['departments'] }>
+    ) => {
       state.identification.guid = payload.GUID
       state.departments = payload.departments
       if (state.departments.length > 0) {

@@ -8,7 +8,7 @@ export interface SubjectElement {
   quantity: string
   measure: string
   taxes: TaxesValue
-  department: unknown[]
+  department: { code: string; title: string }
   signsSubject: SignsSubjectValue
   agentRole: AgentRoleValue
   supplierTin: string

@@ -17,7 +17,7 @@ export interface EditorSubjects {
       taxationSystem: string // config.taxationSystems
     }
   }
-  departments: []
+  departments: { code: string; title: string }[]
   departmentsByCode: {
     [key: string]: {
       code: string

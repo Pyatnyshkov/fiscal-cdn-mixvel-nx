@@ -1,10 +1,12 @@
 import { SubjectsEditorDataRequest } from '@models/data/subjectsEditor.data.request.model'
 import { AppThunk } from '@store'
 import { selectSubjectsEntities } from '@store/subjects/selectors'
+import { selectEditorSubjectsSOAPEndpoint } from './selectors'
 
 export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) => {
-  const { network, editorSubjects } = getState()
+  const { editorSubjects } = getState()
   const subjectsEntities = selectSubjectsEntities(getState())
+  const subjectsSOAPEndpoint = selectEditorSubjectsSOAPEndpoint(getState())
 
   const commitSubjectsData = Object.values(subjectsEntities).reduce<SubjectsEditorDataRequest[]>(
     (acc, subject) => {
@@ -28,14 +30,6 @@ export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) 
             },
           ],
         },
-        agent: {
-          role: {
-            $value: subject.agentRole,
-            attributes: {
-              codepage: 'fts-1.31_1#agentMode',
-            },
-          },
-        },
         signs: {
           subject: {
             attributes: {
@@ -44,20 +38,41 @@ export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) 
             $value: subject.signsSubject,
           },
         },
-        restrictions: {
+      }
+
+      if (subject.agentRole) {
+        subjectElement.agent = {
+          role: {
+            $value: subject.agentRole,
+            attributes: {
+              codepage: 'fts-1.31_1#agentMode',
+            },
+          },
+        }
+      }
+
+      if (subject.restrictionsTaxationSystems.length) {
+        subjectElement.restrictions = {
           taxationSystems: {
             taxationSystem: subject.restrictionsTaxationSystems,
           },
-        },
-        supplier: {
+        }
+      }
+
+      if (subject.supplierName || subject.supplierTin) {
+        subjectElement.supplier = {
           name: subject.supplierName,
           tin: subject.supplierTin,
-        },
-        department: {
-          code: '',
-          title: '',
-        },
+        }
       }
+
+      if (Object.keys(subject.department).length) {
+        subjectElement.department = {
+          code: subject.department.code,
+          title: subject.department.title,
+        }
+      }
+
       acc.push(subjectElement)
       return acc
     },
@@ -66,12 +81,12 @@ export const fetchCommitSubject: AppThunk = async (dispatch, getState, { API }) 
 
   try {
     const subjectData = await API.commitSubjects.post(
-      network.subjectsSOAPEndpoint,
+      subjectsSOAPEndpoint,
       editorSubjects.identification.guid,
       commitSubjectsData
     )
     // dispatch(appSubjectsSlice.actions.success(subjectData))
   } catch (error) {
-    
+    console.log(error)
   }
 }

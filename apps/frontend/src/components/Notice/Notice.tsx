@@ -9,6 +9,7 @@ interface Notice {
   reload?: () => void
   timer?: number
   view?: NoticeViewVariant
+  href?: string
 }
 
 type headerStatuses = {
@@ -22,7 +23,15 @@ const headerStatuses: headerStatuses = {
   [NoticeStatuses.unavailable]: 'Недоступно',
 }
 
-export const Notice: React.FC<Notice> = ({ status, message, className, view, reload, timer }) => {
+export const Notice: React.FC<Notice> = ({
+  status,
+  message,
+  className,
+  view,
+  reload,
+  timer,
+  href,
+}) => {
   return (
     <div
       className={clsx(
@@ -43,7 +52,16 @@ export const Notice: React.FC<Notice> = ({ status, message, className, view, rel
         {timer ? <div className={styles.timer}>{timer} сек.</div> : null}
         <div className={styles.reload} onClick={reload}></div>
       </div>
-      <div className={styles.message}>{message}</div>
+
+      <div className={styles.message}>
+        {href ? (
+          <a href={href} target="_blank" className={styles.href} rel="noreferrer">
+            {message}
+          </a>
+        ) : (
+          message
+        )}
+      </div>
     </div>
   )
 }

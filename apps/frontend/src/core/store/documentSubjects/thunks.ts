@@ -109,7 +109,6 @@ export const documentUpdateSubject: DocumentUpdateSubject =
       const quantity = isQuantity ? value : subject.quantity
       const taxesType = isTaxes ? value : subject.taxes
 
-      console.warn({ price: price, quantity: quantity, taxes: taxesType })
       const { amount, taxesAmount } = calcAmounts(price, quantity, taxesType)
 
       updateSubjectData.changes.amount = amount

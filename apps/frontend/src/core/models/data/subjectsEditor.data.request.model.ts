@@ -19,7 +19,7 @@ export interface SubjectsEditorDataRequest {
       }
     ]
   }
-  agent: {
+  agent?: {
     role: {
       $value: AgentRoleValue
       attributes: {
@@ -35,16 +35,16 @@ export interface SubjectsEditorDataRequest {
       $value: SignsSubjectValue
     }
   }
-  restrictions: {
+  restrictions?: {
     taxationSystems: {
       taxationSystem: TaxationSystemModel[]
     }
   }
-  supplier: {
+  supplier?: {
     name: string
     tin: string
   }
-  department: {
+  department?: {
     code: string
     title: string
   }

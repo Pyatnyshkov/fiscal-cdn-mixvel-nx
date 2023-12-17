@@ -6,6 +6,7 @@ import { subjectsSlice } from '.'
 import { TaxationSystemsValue } from '@consts'
 import { selectSubjectsSubjectById } from './selectors'
 import { TaxationSystemModel } from '@models/general/taxationSystem.model'
+import { selectEditorSubjectsDepartments } from '@store/editorSubjects/selectors'
 
 type ExtractToSubjects = AppThunk
 type AddSubject = AppThunk
@@ -25,6 +26,7 @@ type Changes = { [key in keyof SubjectElement]?: SubjectElement[key] }
 
 export const extractToSubjects: ExtractToSubjects = (dispatch, getState) => {
   const subjects = selectAppSubjectsList(getState())
+  const departments = selectEditorSubjectsDepartments(getState())
 
   if (!subjects.length) {
     return
@@ -38,7 +40,7 @@ export const extractToSubjects: ExtractToSubjects = (dispatch, getState) => {
       quantity: subject.quantity,
       measure: subject.measure,
       taxes: subject.taxes.vat[0].type.$value,
-      department: [],
+      department: { code: '', title: '' },
       signsSubject: subject.signs.subject.$value || '3',
       agentRole: subject.agent?.role.$value || '',
       supplierTin: subject.supplier?.tin || '',
@@ -57,9 +59,9 @@ export const addSubject: AddSubject = (dispatch) => {
     price: '',
     quantity: '',
     measure: '',
-    taxes: '',
-    department: [],
-    signsSubject: '3',
+    taxes: '1',
+    department: { code: '', title: '' },
+    signsSubject: '4',
     agentRole: '',
     supplierTin: '',
     supplierName: '',
@@ -100,8 +102,6 @@ export const updateSubjectRestrictions: UpdateSubjectRestrictions =
     const indexx = copyRestrictions.findIndex((el: any) => el.type.$value === value)
 
     !checked && copyRestrictions.splice(indexx, 1)
-    console.warn({ value: value, checked: checked, indexx: indexx })
-    console.warn({ copyRestrictions: copyRestrictions })
 
     updateData.changes.restrictionsTaxationSystems = copyRestrictions
 

@@ -3,6 +3,8 @@ import { RootState } from '..'
 
 export const selectAppSubjects = (state: RootState) => state.appSubjects
 export const selectAppSubjectsList = (state: RootState) => selectAppSubjects(state).subjects
+export const selectAppSubjectsGUID = (state: RootState) =>
+  selectAppSubjects(state).identification.guid
 
 export const selectAppSubjectsSelectOptions = createSelector(
   [selectAppSubjectsList],

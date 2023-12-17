@@ -14,3 +14,93 @@
   text-transform: uppercase;
   padding-right: 24px;
 }
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+}
+
+.row:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.inputFile {
+  display: flex;
+  width: 200px;
+  height: 48px;
+  /* margin-right: 10px; */
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 0;
+  background: var(--button-bg);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 114.286% */
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: transparent;
+}
+
+.inputFile::-webkit-file-upload-button {
+  display: none;
+  /* display: flex; */
+  /* width: 200px; */
+  /* height: 48px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 0;
+  background: var(--button-bg);
+  color: transparent;
+
+  cursor: pointer; */
+}
+
+.inputFileWrap {
+  position: relative;
+  margin-right: 10px;
+}
+
+.inputFileLabel {
+  /* display: none; */
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--font-color-white);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16px; /* 114.286% */
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* .inputFile::before {
+} */
+
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active {
+  outline: 0;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
