@@ -78,6 +78,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.name}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>
@@ -86,6 +87,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.price}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>
@@ -94,6 +96,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.quantity}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>
@@ -102,6 +105,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.measure}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>
@@ -143,6 +147,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.supplierTin}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>
@@ -151,6 +156,7 @@ export const SubjectsTableItem: React.FC<TableItem> = ({ id, number, className }
           value={subject.supplierName}
           onChange={(value, name) => handleUpdateSubject(value, name)}
           view={InputView.tableCol}
+          debounceWait={0}
         />
       </td>
       <td>

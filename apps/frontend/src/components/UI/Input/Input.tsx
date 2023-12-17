@@ -18,6 +18,7 @@ interface Input {
   autocomplete?: 'off' | 'on'
   onChange?: (value: string, name: string) => void
   onBlur?: (value: string, name: string) => void
+  debounceWait?: number
 }
 
 export const Input = forwardRef<HTMLInputElement, Input>(
@@ -35,11 +36,12 @@ export const Input = forwardRef<HTMLInputElement, Input>(
       autocomplete = 'off',
       view,
       onChange = () => {},
+      debounceWait = 1000,
     },
     ref
   ) => {
     const [inputValue, setInputValue] = useState<string>(value)
-    const debouncedChangeValue = useDebouncedCallback(onChange, 1000)
+    const debouncedChangeValue = useDebouncedCallback(onChange, debounceWait)
 
     useEffect(() => {
       setInputValue(value)
