@@ -19,5 +19,6 @@
 }
 
 .disabled {
-  background: var(--input-bg-disabled);
+  background: var(--button-bg-disabled);
+  cursor: default;
 }

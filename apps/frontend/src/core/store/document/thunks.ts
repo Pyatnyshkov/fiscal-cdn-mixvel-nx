@@ -248,13 +248,10 @@ export const fetchIssueDocumentCheque: AppThunk = async (dispatch, getState, { A
     },
   }
 
-  dispatch(documentSlice.actions.fetchDocumentCheque(true))
-  dispatch(documentSlice.actions.sendButtonState(false))
+  dispatch(documentSlice.actions.fetchDocumentCheque())
+  dispatch(documentSlice.actions.sendButtonVisible(false))
   try {
     const data = await API.document.cheque.post(network.soapEndpoint, documentData)
-    // dispatch(documentSlice.actions.success(data))
-    //TODO изменить включение кнопки только при статусе ответа "sheduled"
-    dispatch(documentSlice.actions.sendButtonState(true))
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
@@ -286,17 +283,15 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
     },
   }
 
-  dispatch(documentSlice.actions.sendButtonState(false))
+  dispatch(documentSlice.actions.sendButtonVisible(false))
   dispatch(documentSlice.actions.fetchIssueDocumentCurrentSettlementReport())
   try {
     const data = await API.document.currentSettlementReport.post(
       network.soapEndpoint,
       currentSettlementReportData
     )
-    // dispatch(documentSlice.actions.success(data))
-    //TODO изменить включение кнопки только при статусе ответа "sheduled"
-    dispatch(documentSlice.actions.sendButtonState(true))
     dispatch(documentSlice.actions.hideOnShiftOperation(false));
+    dispatch(documentSlice.actions.sendButtonVisible(true))
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))
@@ -312,17 +307,15 @@ export const fetchIssueDocumentCurrentSettlementReport: AppThunk = async (
 
 export const fetchFlowStatementReport: AppThunk = async (dispatch, getState, { API }) => {
   const { app, network } = getState()
-  dispatch(documentSlice.actions.sendButtonState(false))
+  dispatch(documentSlice.actions.sendButtonVisible(false))
   dispatch(documentSlice.actions.hideOnShiftOperation(true));
   try {
     const data = await API.report.post(
       network.operationsSOAPEndpoint,
       app.instructions.deviceRouting
     )
-    // dispatch(documentSlice.actions.success(data))
-    //TODO изменить включение кнопки только при статусе ответа "sheduled"
-    dispatch(documentSlice.actions.sendButtonState(true))
     dispatch(fetchAppSubjects);
+    dispatch(documentSlice.actions.sendButtonVisible(true))
   } catch (error) {
     if (error instanceof ShiftError) {
       dispatch(hasError(error.reason))

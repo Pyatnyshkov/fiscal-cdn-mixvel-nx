@@ -3,9 +3,8 @@ import { websocket } from './websocket'
 import { network } from './network'
 import { documentSlice } from './document'
 import { appSlice } from './app'
-import { fetchAppSubjects } from './app/thunks'
+import { fetchAppSubjects, fetchAppData } from './app/thunks'
 
-import { fetchAppData } from './app/thunks'
 import { AppMiddleware } from './types'
 
 interface IOoptions {
@@ -68,7 +67,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
 
     if (documentSlice.actions.fetchDocumentCheque.match(action)) {
       socket.once('issueResult', (msg: any) => {
-        dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(documentSlice.actions.sendButtonVisible(true))
         dispatch(documentSlice.actions.successCloseChequeApp(msg))
         if (msg.error && msg.error.error) {
           dispatch(
@@ -99,7 +98,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
     if (appSlice.actions.websocketOpenShift.match(action)) {
       socket.once('issueResult', (msg: any) => {
         dispatch(appSlice.actions.toggleOpenShiftButtonClick(false))
-        dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(documentSlice.actions.sendButtonVisible(true))
         const err = msg.error
         if (err) {
           dispatch(
@@ -109,7 +108,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
             })
           )
         }
-        dispatch<any>(fetchAppSubjects)
+        dispatch<any>(fetchAppData)
         dispatch(appSlice.actions.openShift())
       })
     }
@@ -117,7 +116,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
     if (appSlice.actions.websocketCloseShift.match(action)) {
       socket.once('issueResult', (msg: any) => {
         dispatch(appSlice.actions.toggleCloseShiftButtonClick(false))
-        dispatch(documentSlice.actions.fetchDocumentCheque(false))
+        dispatch(documentSlice.actions.sendButtonVisible(true))
         const err = msg.error
         if (err) {
           dispatch(
@@ -127,7 +126,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
             })
           )
         }
-        dispatch<any>(fetchAppSubjects)
+        dispatch<any>(fetchAppData)
         dispatch(appSlice.actions.closeShift())
       })
     }

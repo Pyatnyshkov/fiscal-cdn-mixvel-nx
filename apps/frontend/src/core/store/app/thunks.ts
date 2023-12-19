@@ -116,7 +116,7 @@ export const openShiftAction: AppThunk = async (dispatch, getState, { API }) => 
     },
   }
   dispatch(appSlice.actions.toggleOpenShiftButtonClick(true))
-  // dispatch(appSlice.actions.websocketOpenShift())
+  dispatch(appSlice.actions.websocketOpenShift())
 
   try {
     const data = await API.document.openShift.post(network.soapEndpoint, openShiftData)

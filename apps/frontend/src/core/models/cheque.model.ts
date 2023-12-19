@@ -153,7 +153,6 @@ export interface ChequeModel {
     enabledTaxationSystems: Record<string, string>
   }
   id: number
-  sendButtonDisabled: boolean
   sendButtonVisible: boolean
   paymentForm: string
   printoutInjections: {

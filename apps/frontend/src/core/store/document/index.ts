@@ -13,7 +13,6 @@ interface DocumentDataState {
     }
   }
   printoutInjections: ChequeModel['printoutInjections']
-  sendButtonDisabled: ChequeModel['sendButtonDisabled']
   sendButtonVisible: ChequeModel['sendButtonVisible']
   issueResult: IssueResult | null
   chequeContent: ChequeContent
@@ -40,7 +39,6 @@ const initialState: DocumentDataState = {
     },
   },
   sendButtonVisible: true,
-  sendButtonDisabled: false,
   issueResult: null,
   chequeContent: {} as ChequeContent,
   taxation: {
@@ -55,11 +53,9 @@ export const documentSlice = createSlice({
   name: 'document',
   initialState,
   reducers: {
-    fetchDocumentCheque: (state, { payload }: PayloadAction<boolean>) => {
-      state.sendButtonVisible = !payload
-    },
-    sendButtonState: (state, { payload }: PayloadAction<boolean>) => {
-      state.sendButtonDisabled = !payload
+    fetchDocumentCheque: () => {},
+    sendButtonVisible: (state, { payload }: PayloadAction<boolean>) => {
+      state.sendButtonVisible = payload
     },
     successCloseChequeApp: (state, { payload }: PayloadAction<any>) => {
       state.issueResult = payload
