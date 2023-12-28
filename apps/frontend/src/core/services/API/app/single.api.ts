@@ -5,7 +5,6 @@ import { singleTransformResponseDataXML } from './single.api.transformResponseDa
 import { HttpRequest } from '../HttpRequest'
 import { singlePrepareRequestDataXML } from './single.api.prepareRequestDataXML'
 import { XMLParser } from '@utils/XMLParser'
-import { mockSingle } from '../_mokc'
 
 export const singleAPI = {
   post: async (url: string, dataRequest: Instructions['deviceRouting']) => {
@@ -16,7 +15,6 @@ export const singleAPI = {
       }
       return singleTransformResponseDataXML(XMLParser(response.data))
     } catch (error) {
-      // return singleTransformResponseDataXML(XMLParser(mockSingle))
     }
   },
 }

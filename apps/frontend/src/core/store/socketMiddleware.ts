@@ -8,7 +8,6 @@ import { fetchAppSubjects, fetchAppData } from './app/thunks'
 import { AppMiddleware } from './types'
 
 interface IOoptions {
-  reconnection: boolean
   timeout: number
   path?: string
 }
@@ -19,7 +18,7 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
   return (next) => (action) => {
     if (network.success.match(action) || websocket.connect.match(action)) {
       const getUrl = (url: string) => {
-        return !getState().network.development
+        return process.env.NODE_ENV === 'production'
           ? url
           : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
       }
@@ -30,7 +29,6 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
         ? action.payload.socketIOPath
         : getState().websocket.socketIOPath
       const options: IOoptions = {
-        reconnection: false,
         timeout: 1000,
       }
       if (socketIOPath) options.path = socketIOPath

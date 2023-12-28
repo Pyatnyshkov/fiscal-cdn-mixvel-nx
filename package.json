@@ -2,7 +2,10 @@
   "name": "@fiscal-cdn-mixvel-nx/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build-dev": "NODE_ENV=development nx build:development frontend",
+    "build": "NODE_ENV=production nx build frontend"
+  },
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",

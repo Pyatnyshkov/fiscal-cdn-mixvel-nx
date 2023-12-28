@@ -52,6 +52,13 @@ export const appSlice = createSlice({
     toggleCloseShiftButtonClick: (state, { payload }: PayloadAction<boolean>) => {
       state.ignoreCloseShiftButtonClick = payload
     },
+    setConnecting: (state) => {
+      state.deviceRouteStatus.requestStarted = true
+    },
+    setConnected: (state) => {
+      state.deviceRouteStatus.requestStarted = false
+      state.deviceRouteStatus.loaded = true
+    },
     starting: (
       state,
       { payload: { token, GUID } }: PayloadAction<{ token: Token; GUID: string }>

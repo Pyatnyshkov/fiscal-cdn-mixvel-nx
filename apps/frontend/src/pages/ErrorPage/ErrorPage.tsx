@@ -6,11 +6,8 @@ export const ErrorPage = () => {
   const { type, reason } = useAppSelector(selectUiGlobalError)
 
   return (
-    <div className={styles.root}>
-      <div className={styles.error}>
-        <div className={styles.point}></div>
-        {reason}
-      </div>
-    </div>
+    <h2>
+      При загрузке страницы произошла ошибка
+    </h2>
   )
 }

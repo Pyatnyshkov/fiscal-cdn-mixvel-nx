@@ -13,5 +13,12 @@ module.exports = composePlugins(withNx(), withReact(), (config) => {
       filename: './subjects/index.html',
     })
   )
+  config.plugins.push(
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: './src/index.html',
+      filename: './auth_token_error.html',
+    })
+  )
   return config
 })

@@ -15,10 +15,12 @@ export const Router = () => {
   const editorSubjectsRoute = window.location.pathname.includes('subjects')
 
   if (hasGlobalError) {
-    return <ErrorPage />
+    window.location.pathname = window.location.pathname.replace('index', 'auth_token_error');
   }
-
-  return editorSubjectsRoute ? <EditorSubjectsPage /> : <ShiftPage />
+  console.log(process.env.NX_SUBJECTS_SOAP_ENDPOINT)
+  if (hasGlobalError) return <ErrorPage />;
+  if (editorSubjectsRoute) return <EditorSubjectsPage />;
+  return <ShiftPage />
 }
 
 export const App = () => {

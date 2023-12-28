@@ -12,7 +12,6 @@ interface InitialState {
   socketIOAddress: string
   socketIOPath: string
   socketIONamespace: string
-  development: boolean
 }
 
 const initialState: InitialState = {
@@ -24,7 +23,6 @@ const initialState: InitialState = {
   socketIOAddress: '',
   socketIOPath: '',
   socketIONamespace: '',
-  development: true,
 }
 
 type PayloadSuccess = PayloadAction<Omit<InitialState, 'deviceStatusSOAPEndpoint' | 'development'>>
@@ -47,7 +45,7 @@ export const networkSlice = createSlice({
   reducers: {
     success: (state, { payload }: PayloadSuccess) => {
       const getUrl = (url: string) => {
-        return !state.development
+        return process.env.NODE_ENV === 'production'
           ? url
           : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
       }

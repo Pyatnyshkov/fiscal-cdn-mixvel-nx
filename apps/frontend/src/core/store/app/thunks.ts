@@ -58,7 +58,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
   if (!app.instructions.deviceRouting) {
     return
   }
-
+  dispatch(appSlice.actions.setConnecting());
   try {
     const singleData = await API.single.post(
       network.deviceStatusSOAPEndpoint,
@@ -68,7 +68,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     if (!singleData) {
       return
     }
-
+    dispatch(appSlice.actions.setConnected())
     if (isSingleDataSuccess(singleData)) {
       dispatch(appSlice.actions.success(singleData))
     }
