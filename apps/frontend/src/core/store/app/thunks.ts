@@ -66,6 +66,7 @@ export const fetchAppData: AppThunk = async (dispatch, getState, { API }) => {
     )
 
     if (!singleData) {
+      dispatch(appSlice.actions.setDisconnected())
       return
     }
     dispatch(appSlice.actions.setConnected())

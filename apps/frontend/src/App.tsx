@@ -17,7 +17,7 @@ export const Router = () => {
   if (hasGlobalError) {
     window.location.pathname = window.location.pathname.replace('index', 'auth_token_error');
   }
-  console.log(process.env.NX_SUBJECTS_SOAP_ENDPOINT)
+  
   if (hasGlobalError) return <ErrorPage />;
   if (editorSubjectsRoute) return <EditorSubjectsPage />;
   return <ShiftPage />

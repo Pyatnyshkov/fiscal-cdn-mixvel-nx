@@ -18,9 +18,10 @@ const socketMiddleware: AppMiddleware = ({ dispatch, getState }) => {
   return (next) => (action) => {
     if (network.success.match(action) || websocket.connect.match(action)) {
       const getUrl = (url: string) => {
+        const devBase = process.env.BASE_PATH || '';
         return process.env.NODE_ENV === 'production'
           ? url
-          : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
+          : url.replace('https://taxserver.sirena-travel.ru', devBase)
       }
       const socketIOAddress = action.payload
         ? getUrl(action.payload.socketIOAddress)

@@ -45,9 +45,10 @@ export const networkSlice = createSlice({
   reducers: {
     success: (state, { payload }: PayloadSuccess) => {
       const getUrl = (url: string) => {
+        const devBase = process.env.BASE_PATH || '';
         return process.env.NODE_ENV === 'production'
           ? url
-          : url.replace('https://taxserver.sirena-travel.ru', 'http://localhost:8080')
+          : url.replace('https://taxserver.sirena-travel.ru', devBase)
       }
 
       state.soapEndpoint = getUrl(payload.soapEndpoint) || ''

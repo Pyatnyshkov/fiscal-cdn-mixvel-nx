@@ -54,10 +54,17 @@ export const appSlice = createSlice({
     },
     setConnecting: (state) => {
       state.deviceRouteStatus.requestStarted = true
+      state.deviceRouteStatus.requestFailed = false
     },
     setConnected: (state) => {
       state.deviceRouteStatus.requestStarted = false
       state.deviceRouteStatus.loaded = true
+      state.deviceRouteStatus.requestFailed = false
+    },
+    setDisconnected: (state) => {
+      state.deviceRouteStatus.requestStarted = false
+      state.deviceRouteStatus.loaded = false
+      state.deviceRouteStatus.requestFailed = true
     },
     starting: (
       state,

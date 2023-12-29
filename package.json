@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build-dev": "NODE_ENV=development nx build:development frontend",
-    "build": "NODE_ENV=production nx build frontend"
+    "build-dev": "NODE_ENV=development nx run frontend:build:development",
+    "build": "NODE_ENV=production nx run frontend:build:production"
   },
   "private": true,
   "dependencies": {
